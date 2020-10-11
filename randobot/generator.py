@@ -13,8 +13,7 @@ class Generator:
         seed_name = uuid.uuid4()
         file_name = "".join(random.choice(string.ascii_uppercase) for _ in range(6))
 
-        os.chdir("wwrando")
-        os.system(f"py wwrando.py -seed={seed_name} -permalink=MS44LjAATmljZUFjY29tbW9kYXRpbmdLb3JvawAXAwYCDxDADAAAAAAAAAA=")
+        os.system(f"py wwrando/wwrando.py -seed={seed_name} -permalink=MS44LjAATmljZUFjY29tbW9kYXRpbmdLb3JvawAXAwYCDxDADAAAAAAAAAA=")
 
         permalink_file_name = f"permalink_{seed_name}.txt"
         permalink_file = open(permalink_file_name, "r")
