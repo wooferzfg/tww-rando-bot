@@ -7,21 +7,20 @@ generating [TWW Randomizer](https://github.com/LagoLunatic/wwrando) seeds in rac
 
 ### Requirements
 
-* Python 3.7 or greater.
+* Docker
 
 ### Installation
 
 1. Clone the repo
-1. Install the package using `pip install -e .` (from the repo's base
-   directory).
-   
+2. Build the Docker image with `docker-compose build`.
+3. Set up environment variables:
+```
+export GITHUB_TOKEN=... # a GitHub personal access token with permission to create Gists
+export CATEGORY_SLUG=... # the slug of the racetime.gg category the bot should operate in, i.e. `twwr`
+export CLIENT_ID=... # the OAuth2 client ID for this bot on racetime.gg
+export CLIENT_SECRET=... # the OAuth2 client secret for this bot on racetime.gg
+```
+
 ### Usage
 
-Run `randobot <github_token> <category_slug> <client_id> <client_secret>`,
-where:
-
-* `<github_token>` is a GitHub personal access token with permission to create Gists.
-* `<category_slug>` is the slug of the racetime.gg category the bot should
-  operate in, i.e. `twwr`
-* `<client_id>` is the OAuth2 client ID for this bot on racetime.gg
-* `<client_secret>` is the OAuth2 client secret for this bot on racetime.gg
+Run `docker-compose up` to start the bot.
