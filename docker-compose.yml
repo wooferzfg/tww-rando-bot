@@ -9,3 +9,8 @@ services:
     restart: always
     volumes:
       - .:/twwr-spoiler-log-bot
+      - egg_info:/twwr-spoiler-log-bot/twwr_spoiler_log_bot.egg-info
+
+volumes:
+  egg_info:
+    name: egg_info
