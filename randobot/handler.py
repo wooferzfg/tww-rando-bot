@@ -16,10 +16,33 @@ class RandoHandler(RaceHandler):
     async def begin(self):
         self.state["locked"] = False
         self.state["seed_rolled"] = False
+        self.state["finished_entrants"] = set()
 
     async def error(self, data):
         self.logger.info(data.get('errors'))
         await self.begin()
+
+    async def race_data(self, data):
+        self.data = data.get("race")
+
+        finished_entrants = set(
+            map(
+                lambda entrant: entrant.get("user").get("name"),
+                filter(
+                    lambda entrant: entrant.get("status").get("value") == "done",
+                    self.data.get("entrants")
+                )
+            )
+        )
+
+        new_finishers = list(finished_entrants - self.state["finished_entrants"])
+
+        for finisher in new_finishers:
+            await self.send_message(
+                f"{finisher}, before you end your stream, please remember to advance to the second text box after defeating Ganondorf."
+            )
+
+        self.state["finished_entrants"] = finished_entrants
 
     @monitor_cmd
     async def ex_lock(self, args, message):
