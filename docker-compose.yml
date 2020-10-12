@@ -1,0 +1,10 @@
+version: '3.7'
+
+services:
+  twwr_spoiler_log_bot:
+    image: twwr_spoiler_log_bot
+    build:
+      context: .
+    command: randobot ${GITHUB_TOKEN} ${CATEGORY_SLUG-twwr} ${CLIENT_ID} ${CLIENT_SECRET} --verbose
+    volumes:
+      - .:/twwr-spoiler-log-bot
