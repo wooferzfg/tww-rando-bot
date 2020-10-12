@@ -9,11 +9,8 @@ RUN apt-get update && apt-get install -y \
   libxkbcommon-x11-0 \
   libdbus-1-3
 
-RUN mkdir -p wwrando
-COPY wwrando/requirements.txt wwrando
+COPY . .
+
 RUN cd wwrando && pip install -r requirements.txt
 
-COPY setup.py ./
 RUN pip install -e .
-
-COPY . .
