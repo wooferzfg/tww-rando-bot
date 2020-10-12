@@ -17,5 +17,5 @@ class RandoBot(Bot):
     def get_handler_kwargs(self, *args, **kwargs):
         return {
             **super().get_handler_kwargs(*args, **kwargs),
-            'generator': self.generator,
+            "generator": self.generator,
         }

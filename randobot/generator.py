@@ -25,7 +25,7 @@ class Generator:
         spoiler_log_file.close()
         os.remove(spoiler_log_file_name)
 
-        timestamp = datetime.now().strftime('%Y-%m-%d-%H:%M:%S')
+        timestamp = datetime.now().strftime("%Y-%m-%d-%H:%M:%S")
         gh = Github(self.github_token)
         gh_auth_user = gh.get_user()
         gist = gh_auth_user.create_gist(

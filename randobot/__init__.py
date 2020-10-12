@@ -6,15 +6,15 @@ from .bot import RandoBot
 
 def main():
     parser = argparse.ArgumentParser(
-        description='TWWR Spoiler Log RandoBot',
+        description="TWWR Spoiler Log RandoBot",
     )
-    parser.add_argument('github_token', type=str, help='GitHub personal access token')
-    parser.add_argument('category_slug', type=str, help='racetime.gg category')
-    parser.add_argument('client_id', type=str, help='racetime.gg client ID')
-    parser.add_argument('client_secret', type=str, help='racetime.gg client secret')
-    parser.add_argument('--verbose', '-v', action='store_true', help='verbose output')
-    parser.add_argument('--host', type=str, nargs='?', help='change the ractime.gg host (debug only!')
-    parser.add_argument('--insecure', action='store_true', help='don\'t use HTTPS (debug only!)')
+    parser.add_argument("github_token", type=str, help="GitHub personal access token")
+    parser.add_argument("category_slug", type=str, help="racetime.gg category")
+    parser.add_argument("client_id", type=str, help="racetime.gg client ID")
+    parser.add_argument("client_secret", type=str, help="racetime.gg client secret")
+    parser.add_argument("--verbose", "-v", action="store_true", help="verbose output")
+    parser.add_argument("--host", type=str, nargs="?", help="change the ractime.gg host (debug only!")
+    parser.add_argument("--insecure", action="store_true", help="don\"t use HTTPS (debug only!)")
 
     args = parser.parse_args()
 
@@ -26,7 +26,7 @@ def main():
         handler.setLevel(logging.DEBUG)
 
     handler.setFormatter(logging.Formatter(
-        '[%(asctime)s] %(name)s (%(levelname)s) :: %(message)s'
+        "[%(asctime)s] %(name)s (%(levelname)s) :: %(message)s"
     ))
     logger.addHandler(handler)
 
@@ -45,5 +45,5 @@ def main():
     inst.run()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
