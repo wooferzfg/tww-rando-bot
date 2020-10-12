@@ -5,7 +5,7 @@ class RandoHandler(RaceHandler):
     """
     RandoBot race handler. Generates seeds.
     """
-    stop_at = ["pending", "in_progress", "cancelled", "finished"]
+    stop_at = ["cancelled"]
 
     def __init__(self, generator, **kwargs):
         super().__init__(**kwargs)
