@@ -14,13 +14,12 @@ class RandoHandler(RaceHandler):
         self.loop = asyncio.get_event_loop()
 
     async def begin(self):
-        """
-        Send introduction messages.
-        """
-        if not self.state.get("intro_sent"):
-            self.state["intro_sent"] = True
-            self.state["locked"] = False
-            self.state["seed_rolled"] = False
+        self.state["locked"] = False
+        self.state["seed_rolled"] = False
+
+    async def error(self, data):
+        self.logger.info(data.get('errors'))
+        await self.begin()
 
     @monitor_cmd
     async def ex_lock(self, args, message):
@@ -105,9 +104,16 @@ class RandoHandler(RaceHandler):
         await self.send_message(f"Spoiler log: {spoiler_log_url}")
 
         await asyncio.sleep(2100) # 35 minutes
+
         await self.send_message("You have 15 minutes until the race starts!")
         await self.send_message(f"Permalink: {permalink}")
 
         await asyncio.sleep(840) # 14 minutes
+
         await self.send_message("You have 1 minute until the race starts!")
         await self.send_message(f"File name: {file_name}")
+
+        await asyncio.sleep(45)
+
+        await self.send_message("Starting race countdown!")
+        await self.force_start()

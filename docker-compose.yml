@@ -6,5 +6,6 @@ services:
     build:
       context: .
     command: randobot ${GITHUB_TOKEN} ${CATEGORY_SLUG-twwr} ${CLIENT_ID} ${CLIENT_SECRET} --verbose
+    restart: always
     volumes:
       - .:/twwr-spoiler-log-bot
