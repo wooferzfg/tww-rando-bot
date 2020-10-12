@@ -8,7 +8,7 @@ class RandoBot(Bot):
     RandoBot base class.
     """
     def __init__(self, github_token, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs, ssl_context=True)
         self.generator = Generator(github_token)
 
     def get_handler_class(self):
