@@ -38,7 +38,7 @@ class Generator:
         spoiler_log_url = gist.html_url
 
         return {
-            permalink: permalink,
-            file_name: file_name,
-            spoiler_log_url: spoiler_log_url
+            "permalink": permalink,
+            "file_name": file_name,
+            "spoiler_log_url": spoiler_log_url
         }
