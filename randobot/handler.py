@@ -86,6 +86,10 @@ class RandoHandler(RaceHandler):
         permalink = generated_seed.get("permalink")
         file_name = generated_seed.get("file_name")
 
+        self.logger.info(spoiler_log_url)
+        self.logger.info(permalink)
+        self.logger.info(file_name)
+
         await self.send_message("Seed generated! Preparation stage starts in 15 seconds...")
 
         await asyncio.sleep(10)
