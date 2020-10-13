@@ -142,5 +142,4 @@ class RandoHandler(RaceHandler):
 
         await asyncio.sleep(45)
 
-        await self.send_message("Starting race countdown!")
         await self.force_start()
