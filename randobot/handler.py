@@ -128,7 +128,7 @@ class RandoHandler(RaceHandler):
         await asyncio.sleep(1)
 
         await self.send_message("You have 50 minutes to prepare your route!")
-        await self.send_message(f"Spoiler log: {spoiler_log_url}")
+        await self.send_message(f"Spoiler Log: {spoiler_log_url}")
 
         await asyncio.sleep(2100) # 35 minutes
 
@@ -138,7 +138,7 @@ class RandoHandler(RaceHandler):
         await asyncio.sleep(840) # 14 minutes
 
         await self.send_message("You have 1 minute until the race starts!")
-        await self.send_message(f"File name: {file_name}")
+        await self.send_message(f"File Name: {file_name}")
 
         await asyncio.sleep(45)
 
