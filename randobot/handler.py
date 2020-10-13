@@ -1,10 +1,7 @@
 import asyncio
-from racetime_bot import RaceHandler, monitor_cmd, can_moderate, can_monitor
+from racetime_bot import RaceHandler, monitor_cmd, can_monitor
 
 class RandoHandler(RaceHandler):
-    """
-    RandoBot race handler. Generates seeds.
-    """
     stop_at = ["cancelled"]
 
     def __init__(self, generator, **kwargs):
@@ -14,13 +11,13 @@ class RandoHandler(RaceHandler):
         self.loop = asyncio.get_event_loop()
 
     async def begin(self):
-        self.state["locked"] = False
         self.state["seed_rolled"] = False
+        self.state["tingle_tuner_banned"] = False
         self.state["finished_entrants"] = set()
 
     async def error(self, data):
         self.logger.info(data.get('errors'))
-        await self.begin()
+        self.state["seed_rolled"] = False
 
     async def race_data(self, data):
         self.data = data.get("race")
@@ -44,50 +41,39 @@ class RandoHandler(RaceHandler):
 
         self.state["finished_entrants"] = finished_entrants
 
-    @monitor_cmd
-    async def ex_lock(self, args, message):
-        """
-        Handle !lock commands.
-
-        Prevent seed rolling unless user is a race monitor.
-        """
-        self.state["locked"] = True
-        await self.send_message(
-            "Lock initiated. I will now only roll seeds for race monitors."
-        )
-
-    @monitor_cmd
-    async def ex_unlock(self, args, message):
-        """
-        Handle !unlock commands.
-
-        Remove lock preventing seed rolling unless user is a race monitor.
-        """
-        self.state["locked"] = False
-        await self.send_message(
-            "Lock released. Anyone may now roll a seed."
-        )
-
-    async def ex_startspoilerlograce(self, args, message):
-        """
-        Handle !startspoilerlograce commands.
-        """
-        await self.roll_and_send(args, message, True)
-
-    async def roll_and_send(self, args, message, encrypt):
-        """
-        Read an incoming !seed or !race command, and generate a new seed if
-        valid.
-        """
-        reply_to = message.get("user", {}).get("name")
-
-        if self.state.get("locked") and not can_monitor(message):
+    async def ex_tingletuner(self, args, message):
+        if self.state["tingle_tuner_banned"]:
+            await self.send_message("The Tingle Tuner is banned in this race.")
+        elif self.state.get("seed_rolled"):
+            await self.send_message("The Tingle Tuner is allowed in this race.")
+        else:
             await self.send_message(
-                "Sorry %(reply_to)s, seed rolling is locked. Only race "
-                "monitors may roll a seed for this race."
-                % {"reply_to": reply_to or "friend"}
+                "Use !bantingletuner if you'd like the Tingle Tuner to be banned in this race. The "
+                "ban will go into effect if at least one runner asks for the Tingle Tuner to be banned."
             )
-            return
+
+    async def ex_bantingletuner(self, args, message):
+        if self.state["tingle_tuner_banned"]:
+            await self.send_message("The Tingle Tuner is already banned in this race.")
+        elif self.state.get("seed_rolled") and not can_monitor(message):
+            await self.send_message("The race has already started! The Tingle Tuner is allowed in this race.")
+        else:
+            self.state["tingle_tuner_banned"] = True
+            await self.send_message("The Tingle Tuner is now banned in this race.")
+
+    @monitor_cmd
+    async def ex_unbantingletuner(self, args, message):
+        if not self.state["tingle_tuner_banned"]:
+            await self.send_message("The Tingle Tuner is already allowed in this race.")
+        else:
+            self.state["tingle_tuner_banned"] = False
+            await self.send_message("The Tingle Tuner is now allowed in this race.")
+
+    @monitor_cmd
+    async def ex_startspoilerlograce(self, args, message):
+        await self.roll_and_send(args, message)
+
+    async def roll_and_send(self, args, message):
         if self.state.get("seed_rolled"):
             await self.send_message(
                 "Race already started!"
@@ -97,9 +83,6 @@ class RandoHandler(RaceHandler):
         self.loop.create_task(self.roll())
 
     async def roll(self):
-        """
-        Generate a seed and send it to the race room.
-        """
         self.state["seed_rolled"] = True
 
         await self.send_message("Generating seed...")
