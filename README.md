@@ -12,7 +12,7 @@ generating [TWW Randomizer](https://github.com/LagoLunatic/wwrando) seeds in rac
 ### Installation
 
 1. Clone the repo
-2. Build the Docker image with `docker-compose build`.
+2. Build the Docker image with `docker-compose build`
 3. Set up environment variables:
 ```
 export GITHUB_TOKEN=... # a GitHub personal access token with permission to create Gists
