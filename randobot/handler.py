@@ -11,13 +11,17 @@ class RandoHandler(RaceHandler):
         self.loop = asyncio.get_event_loop()
 
     async def begin(self):
-        self.state["seed_rolled"] = False
-        self.state["tingle_tuner_banned"] = False
-        self.state["finished_entrants"] = set()
+        if not self.state.get("initialized"):
+            self.state["initialized"] = True
+            self.state["seed_rolled"] = False
+            self.state["tingle_tuner_banned"] = False
+            self.state["finished_entrants"] = set()
+            self.state["spoiler_log_available"] = False
+            self.state["permalink_available"] = False
+            self.state["file_name_available"] = False
 
     async def error(self, data):
         self.logger.info(data.get('errors'))
-        self.state["seed_rolled"] = False
 
     async def race_data(self, data):
         self.data = data.get("race")
@@ -69,6 +73,27 @@ class RandoHandler(RaceHandler):
             self.state["tingle_tuner_banned"] = False
             await self.send_message("The Tingle Tuner is now allowed in this race.")
 
+    async def ex_spoilerlogurl(self, args, message):
+        if self.state.get("seed_rolled") and (can_monitor(message) or self.state.get("spoiler_log_available")):
+            spoiler_log_url = self.state.get("spoiler_log_url")
+            await self.send_message(f"Spoiler Log: {spoiler_log_url}")
+        else:
+            await self.send_message("Spoiler Log is not available yet!")
+
+    async def ex_permalink(self, args, message):
+        if self.state.get("seed_rolled") and (can_monitor(message) or self.state.get("permalink_available")):
+            permalink = self.state.get("permalink")
+            await self.send_message(f"Permalink: {permalink}")
+        else:
+            await self.send_message("Permalink is not available yet!")
+
+    async def ex_filename(self, args, message):
+        if self.state.get("seed_rolled") and (can_monitor(message) or self.state.get("file_name_available")):
+            file_name = self.state.get("file_name")
+            await self.send_message(f"File Name: {file_name}")
+        else:
+            await self.send_message("File Name is not available yet!")
+
     @monitor_cmd
     async def ex_startspoilerlograce(self, args, message):
         await self.roll_and_send(args, message)
@@ -96,6 +121,10 @@ class RandoHandler(RaceHandler):
         self.logger.info(permalink)
         self.logger.info(file_name)
 
+        self.state["spoiler_log_url"] = spoiler_log_url
+        self.state["permalink"] = permalink
+        self.state["file_name"] = file_name
+
         await self.send_message("Seed generated! Preparation stage starts in 15 seconds...")
 
         await asyncio.sleep(10)
@@ -112,16 +141,19 @@ class RandoHandler(RaceHandler):
 
         await self.send_message("You have 50 minutes to prepare your route!")
         await self.send_message(f"Spoiler Log: {spoiler_log_url}")
+        self.state["spoiler_log_available"] = True
 
         await asyncio.sleep(2100) # 35 minutes
 
         await self.send_message("You have 15 minutes until the race starts!")
         await self.send_message(f"Permalink: {permalink}")
+        self.state["permalink_available"] = True
 
         await asyncio.sleep(840) # 14 minutes
 
         await self.send_message("You have 1 minute until the race starts!")
         await self.send_message(f"File Name: {file_name}")
+        self.state["file_name_available"] = True
 
         await asyncio.sleep(45)
 
