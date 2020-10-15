@@ -138,7 +138,7 @@ class RandoHandler(RaceHandler):
         self.state["spoiler_log_url"] = spoiler_log_url
         self.state["permalink"] = permalink
         self.state["file_name"] = file_name
-        self.state["race_start_time"] = datetime.now() + timedelta(0, 0, 0, 0, 50)
+        self.state["race_start_time"] = datetime.now() + timedelta(0, 15, 0, 0, 50)
 
         await self.send_message("Seed generated! Preparation stage starts in 15 seconds...")
 
