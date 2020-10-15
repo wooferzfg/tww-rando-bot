@@ -1,4 +1,5 @@
 import asyncio
+from datetime import datetime, timedelta
 from racetime_bot import RaceHandler, monitor_cmd, can_monitor
 
 class RandoHandler(RaceHandler):
@@ -14,6 +15,7 @@ class RandoHandler(RaceHandler):
         if not self.state.get("initialized"):
             self.state["initialized"] = True
             self.state["seed_rolled"] = False
+            self.state["race_started"] = False
             self.state["tingle_tuner_banned"] = False
             self.state["finished_entrants"] = set()
             self.state["spoiler_log_available"] = False
@@ -94,6 +96,18 @@ class RandoHandler(RaceHandler):
         else:
             await self.send_message("File Name is not available yet!")
 
+    async def ex_time(self, args, message):
+        if not self.state.get("seed_rolled"):
+            await self.send_message("Seed has not been generated yet!")
+        elif self.state.get("race_started"):
+            await self.send_message("Race has already started!")
+        else:
+            duration = datetime.utcfromtimestamp(
+                (self.state.get("race_start_time") - datetime.now()).total_seconds()
+            )
+            time_remaining = duration.strftime("%M:%S")
+            await self.send_message(f"You have {time_remaining} until the race starts!")
+
     @monitor_cmd
     async def ex_startspoilerlograce(self, args, message):
         await self.roll_and_send(args, message)
@@ -124,6 +138,7 @@ class RandoHandler(RaceHandler):
         self.state["spoiler_log_url"] = spoiler_log_url
         self.state["permalink"] = permalink
         self.state["file_name"] = file_name
+        self.state["race_start_time"] = datetime.now() + timedelta(0, 0, 0, 0, 50)
 
         await self.send_message("Seed generated! Preparation stage starts in 15 seconds...")
 
@@ -178,3 +193,5 @@ class RandoHandler(RaceHandler):
         await asyncio.sleep(45)
 
         await self.force_start()
+
+        self.state["race_started"] = True
