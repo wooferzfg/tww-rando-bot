@@ -101,7 +101,7 @@ class RandoHandler(RaceHandler):
     async def roll_and_send(self, args, message):
         if self.state.get("seed_rolled"):
             await self.send_message(
-                "Race already started!"
+                "Seed already generated!"
             )
             return
 
@@ -143,13 +143,33 @@ class RandoHandler(RaceHandler):
         await self.send_message(f"Spoiler Log: {spoiler_log_url}")
         self.state["spoiler_log_available"] = True
 
-        await asyncio.sleep(2100) # 35 minutes
+        await asyncio.sleep(600) # 10 minutes
+
+        await self.send_message("You have 40 minutes until the race starts!")
+
+        await asyncio.sleep(600) # 10 minutes
+
+        await self.send_message("You have 30 minutes until the race starts!")
+
+        await asyncio.sleep(600) # 10 minutes
+
+        await self.send_message("You have 20 minutes until the race starts!")
+
+        await asyncio.sleep(300) # 5 minutes
 
         await self.send_message("You have 15 minutes until the race starts!")
         await self.send_message(f"Permalink: {permalink}")
         self.state["permalink_available"] = True
 
-        await asyncio.sleep(840) # 14 minutes
+        await asyncio.sleep(300) # 5 minutes
+
+        await self.send_message("You have 10 minutes until the race starts!")
+
+        await asyncio.sleep(300) # 5 minutes
+
+        await self.send_message("You have 5 minutes until the race starts!")
+
+        await asyncio.sleep(240) # 4 minutes
 
         await self.send_message("You have 1 minute until the race starts!")
         await self.send_message(f"File Name: {file_name}")
