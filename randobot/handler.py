@@ -28,24 +28,25 @@ class RandoHandler(RaceHandler):
     async def race_data(self, data):
         self.data = data.get("race")
 
-        finished_entrants = set(
-            map(
-                lambda entrant: entrant.get("user").get("name"),
-                filter(
-                    lambda entrant: entrant.get("status").get("value") == "done",
-                    self.data.get("entrants")
+        if self.state.get("seed_rolled"):
+            finished_entrants = set(
+                map(
+                    lambda entrant: entrant.get("user").get("name"),
+                    filter(
+                        lambda entrant: entrant.get("status").get("value") == "done",
+                        self.data.get("entrants")
+                    )
                 )
             )
-        )
 
-        new_finishers = list(finished_entrants - self.state["finished_entrants"])
+            new_finishers = list(finished_entrants - self.state["finished_entrants"])
 
-        for finisher in new_finishers:
-            await self.send_message(
-                f"{finisher}, before you end your stream, please remember to advance to the second text box after defeating Ganondorf."
-            )
+            for finisher in new_finishers:
+                await self.send_message(
+                    f"{finisher}, before you end your stream, please remember to advance to the second text box after defeating Ganondorf."
+                )
 
-        self.state["finished_entrants"] = finished_entrants
+            self.state["finished_entrants"] = finished_entrants
 
     async def ex_tingletuner(self, args, message):
         if self.state["tingle_tuner_banned"]:
