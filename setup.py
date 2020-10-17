@@ -18,7 +18,7 @@ setup(
     },
     version='1.0.0',
     install_requires=[
-        'racetime_bot@git+git://github.com/racetimeGG/racetime-bot@master',
+        'racetime_bot@git+git://github.com/racetimeGG/racetime-bot@1.7.0',
         'PyGithub>=1.53'
     ],
     packages=find_packages(),
