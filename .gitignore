@@ -1,5 +1,5 @@
 *.egg-info
 __pycache__
 .venv
-wwrando/spoiler_log_*.txt
-wwrando/permalink_*.txt
+spoiler_log_*.txt
+permalink_*.txt
