@@ -3,7 +3,7 @@ from datetime import datetime, timedelta
 from racetime_bot import RaceHandler, monitor_cmd, can_monitor
 
 class RandoHandler(RaceHandler):
-    stop_at = ["cancelled"]
+    stop_at = ["cancelled", "finished"]
 
     def __init__(self, generator, **kwargs):
         super().__init__(**kwargs)
