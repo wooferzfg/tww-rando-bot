@@ -60,7 +60,7 @@ class RandoHandler(RaceHandler):
                         await self.send_message(f"File Name: {file_name}")
                         self.state["file_name_available"] = True
 
-                    if not self.state.get("race_started") and seconds_remaining < 0:
+                    if not self.state.get("race_started") and seconds_remaining < 15:
                         await self.force_start()
                         self.state["race_started"] = True
             finally:
