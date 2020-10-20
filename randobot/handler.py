@@ -93,7 +93,7 @@ class RandoHandler(RaceHandler):
             self.state["finished_entrants"] = finished_entrants
 
     async def ex_tingletuner(self, args, message):
-        if self.state["tingle_tuner_banned"]:
+        if self.state.get("tingle_tuner_banned"):
             await self.send_message("The Tingle Tuner is banned in this race.")
         elif self.state.get("seed_rolled"):
             await self.send_message("The Tingle Tuner is allowed in this race.")
@@ -104,7 +104,7 @@ class RandoHandler(RaceHandler):
             )
 
     async def ex_bantingletuner(self, args, message):
-        if self.state["tingle_tuner_banned"]:
+        if self.state.get("tingle_tuner_banned"):
             await self.send_message("The Tingle Tuner is already banned in this race.")
         elif self.state.get("seed_rolled") and not can_monitor(message):
             await self.send_message("The race has already started! The Tingle Tuner is allowed in this race.")
@@ -114,7 +114,7 @@ class RandoHandler(RaceHandler):
 
     @monitor_cmd
     async def ex_unbantingletuner(self, args, message):
-        if not self.state["tingle_tuner_banned"]:
+        if not self.state.get("tingle_tuner_banned"):
             await self.send_message("The Tingle Tuner is already allowed in this race.")
         else:
             self.state["tingle_tuner_banned"] = False
