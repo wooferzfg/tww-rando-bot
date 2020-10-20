@@ -10,17 +10,61 @@ class RandoHandler(RaceHandler):
 
         self.generator = generator
         self.loop = asyncio.get_event_loop()
+        self.loop_ended = False
 
     async def begin(self):
         if not self.state.get("initialized"):
             self.state["initialized"] = True
-            self.state["seed_rolled"] = False
-            self.state["race_started"] = False
-            self.state["tingle_tuner_banned"] = False
             self.state["finished_entrants"] = set()
-            self.state["spoiler_log_available"] = False
-            self.state["permalink_available"] = False
-            self.state["file_name_available"] = False
+
+        self.loop.create_task(self.handle_scheduled_tasks())
+
+    async def end(self):
+        self.loop_ended = True
+
+    async def handle_scheduled_tasks(self):
+        while not self.loop_ended:
+            try:
+                if self.state.get("seed_rolled"):
+                    seconds_remaining = self.seconds_remaining()
+
+                    if not self.state.get("40_warning_sent") and seconds_remaining < 2400: # 40 minutes
+                        await self.send_message("You have 40 minutes until the race starts!")
+                        self.state["40_warning_sent"] = True
+
+                    if not self.state.get("30_warning_sent") and seconds_remaining < 1800: # 30 minutes
+                        await self.send_message("You have 30 minutes until the race starts!")
+                        self.state["30_warning_sent"] = True
+
+                    if not self.state.get("20_warning_sent") and seconds_remaining < 1200: # 20 minutes
+                        await self.send_message("You have 20 minutes until the race starts!")
+                        self.state["20_warning_sent"] = True
+
+                    if not self.state.get("permalink_available") and seconds_remaining < 900: # 15 minutes
+                        await self.send_message("You have 15 minutes until the race starts!")
+                        permalink = self.state.get("permalink")
+                        await self.send_message(f"Permalink: {permalink}")
+                        self.state["permalink_available"] = True
+
+                    if not self.state.get("10_warning_sent") and seconds_remaining < 600: # 10 minutes
+                        await self.send_message("You have 10 minutes until the race starts!")
+                        self.state["10_warning_sent"] = True
+
+                    if not self.state.get("5_warning_sent") and seconds_remaining < 300: # 5 minutes
+                        await self.send_message("You have 5 minutes until the race starts!")
+                        self.state["5_warning_sent"] = True
+
+                    if not self.state.get("file_name_available") and seconds_remaining < 60: # 1 minute
+                        await self.send_message("You have 1 minute until the race starts!")
+                        file_name = self.state.get("file_name")
+                        await self.send_message(f"File Name: {file_name}")
+                        self.state["file_name_available"] = True
+
+                    if not self.state.get("race_started") and seconds_remaining < 0:
+                        await self.force_start()
+                        self.state["race_started"] = True
+            finally:
+                await asyncio.sleep(0.5)
 
     async def error(self, data):
         self.logger.info(data.get('errors'))
@@ -103,11 +147,12 @@ class RandoHandler(RaceHandler):
         elif self.state.get("race_started"):
             await self.send_message("Race has already started!")
         else:
-            duration = datetime.utcfromtimestamp(
-                (self.state.get("race_start_time") - datetime.now()).total_seconds()
-            )
+            duration = datetime.utcfromtimestamp(self.seconds_remaining())
             time_remaining = duration.strftime("%M:%S")
             await self.send_message(f"You have {time_remaining} until the race starts!")
+
+    def seconds_remaining(self):
+        return (self.state.get("race_start_time") - datetime.now()).total_seconds()
 
     @monitor_cmd
     async def ex_startspoilerlograce(self, args, message):
@@ -158,41 +203,3 @@ class RandoHandler(RaceHandler):
         await self.send_message("You have 50 minutes to prepare your route!")
         await self.send_message(f"Spoiler Log: {spoiler_log_url}")
         self.state["spoiler_log_available"] = True
-
-        await asyncio.sleep(600) # 10 minutes
-
-        await self.send_message("You have 40 minutes until the race starts!")
-
-        await asyncio.sleep(600) # 10 minutes
-
-        await self.send_message("You have 30 minutes until the race starts!")
-
-        await asyncio.sleep(600) # 10 minutes
-
-        await self.send_message("You have 20 minutes until the race starts!")
-
-        await asyncio.sleep(300) # 5 minutes
-
-        await self.send_message("You have 15 minutes until the race starts!")
-        await self.send_message(f"Permalink: {permalink}")
-        self.state["permalink_available"] = True
-
-        await asyncio.sleep(300) # 5 minutes
-
-        await self.send_message("You have 10 minutes until the race starts!")
-
-        await asyncio.sleep(300) # 5 minutes
-
-        await self.send_message("You have 5 minutes until the race starts!")
-
-        await asyncio.sleep(240) # 4 minutes
-
-        await self.send_message("You have 1 minute until the race starts!")
-        await self.send_message(f"File Name: {file_name}")
-        self.state["file_name_available"] = True
-
-        await asyncio.sleep(45)
-
-        await self.force_start()
-
-        self.state["race_started"] = True
