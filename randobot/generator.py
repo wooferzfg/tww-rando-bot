@@ -11,7 +11,7 @@ class Generator:
 
     def generate_seed(self):
         seed_name = uuid.uuid4()
-        file_name = "".join(random.choice(string.ascii_uppercase) for _ in range(6))
+        file_name = "".join(random.choice(string.digits) for _ in range(6))
         os.system(f"python wwrando/wwrando.py -seed={seed_name} -permalink=MS44LjAATmljZUFjY29tbW9kYXRpbmdLb3JvawAXAwYCDxDADAAAAAAAAAA=")
         permalink_file_name = f"permalink_{seed_name}.txt"
         permalink_file = open(permalink_file_name, "r")
