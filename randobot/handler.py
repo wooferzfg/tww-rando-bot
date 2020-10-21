@@ -19,7 +19,7 @@ class RandoHandler(RaceHandler):
 
         self.loop.create_task(self.handle_scheduled_tasks())
 
-    async def end(self):
+    def close_handler(self):
         self.loop_ended = True
 
     async def handle_scheduled_tasks(self):
