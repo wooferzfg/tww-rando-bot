@@ -1,6 +1,6 @@
 FROM python:3.8-buster
 
-WORKDIR /twwr-spoiler-log-bot
+WORKDIR /tww-rando-bot
 
 ENV QT_QPA_PLATFORM=offscreen
 

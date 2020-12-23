@@ -6,7 +6,7 @@ from .bot import RandoBot
 
 def main():
     parser = argparse.ArgumentParser(
-        description="TWWR Spoiler Log RandoBot",
+        description="TWW RandoBot",
     )
     parser.add_argument("github_token", type=str, help="GitHub personal access token")
     parser.add_argument("category_slug", type=str, help="racetime.gg category")

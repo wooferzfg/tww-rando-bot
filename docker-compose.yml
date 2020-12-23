@@ -1,15 +1,15 @@
 version: '3.7'
 
 services:
-  twwr_spoiler_log_bot:
-    image: twwr_spoiler_log_bot
+  tww_rando_bot:
+    image: tww_rando_bot
     build:
       context: .
     command: randobot ${GITHUB_TOKEN} ${CATEGORY_SLUG-twwr} ${CLIENT_ID} ${CLIENT_SECRET} --verbose
     restart: always
     volumes:
-      - .:/twwr-spoiler-log-bot
-      - egg_info:/twwr-spoiler-log-bot/twwr_spoiler_log_bot.egg-info
+      - .:/tww-rando-bot
+      - egg_info:/tww-rando-bot/tww_rando_bot.egg-info
 
 volumes:
   egg_info:
