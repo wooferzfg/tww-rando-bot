@@ -4,6 +4,8 @@ from racetime_bot import RaceHandler, monitor_cmd, can_monitor
 
 class RandoHandler(RaceHandler):
     stop_at = ["cancelled", "finished"]
+    CURRENT_STANDARD_RACE_GOAL = "Standard Race - Defeat Ganondorf"
+    CURRENT_SPOILER_LOG_GOAL = "Spoiler Log"
 
     def __init__(self, generator, **kwargs):
         super().__init__(**kwargs)
@@ -16,8 +18,24 @@ class RandoHandler(RaceHandler):
         if not self.state.get("initialized"):
             self.state["initialized"] = True
             self.state["finished_entrants"] = set()
+            self.state["race_delay"] = timedelta(0, 15)
 
         self.loop.create_task(self.handle_scheduled_tasks())
+
+    async def race_data(self, data):
+        self.data = data.get('race')
+        if self.data.goal.custom == false:
+            if self.data.goal.name == CURRENT_STANDARD_RACE_GOAL:
+                self.state["standard_race"] = True
+                self.state["spoiler_log"] = False
+                self.state["race_delay"] = timedelta(0, 15, 0, 0, 15)
+            elif self.data.goal.name == CURRENT_SPOILER_LOG_GOAL:
+                self.state["standard_race"] = False
+                self.state["spoiler_log"] = True
+                self.state["race_delay"] = timedelta(0, 15, 0, 0, 50)
+            else:
+                self.state["standard_race"] = False
+                self.state["spoiler_log"] = False
 
     def close_handler(self):
         self.loop_ended = True
@@ -26,27 +44,28 @@ class RandoHandler(RaceHandler):
         while not self.loop_ended:
             try:
                 if self.state.get("seed_rolled"):
-                    seconds_remaining = self.seconds_remaining()
+                    seconds_remaining = self.seconds_remaining(False)
+                    race_delay = self.seconds_remaining(True)
 
-                    if not self.state.get("40_warning_sent") and seconds_remaining < 2400: # 40 minutes
+                    if not self.state.get("40_warning_sent") and seconds_remaining < 2400 and race_delay > 2400: # 40 minutes
                         await self.send_message("You have 40 minutes until the race starts!")
                         self.state["40_warning_sent"] = True
 
-                    if not self.state.get("30_warning_sent") and seconds_remaining < 1800: # 30 minutes
+                    if not self.state.get("30_warning_sent") and seconds_remaining < 1800 and race_delay > 1800: # 30 minutes
                         await self.send_message("You have 30 minutes until the race starts!")
                         self.state["30_warning_sent"] = True
 
-                    if not self.state.get("20_warning_sent") and seconds_remaining < 1200: # 20 minutes
+                    if not self.state.get("20_warning_sent") and seconds_remaining < 1200 and race_delay > 1200: # 20 minutes
                         await self.send_message("You have 20 minutes until the race starts!")
                         self.state["20_warning_sent"] = True
 
-                    if not self.state.get("permalink_available") and seconds_remaining < 900: # 15 minutes
+                    if not self.state.get("permalink_available") and seconds_remaining < 900 and race_delay > 900: # 15 minutes
                         await self.send_message("You have 15 minutes until the race starts!")
                         permalink = self.state.get("permalink")
                         await self.send_message(f"Permalink: {permalink}")
                         self.state["permalink_available"] = True
 
-                    if not self.state.get("10_warning_sent") and seconds_remaining < 600: # 10 minutes
+                    if not self.state.get("10_warning_sent") and seconds_remaining < 600 and race_delay > 600: # 10 minutes
                         await self.send_message("You have 10 minutes until the race starts!")
                         await self.send_message("Please start your stream if you haven't done so already!")
                         self.state["10_warning_sent"] = True
@@ -93,6 +112,28 @@ class RandoHandler(RaceHandler):
 
             self.state["finished_entrants"] = finished_entrants
 
+    async def ex_summonbot(self, args, message):
+        race_delay = (self.state.get["race_delay"] - timedelta.(0,15)).total_minutes()
+        if self.state.get("standard_race"):
+            await self.send_message(f"Please use command !startrace to get a permalink, race is set to start {race_delay} minutes after that.")
+        elif self.state.get("spoiler_log")
+            await self.send_message(f"Please use command !startrace to get a link to the spoiler log, race is set to start {race_delay} minutes after that.")
+        else
+            await self.send_message("You've summoned me to a custom room! I don't know how to handle this yet. Sorry!")
+
+    async def ex_removebot(self, args, message):
+        self.state["remove_bot"] = True
+        await self.send_message("This will remove the bot and it will forget all currently set settings, use !confirm to do this, otherwise use !cancel")
+
+    async def ex_confirm(self, args, message):
+        if self.state.get("remove_bot"):
+            self.should_stop()
+
+    async def ex_cancel(self, args, message):
+        if self.state.get("remove_bot"):
+            await self.send_message("Command Cancelled")
+            self.state["remove_bot"] = False
+
     async def ex_tingletuner(self, args, message):
         if self.state.get("tingle_tuner_banned"):
             await self.send_message("The Tingle Tuner is banned in this race.")
@@ -126,7 +167,6 @@ class RandoHandler(RaceHandler):
             spoiler_log_url = self.state.get("spoiler_log_url")
             await self.send_message(f"Spoiler Log: {spoiler_log_url}")
         else:
-            await self.send_message("Spoiler Log is not available yet!")
 
     async def ex_permalink(self, args, message):
         if self.state.get("seed_rolled") and (can_monitor(message) or self.state.get("permalink_available")):
@@ -152,12 +192,36 @@ class RandoHandler(RaceHandler):
             time_remaining = duration.strftime("%M:%S")
             await self.send_message(f"You have {time_remaining} until the race starts!")
 
-    def seconds_remaining(self):
-        return (self.state.get("race_start_time") - datetime.now()).total_seconds()
+    def seconds_remaining(self, args):
+        if(args == True):
+            return (self.state.get("race_delay") - timedelta(0,15)).total_seconds()
+        if not self.state.get("time_paused"):
+            return (self.state.get("race_start_time") - datetime.now()).total_seconds()
+        else:
+            return 9999
+
+    async def ex_startrace(self, args, message):
+        if self.state.get("spoiler_log"):
+            startspoilerlograce(self, args, message)
+        elif self.state.get("standard_race"):
+            startstandardrace(self, message)
+        elif
+            await self.send_message("This is for future development!")
 
     @monitor_cmd
-    async def ex_startspoilerlograce(self, args, message):
+    async def startspoilerlograce(self, args, message):
+        if not self.state.get("spoiler_log"):
+            await self.send_message("This is not a spoiler log race!")
+            return
         await self.roll_and_send(args, message)
+            await self.send_message("Spoiler Log is not available yet!")
+
+    async def startstandardrace(self, message):
+        if not self.state.get("seed_rolled") and self.state.get("standard_race"):
+            permalink = self.state.get("permalink")
+            self.state["seed_rolled"] = True
+            await self.send_message(f"Permalink: {permalink}")
+            await self.send_message("The bot is defaulted to start in {} minutes, if you wish to change that, please use !pause. You'll have to force start later, or use !unpause")
 
     async def roll_and_send(self, args, message):
         if self.state.get("seed_rolled"):
