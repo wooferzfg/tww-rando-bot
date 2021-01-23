@@ -206,6 +206,7 @@ class RandoHandler(RaceHandler):
         else:
             return 9999
 
+    @monitor_cmd
     async def ex_startrace(self, args, message):
         if self.state.get("spoiler_log"):
             startspoilerlograce(self, args, message)
@@ -214,7 +215,6 @@ class RandoHandler(RaceHandler):
         else:
             await self.send_message("This is for future development!")
 
-    @monitor_cmd
     async def startstandardrace(self, message):
         if not self.state.get("seed_rolled") and self.state.get("standard_race"):
             permalink = self.state.get("permalink")
