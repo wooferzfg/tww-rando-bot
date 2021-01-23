@@ -163,7 +163,22 @@ class RandoHandler(RaceHandler):
         return (self.state.get("race_start_time") - datetime.now()).total_seconds()
 
     @monitor_cmd
+    async def ex_lock(self, args, message):
+        self.state["locked"] = True
+        await self.send_message("Seed rolling is now locked.")
+
+    @monitor_cmd
+    async def ex_unlock(self, args, message):
+        self.state["locked"] = False
+        await self.send_message("Seed rolling is now unlocked.")
+
     async def ex_rollseed(self, args, message):
+        if self.state.get("locked") and not can_monitor(message):
+            await self.send_message(
+                "Seed rolling is locked. Only the creator of this room, a race monitor, or a moderator can roll a seed."
+            )
+            return
+
         if self.state.get("permalink"):
             permalink = self.state.get("permalink")
             await self.send_message("Seed already rolled!")
@@ -186,8 +201,13 @@ class RandoHandler(RaceHandler):
 
         await self.send_message(f"Permalink: {permalink}")
 
-    @monitor_cmd
     async def ex_startspoilerlograce(self, args, message):
+        if self.state.get("locked") and not can_monitor(message):
+            await self.send_message(
+                "Seed rolling is locked. Only the creator of this room, a race monitor, or a moderator can roll a seed."
+            )
+            return
+
         if self.state.get("spoiler_log_seed_rolled"):
             await self.send_message("Seed already rolled!")
             return
