@@ -36,7 +36,7 @@ class Generator:
                 )
             spoiler_log_url = gist.html_url
         else:
-            spoiler_log_url = "Really?"
+            spoiler_log_url = None
 
         return {
             "permalink": permalink,
