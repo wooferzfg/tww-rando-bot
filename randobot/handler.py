@@ -112,6 +112,14 @@ class RandoHandler(RaceHandler):
 
             self.state["finished_entrants"] = finished_entrants
 
+#Note on Commands. Please adhere to the following order when making commands
+#1. Initial Calling/State Handling. Pertaining only to the Bot
+#2. Game State Changing, IE Tingle Tuner, Permalink changes, Requests for things related to that
+#3. Race Commands, such as time related commands
+#4. Seed Rolling
+#If it can't apply to the above, feature might not be suitable
+
+    @monitor_cmd
     async def ex_summonbot(self, args, message):
         race_delay = (self.state.get["race_delay"] - timedelta.(0,15)).total_minutes()
         if self.state.get("standard_race"):
@@ -154,7 +162,6 @@ class RandoHandler(RaceHandler):
             self.state["tingle_tuner_banned"] = True
             await self.send_message("The Tingle Tuner is now banned in this race.")
 
-    @monitor_cmd
     async def ex_unbantingletuner(self, args, message):
         if not self.state.get("tingle_tuner_banned"):
             await self.send_message("The Tingle Tuner is already allowed in this race.")
@@ -166,7 +173,6 @@ class RandoHandler(RaceHandler):
         if self.state.get("seed_rolled") and (can_monitor(message) or self.state.get("spoiler_log_available")):
             spoiler_log_url = self.state.get("spoiler_log_url")
             await self.send_message(f"Spoiler Log: {spoiler_log_url}")
-        else:
 
     async def ex_permalink(self, args, message):
         if self.state.get("seed_rolled") and (can_monitor(message) or self.state.get("permalink_available")):
@@ -205,10 +211,17 @@ class RandoHandler(RaceHandler):
             startspoilerlograce(self, args, message)
         elif self.state.get("standard_race"):
             startstandardrace(self, message)
-        elif
+        else:
             await self.send_message("This is for future development!")
 
     @monitor_cmd
+    async def startstandardrace(self, message):
+        if not self.state.get("seed_rolled") and self.state.get("standard_race"):
+            permalink = self.state.get("permalink")
+            self.state["seed_rolled"] = True
+            await self.send_message(f"Permalink: {permalink}")
+            await self.send_message("The bot is defaulted to start in {} minutes, if you wish to change that, please use !pause. You'll have to force start later, or use !unpause")
+
     async def startspoilerlograce(self, args, message):
         if not self.state.get("spoiler_log"):
             await self.send_message("This is not a spoiler log race!")
@@ -216,12 +229,6 @@ class RandoHandler(RaceHandler):
         await self.roll_and_send(args, message)
             await self.send_message("Spoiler Log is not available yet!")
 
-    async def startstandardrace(self, message):
-        if not self.state.get("seed_rolled") and self.state.get("standard_race"):
-            permalink = self.state.get("permalink")
-            self.state["seed_rolled"] = True
-            await self.send_message(f"Permalink: {permalink}")
-            await self.send_message("The bot is defaulted to start in {} minutes, if you wish to change that, please use !pause. You'll have to force start later, or use !unpause")
 
     async def roll_and_send(self, args, message):
         if self.state.get("seed_rolled"):
@@ -237,7 +244,7 @@ class RandoHandler(RaceHandler):
 
         await self.send_message("Generating seed...")
 
-        generated_seed = self.generator.generate_seed()
+        generated_seed = self.generator.generate_seed(permalink, self.state.get("spoiler_log"))
         spoiler_log_url = generated_seed.get("spoiler_log_url")
         permalink = generated_seed.get("permalink")
         file_name = generated_seed.get("file_name")
