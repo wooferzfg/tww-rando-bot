@@ -5,10 +5,10 @@ from racetime_bot import RaceHandler, monitor_cmd, can_monitor
 class RandoHandler(RaceHandler):
     stop_at = ["cancelled", "finished"]
 
-    CURRENT_STANDARD_RACE_GOAL = "Standard Race - Defeat Ganondorf"
-    CURRENT_STANDARD_RACE_PERMALINK = "MS44LjAAU3RhbmRhcmRSYWNlRXhhbXBsZQAXAwQATjDADAAAAAAAAAA="
-    CURRENT_SPOILER_LOG_GOAL = "Spoiler Log"
-    CURRENT_SPOILER_LOG_PERMALINK = "MS44LjAARXhhbXBsZVNwb2lsZXJMb2cAFwMGAg8QwAwAAAAAAAAA"
+    STANDARD_RACE_GOAL = "Standard Race - Defeat Ganondorf"
+    STANDARD_RACE_PERMALINK = "MS44LjAAU3RhbmRhcmRSYWNlRXhhbXBsZQAXAwQATjDADAAAAAAAAAA="
+    SPOILER_LOG_GOAL = "Spoiler Log"
+    SPOILER_LOG_PERMALINK = "MS44LjAARXhhbXBsZVNwb2lsZXJMb2cAFwMGAg8QwAwAAAAAAAAA"
 
 
     def __init__(self, generator, **kwargs):
