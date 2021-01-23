@@ -28,7 +28,7 @@ class RandoHandler(RaceHandler):
 
     async def race_data(self, data):
         self.data = data.get('race')
-        if self.data.goal.custom == false:
+        if not self.data.goal.custom:
             if self.data.goal.name == CURRENT_STANDARD_RACE_GOAL:
                 self.state["standard_race"] = True
                 self.state["spoiler_log"] = False
