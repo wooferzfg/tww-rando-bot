@@ -9,7 +9,6 @@ class RandoHandler(RaceHandler):
     CURRENT_STANDARD_RACE_PERMALINK = "MS44LjAAU3RhbmRhcmRSYWNlRXhhbXBsZQAXAwQATjDADAAAAAAAAAA="
     CURRENT_SPOILER_LOG_GOAL = "Spoiler Log"
     CURRENT_SPOILER_LOG_PERMALINK = "MS44LjAARXhhbXBsZVNwb2lsZXJMb2cAFwMGAg8QwAwAAAAAAAAA"
-    CUSTOM_PERMALINK = ""
 
     def __init__(self, generator, **kwargs):
         super().__init__(**kwargs)
@@ -29,14 +28,15 @@ class RandoHandler(RaceHandler):
     async def race_data(self, data):
         self.data = data.get('race')
         if self.data.goal.custom == false:
+
             if self.data.goal.name == CURRENT_STANDARD_RACE_GOAL:
                 self.state["standard_race"] = True
                 self.state["spoiler_log"] = False
-                self.state["race_delay"] = timedelta(0, 15)
+                self.state["race_delay"] = timedelta(0, 5)
             elif self.data.goal.name == CURRENT_SPOILER_LOG_GOAL:
                 self.state["standard_race"] = False
                 self.state["spoiler_log"] = True
-                self.state["race_delay"] = timedelta(0, 15, 0, 0, 50)
+                self.state["race_delay"] = timedelta(0, 5, 0, 0, 50)
             else:
                 self.state["standard_race"] = False
                 self.state["spoiler_log"] = False
@@ -125,13 +125,16 @@ class RandoHandler(RaceHandler):
 
     @monitor_cmd
     async def ex_summonbot(self, args, message):
-        race_delay = (self.state.get["race_delay"] - timedelta.(0,15)).total_minutes()
+        race_delay = (self.state.get["race_delay"] - timedelta.(0,5)).total_minutes()
         if self.state.get("standard_race"):
-            await self.send_message(f"Please use command !startrace to get a permalink.")
+            await self.send_message("Please use command !startrace to get a permalink.")
+            self.state["permalink"] = CURRENT_STANDARD_RACE_PERMALINK
         elif self.state.get("spoiler_log")
             await self.send_message(f"Please use command !startrace to get a link to the spoiler log, race is set to start {race_delay} minutes after that.")
+            self.state["permalink"] = CURRENT_SPOILER_LOG_PERMALINK
         else
-            await self.send_message("You've summoned me to a custom room! I don't know how to handle this yet. Sorry!")
+            self.state["custom_race"] = True
+            await self.send_message("You've summoned me to a custom room! Feel free to use !newperma <Permalink> to give me a permalink!")
 
     async def ex_removebot(self, args, message):
         self.state["remove_bot"] = True
@@ -145,6 +148,15 @@ class RandoHandler(RaceHandler):
         if self.state.get("remove_bot"):
             await self.send_message("Command Cancelled")
             self.state["remove_bot"] = False
+
+    async def ex_newperma(self, args, message):
+        if self.state.get("standard_race"):
+            await self.send_message("Sorry, standard races have a set permalink")
+            return
+        if self.state.get("spoiler_log")
+            await self.send_message("Please keep in mind that this permalink needs to have Generated Spoiler Log enabled!")
+        CURRENT_PERMALINK = args
+        self.state["custom_race"] = True
 
     async def ex_tingletuner(self, args, message):
         if self.state.get("tingle_tuner_banned"):
@@ -179,11 +191,11 @@ class RandoHandler(RaceHandler):
             await self.send_message(f"Spoiler Log: {spoiler_log_url}")
 
     async def ex_permalink(self, args, message):
+        permalink = self.state.get("permalink")
         if self.state.get("seed_rolled") and (can_monitor(message) or self.state.get("permalink_available")):
-            permalink = self.state.get("permalink")
             await self.send_message(f"Permalink: {permalink}")
         else:
-            await self.send_message("Permalink is not available yet!")
+            await self.send_message(f"Permalink is not available! Current Settings {permalink}")
 
     async def ex_filename(self, args, message):
         if self.state.get("seed_rolled") and (can_monitor(message) or self.state.get("file_name_available")):
@@ -204,7 +216,7 @@ class RandoHandler(RaceHandler):
 
     def seconds_remaining(self, args):
         if(args == True):
-            return (self.state.get("race_delay") - timedelta(0,15)).total_seconds()
+            return (self.state.get("race_delay") - timedelta(0,5)).total_seconds()
         if not self.state.get("time_paused"):
             return (self.state.get("race_start_time") - datetime.now()).total_seconds()
         else:
@@ -248,6 +260,7 @@ class RandoHandler(RaceHandler):
 
         await self.send_message("Generating seed...")
 
+        permalink = self.state.get("permalink")
         generated_seed = self.generator.generate_seed(permalink, self.state.get("spoiler_log"))
         spoiler_log_url = generated_seed.get("spoiler_log_url")
         permalink = generated_seed.get("permalink")
@@ -260,11 +273,9 @@ class RandoHandler(RaceHandler):
         self.state["spoiler_log_url"] = spoiler_log_url
         self.state["permalink"] = permalink
         self.state["file_name"] = file_name
-        self.state["race_start_time"] = datetime.now() + timedelta(0, 15, 0, 0, 50)
+        self.state["race_start_time"] = datetime.now() + self.state.get("race_delay")
 
-        await self.send_message("Seed generated! Preparation stage starts in 15 seconds...")
-
-        await asyncio.sleep(10)
+        await self.send_message("Seed generated! Lets see how this turned out......")
         await self.send_message("5...")
         await asyncio.sleep(1)
         await self.send_message("4...")
@@ -276,6 +287,8 @@ class RandoHandler(RaceHandler):
         await self.send_message("1...")
         await asyncio.sleep(1)
 
-        await self.send_message("You have 50 minutes to prepare your route!")
-        await self.send_message(f"Spoiler Log: {spoiler_log_url}")
-        self.state["spoiler_log_available"] = True
+        if self.state.get("spoiler_log"):
+            timeover_
+            await self.send_message("You have 50 minutes to prepare your route!")
+            await self.send_message(f"Spoiler Log: {spoiler_log_url}")
+            self.state["spoiler_log_available"] = True
