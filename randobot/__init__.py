@@ -4,6 +4,7 @@ import sys
 
 from .bot import RandoBot
 
+
 def main():
     parser = argparse.ArgumentParser(
         description="TWW RandoBot",

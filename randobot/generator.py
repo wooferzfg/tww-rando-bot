@@ -5,6 +5,7 @@ import random
 import string
 import uuid
 
+
 class Generator:
     def __init__(self, github_token):
         self.github_token = github_token
@@ -13,7 +14,10 @@ class Generator:
         seed_name = uuid.uuid4()
         file_name = "".join(random.choice(string.digits) for _ in range(6))
 
-        os.system(f"python wwrando/wwrando.py -seed={seed_name} -permalink=MS44LjAATmljZUFjY29tbW9kYXRpbmdLb3JvawAXAwYCDxDADAAAAAAAAAA=")
+        os.system(
+            f"python wwrando/wwrando.py -seed={seed_name} "
+            "-permalink=MS44LjAATmljZUFjY29tbW9kYXRpbmdLb3JvawAXAwYCDxDADAAAAAAAAAA="
+        )
 
         permalink_file_name = f"permalink_{seed_name}.txt"
         permalink_file = open(permalink_file_name, "r")
