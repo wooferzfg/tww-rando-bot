@@ -9,7 +9,7 @@ class Generator:
     def __init__(self, github_token):
         self.github_token = github_token
 
-    def generate_seed(self, permalink, generate_spoiler):
+    def generate_seed(self, permalink, generate_spoiler_log):
         seed_name = uuid.uuid4()
         file_name = "".join(random.choice(string.digits) for _ in range(6))
 
