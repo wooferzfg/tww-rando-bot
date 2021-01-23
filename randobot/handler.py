@@ -4,8 +4,12 @@ from racetime_bot import RaceHandler, monitor_cmd, can_monitor
 
 class RandoHandler(RaceHandler):
     stop_at = ["cancelled", "finished"]
+
     CURRENT_STANDARD_RACE_GOAL = "Standard Race - Defeat Ganondorf"
+    CURRENT_STANDARD_RACE_PERMALINK = "MS44LjAAU3RhbmRhcmRSYWNlRXhhbXBsZQAXAwQATjDADAAAAAAAAAA="
     CURRENT_SPOILER_LOG_GOAL = "Spoiler Log"
+    CURRENT_SPOILER_LOG_PERMALINK = "MS44LjAARXhhbXBsZVNwb2lsZXJMb2cAFwMGAg8QwAwAAAAAAAAA"
+    CUSTOM_PERMALINK = ""
 
     def __init__(self, generator, **kwargs):
         super().__init__(**kwargs)
@@ -28,7 +32,7 @@ class RandoHandler(RaceHandler):
             if self.data.goal.name == CURRENT_STANDARD_RACE_GOAL:
                 self.state["standard_race"] = True
                 self.state["spoiler_log"] = False
-                self.state["race_delay"] = timedelta(0, 15, 0, 0, 15)
+                self.state["race_delay"] = timedelta(0, 15)
             elif self.data.goal.name == CURRENT_SPOILER_LOG_GOAL:
                 self.state["standard_race"] = False
                 self.state["spoiler_log"] = True
@@ -123,7 +127,7 @@ class RandoHandler(RaceHandler):
     async def ex_summonbot(self, args, message):
         race_delay = (self.state.get["race_delay"] - timedelta.(0,15)).total_minutes()
         if self.state.get("standard_race"):
-            await self.send_message(f"Please use command !startrace to get a permalink, race is set to start {race_delay} minutes after that.")
+            await self.send_message(f"Please use command !startrace to get a permalink.")
         elif self.state.get("spoiler_log")
             await self.send_message(f"Please use command !startrace to get a link to the spoiler log, race is set to start {race_delay} minutes after that.")
         else
