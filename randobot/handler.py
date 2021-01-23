@@ -158,17 +158,23 @@ class RandoHandler(RaceHandler):
             self.state["remove_bot"] = False
 
     async def ex_newperma(self, args, message):
-        if self.state.get("standard_race"):
+        if self.state.get("seed_rolled"):
+            await self.send_message("Too late! Permalink was made!")
+        elif self.state.get("standard_race"):
             await self.send_message("Sorry, standard races have a set permalink")
-            return
-        if self.state.get("spoiler_log"):
+        elif self.state.get("spoiler_log"):
             await self.send_message("Please keep in mind that this permalink needs to have Generated Spoiler Log enabled!")
-        CURRENT_PERMALINK = args
-        self.state["custom_race"] = True
+            CURRENT_PERMALINK = args
+            self.state["custom_race"] = True
+        else:
+            CURRENT_PERMALINK = args
+            self.state["custom_race"] = True
 
     @monitor_cmd
     async def ex_setfilename(self, args, message):
-        if args == "True" or args == "true":
+        if self.state.get("race_started"):
+            await self.send_message("Too late! Race is started!")
+        elif args == "True" or args == "true":
             self.state["force_filename"] = True
             await.send_message("Custom Filenames are not allowed for this race!")
         elif args == "False" or args == "false":
@@ -179,14 +185,16 @@ class RandoHandler(RaceHandler):
 
     @monitor_cmd
     async def ex_confirmaspoilerlog(self, args, message):
-        if args == "True" or args == "true":
+        if self.state.get("seed_rolled"):
+            await self.send_message("Too late! Seed has been rolled!")
+        elif args == "True" or args == "true":
             self.state["spoiler_log"] = True
-            await.send_message("A spoiler log will be generated from this race.")
+            await self.send_message("A spoiler log will be generated from this race.")
         elif args == "False" or args == "false":
             self.state["spoiler_log"] = False
-            await.send_message("No spoilers this time!")
+            await self.send_message("No spoilers this time!")
         else:
-            await.send_message("Error, I speak English, not Hylian!")
+            await self.send_message("Error, I speak English, not Hylian!")
 
     async def ex_tingletuner(self, args, message):
         if self.state.get("tingle_tuner_banned"):
@@ -257,25 +265,24 @@ class RandoHandler(RaceHandler):
     @monitor_cmd
     async def ex_startrace(self, args, message):
         if self.state.get("spoiler_log"):
-            startspoilerlograce(self, args, message)
+            await self.startspoilerlograce(args, message)
         elif self.state.get("standard_race"):
-            startstandardrace(self, message)
+            await self.startstandardrace(args, message)
         else:
-            await self.send_message("This is for future development!")
+            await startcustomrace(args, message)
 
-    async def startstandardrace(self, message):
-        if not self.state.get("seed_rolled") and self.state.get("standard_race"):
-            permalink = self.state.get("permalink")
-            self.state["seed_rolled"] = True
-            await self.send_message(f"Permalink: {permalink}")
-            await self.send_message("The bot is defaulted to start in {} minutes, if you wish to change that, please use !pause. You'll have to force start later, or use !unpause")
+    async def startcustomrace(self, args, message):
+        if not self.state.get("seed_rolled")
+            await self.send_message("Starting up this custom race!")
+            await self.roll_and_send(args, message)
+
+    async def startstandardrace(self, args, message):
+        if not self.state.get("seed_rolled"):
+            await self.roll_and_send(arge, message)
 
     async def startspoilerlograce(self, args, message):
-        if not self.state.get("spoiler_log"):
-            await self.send_message("This is not a spoiler log race!")
-            return
-        await self.roll_and_send(args, message)
-            await self.send_message("Spoiler Log is not available yet!")
+        if not self.state.get("seed_rolled"):
+            await self.roll_and_send(args, message)
 
 
     async def roll_and_send(self, args, message):
