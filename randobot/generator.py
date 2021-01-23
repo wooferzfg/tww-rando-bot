@@ -20,7 +20,6 @@ class Generator:
         permalink = permalink_file.read()
         permalink_file.close()
 
-
         if generate_spoiler:
             spoiler_log_file_name = f"spoiler_log_{seed_name}.txt"
             spoiler_log_file = open(spoiler_log_file_name, "r")
