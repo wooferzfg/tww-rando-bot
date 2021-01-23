@@ -53,52 +53,6 @@ class RandoHandler(RaceHandler):
                 if self.state.get("seed_rolled"):
                     seconds_remaining = self.seconds_remaining(False)
 
-                    if not self.state.get("60_warning_sent") and seconds_remaining < 3600: # 60 minutes
-                        await self.send_message("You have an hour until the race starts!")
-                        self.state["60_warning_sent"] = True
-
-                    if not self.state.get("50_warning_sent") and seconds_remaining < 3000: # 50 minutes
-                        await self.send_message("You have 50 minutes until the race starts!")
-                        self.state["50_warning_sent"] = True
-
-                    if not self.state.get("40_warning_sent") and seconds_remaining < 2400: # 40 minutes
-                        await self.send_message("You have 40 minutes until the race starts!")
-                        self.state["40_warning_sent"] = True
-
-                    if not self.state.get("30_warning_sent") and seconds_remaining < 1800: # 30 minutes
-                        await self.send_message("You have 30 minutes until the race starts!")
-                        self.state["30_warning_sent"] = True
-
-                    if not self.state.get("20_warning_sent") and seconds_remaining < 1200: # 20 minutes
-                        await self.send_message("You have 20 minutes until the race starts!")
-                        self.state["20_warning_sent"] = True
-
-                    if not self.state.get("permalink_available") and seconds_remaining < 900: # 15 minutes
-                        await self.send_message("You have 15 minutes until the race starts!")
-                        permalink = self.state.get("permalink")
-                        await self.send_message(f"Permalink: {permalink}")
-                        self.state["permalink_available"] = True
-
-                    if not self.state.get("10_warning_sent") and seconds_remaining < 600: # 10 minutes
-                        await self.send_message("You have 10 minutes until the race starts!")
-                        if not self.state.get("custom_race"):
-                            await self.send_message("Please start your stream if you haven't done so already!")
-                        self.state["10_warning_sent"] = True
-
-                    if not self.state.get("5_warning_sent") and seconds_remaining < 300: # 5 minutes
-                        await self.send_message("You have 5 minutes until the race starts!")
-                        self.state["5_warning_sent"] = True
-
-                    if not self.state.get("file_name_available") and seconds_remaining < 60: # 1 minute
-                        await self.send_message("You have 1 minute until the race starts!")
-                        if self.state.get("force_filename"):
-                            file_name = self.state.get("file_name")
-                            await self.send_message(f"File Name: {file_name}")
-                            self.state["file_name_available"] = True
-
-                    if not self.state.get("race_started") and seconds_remaining < 15 and self.state.get("race_type") == RaceType.SPOILER:
-                        await self.force_start()
-                        self.state["race_started"] = True
             finally:
                 await asyncio.sleep(0.5)
 
@@ -136,7 +90,7 @@ class RandoHandler(RaceHandler):
 #4. Seed Rolling
 #If it can't apply to the above, feature might not be suitable
 
-    async def ex_currentcommands(self, args, message):
+    async def ex_commands(self, args, message):
         return
 
     @monitor_cmd
@@ -251,19 +205,19 @@ class RandoHandler(RaceHandler):
         else:
             await self.send_message("File Name is not available yet!")
 
-#           Needs an update for handling of args. Currently not a priority update.
-#    @monitor_cmd
-#    async def ex_setplanningtime(self, args, message):
-#        if not isinstance(args[0], int):
-#            await.self.send_message("Please send a time in minutes!")
-#            return
-#
-#        if self.state.get("race_type") == RaceType.SPOILER:
-#            self.state["race_delay"] = timedelta(0, 5, 0, 0, args)
-#            await self.set_time_states(self.seconds_remaining(True))
-#            await self.send_message(f"You adjusted the planning time, it is now {args} minutes long!")
-#        else:
-#            await self.send_message("Sorry, only Spoiler Log races have a planning time.")
+
+   @monitor_cmd
+   async def ex_setplanningtime(self, args, message):
+        if not isinstance(args[0], int):
+            await.self.send_message("Please send a time in minutes!")
+            return
+
+        if self.state.get("race_type") == RaceType.SPOILER:
+            self.state["race_delay"] = timedelta(0, 5, 0, 0, args)
+            await self.set_time_states(self.seconds_remaining(True))
+            await self.send_message(f"You adjusted the planning time, it is now {args} minutes long!")
+        else:
+            await self.send_message("Sorry, only Spoiler Log races have a planning time.")
 
     async def ex_time(self, args, message):
         if not self.state.get("seed_rolled"):
@@ -284,46 +238,8 @@ class RandoHandler(RaceHandler):
             return 9999
 
     #Note to self, find a better solution
-    async def set_time_states(self, waitTime):
-        if waitTime > 3600: # 60 minutes
-            self.state["60_warning_sent"] = False
-        else:
-            self.state["60_warning_sent"] = True
-
-        if waitTime > 3000: # 50 minutes
-            self.state["50_warning_sent"] = False
-        else:
-            self.state["50_warning_sent"] = True
-
-        if waitTime > 2400: # 40 minutes
-            self.state["40_warning_sent"] = False
-        else:
-            self.state["40_warning_sent"] = True
-
-        if waitTime > 1800: # 30 minutes
-            self.state["30_warning_sent"] = False
-        else:
-            self.state["30_warning_sent"] = True
-
-        if waitTime > 1200: # 20 minutes
-            self.state["20_warning_sent"] = False
-        else:
-            self.state["20_warning_sent"] = True
-
-        if waitTime > 900: # 15 minutes
-            self.state["15_warning_sent"] = False
-        else:
-            self.state["15_warning_sent"] = True
-
-        if waitTime > 600: # 10 minutes
-            self.state["10_warning_sent"] = False
-        else:
-            self.state["10_warning_sent"] = True
-
-        if waitTime > 300: # 5 minutes
-            self.state["5_warning_sent"] = False
-        else:
-            self.state["5_warning_sent"] = True
+    async def fill_stack(self, waitTime):
+        return
 
     @monitor_cmd
     async def ex_startrace(self, args, message):
