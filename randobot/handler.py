@@ -32,14 +32,17 @@ class RandoHandler(RaceHandler):
             if self.data.goal.name == CURRENT_STANDARD_RACE_GOAL:
                 self.state["standard_race"] = True
                 self.state["spoiler_log"] = False
+                self.state["force_filename"] = False
                 self.state["race_delay"] = timedelta(0, 5)
             elif self.data.goal.name == CURRENT_SPOILER_LOG_GOAL:
                 self.state["standard_race"] = False
                 self.state["spoiler_log"] = True
+                self.state["force_filename"] = True
                 self.state["race_delay"] = timedelta(0, 5, 0, 0, 50)
             else:
                 self.state["standard_race"] = False
                 self.state["spoiler_log"] = False
+                self.state["force_filename"] = False
 
     def close_handler(self):
         self.loop_ended = True
@@ -71,7 +74,8 @@ class RandoHandler(RaceHandler):
 
                     if not self.state.get("10_warning_sent") and seconds_remaining < 600 and race_delay > 600: # 10 minutes
                         await self.send_message("You have 10 minutes until the race starts!")
-                        await self.send_message("Please start your stream if you haven't done so already!")
+                        if not self.state.get("custom_race"):
+                            await self.send_message("Please start your stream if you haven't done so already!")
                         self.state["10_warning_sent"] = True
 
                     if not self.state.get("5_warning_sent") and seconds_remaining < 300: # 5 minutes
@@ -110,9 +114,12 @@ class RandoHandler(RaceHandler):
             new_finishers = list(finished_entrants - self.state["finished_entrants"])
 
             for finisher in new_finishers:
-                await self.send_message(
-                    f"{finisher}, before you end your stream, please remember to advance to the second text box after defeating Ganondorf."
-                )
+                if self.state.get("spoiler_log"):
+                    await self.send_message(
+                        f"{finisher}, before you end your stream, please remember to advance to the second text box after defeating Ganondorf."
+                    )
+                else:
+                    await self.send_message(f"{finisher}, great job!")
 
             self.state["finished_entrants"] = finished_entrants
 
@@ -153,10 +160,21 @@ class RandoHandler(RaceHandler):
         if self.state.get("standard_race"):
             await self.send_message("Sorry, standard races have a set permalink")
             return
-        if self.state.get("spoiler_log")
+        if self.state.get("spoiler_log"):
             await self.send_message("Please keep in mind that this permalink needs to have Generated Spoiler Log enabled!")
         CURRENT_PERMALINK = args
         self.state["custom_race"] = True
+
+    @monitor_cmd
+    async def ex_setfilename(self, args, message):
+        if args == "True" or args == "true":
+            self.state["force_filename"] = True
+            await.send_message("Custom Filenames are not allowed for this race!")
+        elif args == "False" or args == "false":
+            await.send_message("Custom Filenames are allowed! FeelsCustomMan")
+            self.state["forse_filename"] = False
+        else:
+            await.send_message("Error, I speak English, not Hylian")
 
     async def ex_tingletuner(self, args, message):
         if self.state.get("tingle_tuner_banned"):
@@ -198,9 +216,11 @@ class RandoHandler(RaceHandler):
             await self.send_message(f"Permalink is not available! Current Settings {permalink}")
 
     async def ex_filename(self, args, message):
-        if self.state.get("seed_rolled") and (can_monitor(message) or self.state.get("file_name_available")):
+        if self.state.get("seed_rolled") and (can_monitor(message) or self.state.get("file_name_available") and self.state.get("force_filename")):
             file_name = self.state.get("file_name")
             await self.send_message(f"File Name: {file_name}")
+        elif not self.state.get("force_filename"):
+            await self.send_message("I mean if you want one so bad, I hear Cubsrule is a decent one.")
         else:
             await self.send_message("File Name is not available yet!")
 
@@ -288,7 +308,11 @@ class RandoHandler(RaceHandler):
         await asyncio.sleep(1)
 
         if self.state.get("spoiler_log"):
-            timeover_
-            await self.send_message("You have 50 minutes to prepare your route!")
+            race_delay_in_minutes = seconds_remaining(True).total_minutes()
+            await self.send_message(f"You have {race_delay_in_minutes} minutes to prepare your route!")
             await self.send_message(f"Spoiler Log: {spoiler_log_url}")
             self.state["spoiler_log_available"] = True
+
+        elif self.state.get("standard_race") or self.state.get("custom_race"):
+            await self.send_message(f"Here is the permalink! {permalink}")
+            await self.send_message("Make sure to ready up and start the race!")
