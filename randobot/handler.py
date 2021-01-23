@@ -132,6 +132,7 @@ class RandoHandler(RaceHandler):
 
     @monitor_cmd
     async def ex_summonbot(self, args, message):
+        await self.send_message("Hey everyone!")
         race_delay = (self.state.get["race_delay"] - timedelta.(0,5)).total_minutes()
         if self.state.get("standard_race"):
             await self.send_message("Please use command !startrace to get a permalink.")
@@ -175,6 +176,17 @@ class RandoHandler(RaceHandler):
             self.state["forse_filename"] = False
         else:
             await.send_message("Error, I speak English, not Hylian")
+
+    @monitor_cmd
+    async def ex_setasspoilerlog(self, args, message):
+        if args == "True" or args == "true":
+            self.state["spoiler_log"] = True
+            await.send_message("A spoiler log will be generated from this race.")
+        elif args == "False" or args == "false":
+            self.state["spoiler_log"] = False
+            await.send_message("No spoilers this time!")
+        else:
+            await.send_message("Error, I speak English, not Hylian!")
 
     async def ex_tingletuner(self, args, message):
         if self.state.get("tingle_tuner_banned"):
