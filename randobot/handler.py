@@ -178,7 +178,7 @@ class RandoHandler(RaceHandler):
             await.send_message("Error, I speak English, not Hylian")
 
     @monitor_cmd
-    async def ex_setasspoilerlog(self, args, message):
+    async def ex_confirmaspoilerlog(self, args, message):
         if args == "True" or args == "true":
             self.state["spoiler_log"] = True
             await.send_message("A spoiler log will be generated from this race.")
