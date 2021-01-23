@@ -2,6 +2,7 @@ import asyncio
 from datetime import datetime, timedelta
 from racetime_bot import RaceHandler, monitor_cmd, can_monitor
 
+
 class RandoHandler(RaceHandler):
     stop_at = ["cancelled", "finished"]
 
@@ -28,34 +29,34 @@ class RandoHandler(RaceHandler):
                 if self.state.get("seed_rolled"):
                     seconds_remaining = self.seconds_remaining()
 
-                    if not self.state.get("40_warning_sent") and seconds_remaining < 2400: # 40 minutes
+                    if not self.state.get("40_warning_sent") and seconds_remaining < 2400:  # 40 minutes
                         await self.send_message("You have 40 minutes until the race starts!")
                         self.state["40_warning_sent"] = True
 
-                    if not self.state.get("30_warning_sent") and seconds_remaining < 1800: # 30 minutes
+                    if not self.state.get("30_warning_sent") and seconds_remaining < 1800:  # 30 minutes
                         await self.send_message("You have 30 minutes until the race starts!")
                         self.state["30_warning_sent"] = True
 
-                    if not self.state.get("20_warning_sent") and seconds_remaining < 1200: # 20 minutes
+                    if not self.state.get("20_warning_sent") and seconds_remaining < 1200:  # 20 minutes
                         await self.send_message("You have 20 minutes until the race starts!")
                         self.state["20_warning_sent"] = True
 
-                    if not self.state.get("permalink_available") and seconds_remaining < 900: # 15 minutes
+                    if not self.state.get("permalink_available") and seconds_remaining < 900:  # 15 minutes
                         await self.send_message("You have 15 minutes until the race starts!")
                         permalink = self.state.get("permalink")
                         await self.send_message(f"Permalink: {permalink}")
                         self.state["permalink_available"] = True
 
-                    if not self.state.get("10_warning_sent") and seconds_remaining < 600: # 10 minutes
+                    if not self.state.get("10_warning_sent") and seconds_remaining < 600:  # 10 minutes
                         await self.send_message("You have 10 minutes until the race starts!")
                         await self.send_message("Please start your stream if you haven't done so already!")
                         self.state["10_warning_sent"] = True
 
-                    if not self.state.get("5_warning_sent") and seconds_remaining < 300: # 5 minutes
+                    if not self.state.get("5_warning_sent") and seconds_remaining < 300:  # 5 minutes
                         await self.send_message("You have 5 minutes until the race starts!")
                         self.state["5_warning_sent"] = True
 
-                    if not self.state.get("file_name_available") and seconds_remaining < 60: # 1 minute
+                    if not self.state.get("file_name_available") and seconds_remaining < 60:  # 1 minute
                         await self.send_message("You have 1 minute until the race starts!")
                         file_name = self.state.get("file_name")
                         await self.send_message(f"File Name: {file_name}")
@@ -74,21 +75,18 @@ class RandoHandler(RaceHandler):
         self.data = data.get("race")
 
         if self.state.get("seed_rolled"):
-            finished_entrants = set(
-                map(
-                    lambda entrant: entrant.get("user").get("name"),
-                    filter(
-                        lambda entrant: entrant.get("status").get("value") == "done",
-                        self.data.get("entrants")
-                    )
-                )
-            )
+            finished_entrants = {
+                entrant.get("user").get("name")
+                for entrant in self.data.get("entrants")
+                if entrant.get("status").get("value") == "done"
+            }
 
             new_finishers = list(finished_entrants - self.state["finished_entrants"])
 
             for finisher in new_finishers:
                 await self.send_message(
-                    f"{finisher}, before you end your stream, please remember to advance to the second text box after defeating Ganondorf."
+                    f"{finisher}, before you end your stream, please remember to "
+                    "advance to the second text box after defeating Ganondorf."
                 )
 
             self.state["finished_entrants"] = finished_entrants

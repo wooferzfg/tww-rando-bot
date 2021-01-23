@@ -3,6 +3,7 @@ from racetime_bot import Bot
 from .handler import RandoHandler
 from .generator import Generator
 
+
 class RandoBot(Bot):
     """
     RandoBot base class.
