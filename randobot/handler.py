@@ -166,17 +166,19 @@ class RandoHandler(RaceHandler):
     async def ex_lock(self, args, message):
         self.state["locked"] = True
         await self.send_message("Seed rolling is now locked.")
-        
+
     @monitor_cmd
     async def ex_unlock(self, args, message):
         self.state["locked"] = False
         await self.send_message("Seed rolling is now unlocked.")
-    
+
     async def ex_rollseed(self, args, message):
         if self.state.get("locked") and not can_monitor(message):
-            await self.send_message("Seed rolling is locked. Only Race Monitors, the Room Creator, and Category Moderators may roll Seeds.")
+            await self.send_message(
+							"Seed rolling is locked. Only Race Monitors, the Room Creator, and Category Moderators may roll Seeds."
+						)
             return
-        
+
         if self.state.get("permalink"):
             permalink = self.state.get("permalink")
             await self.send_message("Seed already rolled!")
