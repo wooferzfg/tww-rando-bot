@@ -173,11 +173,10 @@ class RandoHandler(RaceHandler):
         await self.send_message("Seed rolling is now unlocked.")
 
     @monitor_cmd
-    async def ex_override(self, args, message):
-        self.state["locked"] = True
-        self.state["permalink"] = self.STANDARD_RACE_PERMALINK
+    async def ex_reset(self, args, message):
+        self.state["permalink"] = None
         self.state["permalink_available"] = False
-        await self.send_message("Seed is now locked, and the Permalink reset.")
+        await self.send_message("The Permalink has been reset.")
 
     async def ex_rollseed(self, args, message):
         if self.state.get("locked") and not can_monitor(message):
