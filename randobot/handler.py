@@ -175,7 +175,7 @@ class RandoHandler(RaceHandler):
     @monitor_cmd
     async def ex_override(self, args, message):
         self.state["locked"] = True
-        self.state["permalink"] = STANDARD_RACE_PERMALINK
+        self.state["permalink"] = self.STANDARD_RACE_PERMALINK
         self.state["permalink_available"] = False
         await self.send_message("Seed is now locked, and the Permalink reset.")
 
