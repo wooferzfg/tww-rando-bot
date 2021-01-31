@@ -176,9 +176,9 @@ class RandoHandler(RaceHandler):
     async def ex_override(self, args, message):
         self.state["locked"] = True
         self.state["permalink"] = STANDARD_RACE_PERMALINK
-        self.state["permalink_available"] False
+        self.state["permalink_available"] = False
         await self.send_message("Seed is now locked, and the Permalink reset.")
-        
+
     async def ex_rollseed(self, args, message):
         if self.state.get("locked") and not can_monitor(message):
             await self.send_message(
