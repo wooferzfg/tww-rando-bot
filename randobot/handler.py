@@ -48,6 +48,7 @@ class RandoHandler(RaceHandler):
                         await self.send_message("You have 15 minutes until the race starts!")
                         permalink = self.state.get("permalink")
                         await self.send_message(f"Permalink: {permalink}")
+                        await self.set_raceinfo(f" - {permalink}")
                         self.state["permalink_available"] = True
 
                     if not self.state.get("10_warning_sent") and seconds_remaining < 600:  # 10 minutes
@@ -206,6 +207,7 @@ class RandoHandler(RaceHandler):
         self.state["permalink_available"] = True
 
         await self.send_message(f"Permalink: {permalink}")
+        await self.set_raceinfo(f" - {permalink}")
 
     async def ex_startspoilerlograce(self, args, message):
         if self.state.get("locked") and not can_monitor(message):
