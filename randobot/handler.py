@@ -207,7 +207,7 @@ class RandoHandler(RaceHandler):
         self.state["permalink_available"] = True
 
         await self.send_message(f"Permalink: {permalink}")
-        await self.set_raceinfo(f" - {permalink}")
+        await self.set_raceinfo(f" - {permalink}", False, False)
 
     async def ex_startspoilerlograce(self, args, message):
         if self.state.get("locked") and not can_monitor(message):
