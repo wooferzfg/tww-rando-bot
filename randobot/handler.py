@@ -48,7 +48,7 @@ class RandoHandler(RaceHandler):
                         await self.send_message("You have 15 minutes until the race starts!")
                         permalink = self.state.get("permalink")
                         await self.send_message(f"Permalink: {permalink}")
-                        await self.set_raceinfo(f" - {permalink}")
+                        await self.set_raceinfo(permalink, False, False)
                         self.state["permalink_available"] = True
 
                     if not self.state.get("10_warning_sent") and seconds_remaining < 600:  # 10 minutes
