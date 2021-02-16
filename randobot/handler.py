@@ -18,10 +18,10 @@ class RandoHandler(RaceHandler):
 
     async def begin(self):
         if not self.state.get("initialized"):
+            self.loop.create_task(self.handle_scheduled_tasks())
             self.room_setup()
 
     async def room_setup(self):
-        self.loop.create_task(self.handle_scheduled_tasks())
         self.state["permalink_available"] = False
         self.state["tingle_tuner_banned"] = False
         self.state["spoiler_log_seed_rolled"] = False
@@ -35,7 +35,7 @@ class RandoHandler(RaceHandler):
         self.loop_ended = True
 
     async def handle_scheduled_tasks(self):
-        next_ten_minute_warning = 2400
+        next_ten_minute_warning = self.state.get("next_ten_minute_warning")
         while not self.loop_ended:
             try:
                 if self.state.get("spoiler_log_seed_rolled"):
@@ -190,7 +190,11 @@ class RandoHandler(RaceHandler):
             )
             return
 
-        if self.state.get("permalink") and not self.state.get("spoiler_log_seed_rolled"):
+        if self.state.get("spoiler_log_seed_rolled"):
+            await self.send_message("Seed rolling is disabled in spoiler log races!")
+            return
+
+        if self.state.get("permalink_available"):
             permalink = self.state.get("permalink")
             await self.send_message("Seed already rolled!")
             await self.send_message(f"Permalink: {permalink}")
@@ -248,6 +252,7 @@ class RandoHandler(RaceHandler):
         self.state["permalink"] = permalink
         self.state["file_name"] = file_name
         self.state["race_start_time"] = datetime.now() + timedelta(0, 15, 0, 0, 50)
+        self.state["next_ten_minute_warning"] = 2400
 
         await self.send_message("Seed rolled! Preparation stage starts in 15 seconds...")
 
