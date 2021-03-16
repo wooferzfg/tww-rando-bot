@@ -7,6 +7,10 @@ services:
       context: .
     command: randobot ${GITHUB_TOKEN} ${CATEGORY_SLUG-twwr} ${CLIENT_ID} ${CLIENT_SECRET} --verbose
     restart: always
+    ulimits:
+      core:
+        hard: 0
+        soft: 0
     volumes:
       - .:/tww-rando-bot
       - egg_info:/tww-rando-bot/tww_rando_bot.egg-info
