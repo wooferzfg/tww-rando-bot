@@ -20,12 +20,14 @@ class Generator:
         permalink_file = open(permalink_file_name, "r")
         permalink = permalink_file.read()
         permalink_file.close()
+        os.remove(permalink_file_name)
 
         if generate_spoiler_log:
             spoiler_log_file_name = f"spoiler_log_{seed_name}.txt"
             spoiler_log_file = open(spoiler_log_file_name, "r")
             spoiler_log = spoiler_log_file.read()
             spoiler_log_file.close()
+            os.remove(spoiler_log_file_name)
 
             timestamp = datetime.now().strftime("%Y-%m-%d-%H:%M:%S")
             gh = Github(self.github_token)
