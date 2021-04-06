@@ -6,7 +6,7 @@ from racetime_bot import RaceHandler, monitor_cmd, can_monitor
 class RandoHandler(RaceHandler):
     stop_at = ["cancelled", "finished"]
 
-    STANDARD_RACE_PERMALINK = "MS45LjAAU3RhbmRhcmRSYWNlRXhhbXBsZQAXAwQATjDAAgAAAAAAAQAA"
+    STANDARD_RACE_PERMALINK = "MS45LjAAQQAFCyIAD3DAAgAAAAAAAQAA"
     SPOILER_LOG_PERMALINK = "MS45LjAARXhhbXBsZVNwb2lsZXJMb2cAFwMGAg8QwAIAAAAAAAEAAA=="
 
     def __init__(self, generator, **kwargs):
