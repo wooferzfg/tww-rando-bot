@@ -24,3 +24,31 @@ jobs:
 
       - name: Run flake8
         run: flake8
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    if: github.repository == 'wooferzfg/tww-rando-bot' && github.ref == 'refs/heads/main'
+
+    steps:
+      - name: Checkout commit
+        uses: actions/checkout@v2
+
+      - name: Deploy using SSH
+        uses: appleboy/ssh-action@v0.1.4
+        with:
+          host: ${{ secrets.EC2_ADDRESS }}
+          username: ${{ secrets.EC2_USERNAME }}
+          key: ${{ secrets.EC2_RSA_KEY }}
+          script: |
+            docker stop $(docker ps -aq) || true
+            docker rm $(docker ps -aq) || true
+            docker system prune -f || true
+            sudo rm -r tww-rando-bot || true
+            git clone --recursive https://github.com/wooferzfg/tww-rando-bot.git
+            cd tww-rando-bot
+            docker-compose build --no-cache
+            export GITHUB_TOKEN=${{ secrets.BOT_GITHUB_TOKEN }}
+            export CLIENT_ID=${{ secrets.RACETIME_CLIENT_ID }}
+            export CLIENT_SECRET=${{ secrets.RACETIME_CLIENT_SECRET }}
+            docker-compose up -d
