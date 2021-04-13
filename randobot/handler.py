@@ -153,7 +153,7 @@ class RandoHandler(RaceHandler):
     @monitor_cmd
     async def ex_reset(self, args, message):
         msg = "The Permalink has been reset."
-        if self.state["planning_time"] != self.DEFAULT_PLANNING_TIME:
+        if self.state.get("planning_time") != self.DEFAULT_PLANNING_TIME:
             msg += " The planning time has also been reset to 50 minutes."
         self.room_setup()
         await self.send_message(msg)
@@ -236,7 +236,7 @@ class RandoHandler(RaceHandler):
         spoiler_log_url = generated_seed.get("spoiler_log_url")
         permalink = generated_seed.get("permalink")
         file_name = generated_seed.get("file_name")
-        planning_time = self.state["planning_time"]
+        planning_time = self.state.get("planning_time")
 
         time_to_next_warning = planning_time % 10
         if time_to_next_warning == 0:
