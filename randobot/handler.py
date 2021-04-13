@@ -27,7 +27,6 @@ class RandoHandler(RaceHandler):
         self.state["spoiler_log_seed_rolled"] = False
         self.state["permalink_available"] = False
         self.state["file_name_available"] = False
-        self.state["tingle_tuner_banned"] = False
         self.state["permalink"] = None
         self.state["spoiler_log_url"] = None
         self.state["planning_time"] = self.DEFAULT_PLANNING_TIME
@@ -101,34 +100,6 @@ class RandoHandler(RaceHandler):
 
             self.state["finished_entrants"] = finished_entrants
 
-    async def ex_tingletuner(self, args, message):
-        if self.state.get("tingle_tuner_banned"):
-            await self.send_message("The Tingle Tuner is banned in this race.")
-        elif self.state.get("spoiler_log_seed_rolled"):
-            await self.send_message("The Tingle Tuner is allowed in this race.")
-        else:
-            await self.send_message(
-                "Use !bantingletuner if you'd like the Tingle Tuner to be banned in this race. The "
-                "ban will go into effect if at least one runner asks for the Tingle Tuner to be banned."
-            )
-
-    async def ex_bantingletuner(self, args, message):
-        if self.state.get("tingle_tuner_banned"):
-            await self.send_message("The Tingle Tuner is already banned in this race.")
-        elif self.state.get("spoiler_log_seed_rolled") and not can_monitor(message):
-            await self.send_message("The race has already started! The Tingle Tuner is allowed in this race.")
-        else:
-            self.state["tingle_tuner_banned"] = True
-            await self.send_message("The Tingle Tuner is now banned in this race.")
-
-    @monitor_cmd
-    async def ex_unbantingletuner(self, args, message):
-        if not self.state.get("tingle_tuner_banned"):
-            await self.send_message("The Tingle Tuner is already allowed in this race.")
-        else:
-            self.state["tingle_tuner_banned"] = False
-            await self.send_message("The Tingle Tuner is now allowed in this race.")
-
     async def ex_spoilerlogurl(self, args, message):
         if (
             self.state.get("spoiler_log_seed_rolled")
@@ -181,7 +152,7 @@ class RandoHandler(RaceHandler):
 
     @monitor_cmd
     async def ex_reset(self, args, message):
-        msg = "The Permalink has been reset, and the Tingle Tuner is now allowed in this race."
+        msg = "The Permalink has been reset."
         if self.state["planning_time"] != self.DEFAULT_PLANNING_TIME:
             msg += " The planning time has also been reset to 50 minutes."
         self.room_setup()
