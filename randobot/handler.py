@@ -195,7 +195,7 @@ class RandoHandler(RaceHandler):
 
         try:
             self.state["planning_time"] = max(self.MINIMUM_PLANNING_TIME, int(planning_time))
-            await self.send_message(f"Planning time set to {planning_time} minutes.")
+            await self.send_message(f"Planning time set to {self.state["planning_time"]} minutes.")
         except (TypeError, ValueError):
             await self.send_message(f"{planning_time} is not a valid time.")
 
