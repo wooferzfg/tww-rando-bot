@@ -34,6 +34,13 @@ jobs:
       - name: Checkout commit
         uses: actions/checkout@v2
 
+      # For initial setup, launch an Amazon Linux 2 AMI instance and run the following commands:
+      #
+      # sudo yum install -y docker git
+      # sudo service docker start
+      # sudo usermod -aG docker ec2-user
+      # sudo curl -L "https://github.com/docker/compose/releases/download/1.29.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+      # sudo chmod o+rwx /usr/local/bin/docker-compose
       - name: Deploy using SSH
         uses: appleboy/ssh-action@v0.1.4
         with:
