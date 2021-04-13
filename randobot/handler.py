@@ -9,6 +9,7 @@ class RandoHandler(RaceHandler):
     STANDARD_RACE_PERMALINK = "MS45LjAAQQAFCyIAD3DAAgAAAAAAAQAA"
     SPOILER_LOG_PERMALINK = "MS45LjAARXhhbXBsZVNwb2lsZXJMb2cAFwMGAg8QwAIAAAAAAAEAAA=="
     DEFAULT_PLANNING_TIME = 50
+    MINIMUM_PLANNING_TIME = 20
 
     def __init__(self, generator, **kwargs):
         super().__init__(**kwargs)
@@ -194,7 +195,7 @@ class RandoHandler(RaceHandler):
         planning_time = args[0]
 
         try:
-            self.state["planning_time"] = max(0, int(planning_time))
+            self.state["planning_time"] = max(self.MINIMUM_PLANNING_TIME, int(planning_time))
             await self.send_message(f"Planning time set to {planning_time} minutes.")
         except TypeError:
             await self.send_message(f"{planning_time} is not a valid time.")
