@@ -8,6 +8,8 @@ class RandoHandler(RaceHandler):
 
     STANDARD_RACE_PERMALINK = "MS45LjAAQQAFCyIAD3DAAgAAAAAAAQAA"
     SPOILER_LOG_PERMALINK = "MS45LjAARXhhbXBsZVNwb2lsZXJMb2cAFwMGAg8QwAIAAAAAAAEAAA=="
+    DEFAULT_PLANNING_TIME = 50
+    MINIMUM_PLANNING_TIME = 20
 
     def __init__(self, generator, **kwargs):
         super().__init__(**kwargs)
@@ -28,6 +30,7 @@ class RandoHandler(RaceHandler):
         self.state["tingle_tuner_banned"] = False
         self.state["permalink"] = None
         self.state["spoiler_log_url"] = None
+        self.state["planning_time"] = self.DEFAULT_PLANNING_TIME
         self.state["file_name"] = None
         self.state["initialized"] = True
         self.state["finished_entrants"] = set()
@@ -42,7 +45,7 @@ class RandoHandler(RaceHandler):
                     seconds_remaining = self.seconds_remaining()
                     next_ten_minute_warning = self.state.get("next_ten_minute_warning")
 
-                    # Warnings at 40, 30, 20, and 10 minutes
+                    # Warnings at multiples of 10 minutes
                     if seconds_remaining <= next_ten_minute_warning and next_ten_minute_warning > 0:
                         time_in_minutes = next_ten_minute_warning // 60
                         await self.send_message(f"You have {time_in_minutes} minutes until the race starts!")
@@ -178,8 +181,24 @@ class RandoHandler(RaceHandler):
 
     @monitor_cmd
     async def ex_reset(self, args, message):
+        msg = "The Permalink has been reset, and the Tingle Tuner is now allowed in this race."
+        if self.state["planning_time"] != self.DEFAULT_PLANNING_TIME:
+            msg += " The planning time has also been reset to 50 minutes."
         self.room_setup()
-        await self.send_message("The Permalink has been reset, and the Tingle Tuner is now allowed in this race.")
+        await self.send_message(msg)
+
+    @monitor_cmd
+    async def ex_setplanningtime(self, args, message):
+        if len(args) == 0:
+            await self.send_message("Please specify planning time (in minutes).")
+
+        planning_time = args[0]
+
+        try:
+            self.state["planning_time"] = max(self.MINIMUM_PLANNING_TIME, int(planning_time))
+            await self.send_message(f"Planning time set to {planning_time} minutes.")
+        except TypeError:
+            await self.send_message(f"{planning_time} is not a valid time.")
 
     async def ex_rollseed(self, args, message):
         if self.state.get("locked") and not can_monitor(message):
@@ -241,6 +260,11 @@ class RandoHandler(RaceHandler):
         spoiler_log_url = generated_seed.get("spoiler_log_url")
         permalink = generated_seed.get("permalink")
         file_name = generated_seed.get("file_name")
+        planning_time = self.state["planning_time"]
+
+        time_to_next_warning = planning_time % 10
+        if time_to_next_warning == 0:
+            time_to_next_warning = 10
 
         self.logger.info(spoiler_log_url)
         self.logger.info(permalink)
@@ -249,8 +273,8 @@ class RandoHandler(RaceHandler):
         self.state["spoiler_log_url"] = spoiler_log_url
         self.state["permalink"] = permalink
         self.state["file_name"] = file_name
-        self.state["race_start_time"] = datetime.now() + timedelta(0, 15, 0, 0, 50)
-        self.state["next_ten_minute_warning"] = 2400
+        self.state["race_start_time"] = datetime.now() + timedelta(0, 15, 0, 0, planning_time)
+        self.state["next_ten_minute_warning"] = (planning_time - time_to_next_warning) * 60
 
         await self.send_message("Seed rolled! Preparation stage starts in 15 seconds...")
 
@@ -266,6 +290,6 @@ class RandoHandler(RaceHandler):
         await self.send_message("1...")
         await asyncio.sleep(1)
 
-        await self.send_message("You have 50 minutes to prepare your route!")
+        await self.send_message(f"You have {planning_time} minutes to prepare your route!")
         await self.send_message(f"Spoiler Log: {spoiler_log_url}")
         self.state["spoiler_log_available"] = True
