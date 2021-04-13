@@ -194,6 +194,7 @@ class RandoHandler(RaceHandler):
 
         if len(args) == 0:
             await self.send_message("Please specify planning time (in minutes).")
+            return
 
         planning_time = args[0]
 
