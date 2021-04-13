@@ -187,7 +187,6 @@ class RandoHandler(RaceHandler):
         self.room_setup()
         await self.send_message(msg)
 
-    @monitor_cmd
     async def ex_setplanningtime(self, args, message):
         if len(args) == 0:
             await self.send_message("Please specify planning time (in minutes).")
