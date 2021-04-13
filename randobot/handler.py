@@ -188,6 +188,10 @@ class RandoHandler(RaceHandler):
         await self.send_message(msg)
 
     async def ex_setplanningtime(self, args, message):
+        if self.state["spoiler_log_seed_rolled"]:
+            await self.send_message("Planning has already started!")
+            return
+
         if len(args) == 0:
             await self.send_message("Please specify planning time (in minutes).")
 
