@@ -1,5 +1,7 @@
 # tww-rando-bot
 
+[![Build Status](https://github.com/wooferzfg/tww-rando-bot/workflows/CI/badge.svg)](https://github.com/wooferzfg/tww-rando-bot/actions)
+
 A [racetime.gg](https://racetime.gg) chat bot application for automatically 
 generating [TWW Randomizer](https://github.com/LagoLunatic/wwrando) seeds in race rooms.
 
