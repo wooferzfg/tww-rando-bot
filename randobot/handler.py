@@ -134,7 +134,7 @@ class RandoHandler(RaceHandler):
             await self.send_message("Race has already started!")
         else:
             duration = datetime.utcfromtimestamp(self.seconds_remaining())
-            time_remaining = duration.strftime("%M:%S")
+            time_remaining = duration.strftime("%-H:%M:%S")
             await self.send_message(f"You have {time_remaining} until the race starts!")
 
     def seconds_remaining(self):
