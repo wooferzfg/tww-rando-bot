@@ -74,6 +74,8 @@ class RandoHandler(RaceHandler):
                     if not self.state.get("race_started") and seconds_remaining < 15:
                         await self.force_start()
                         self.state["race_started"] = True
+            except:
+                pass
             finally:
                 await asyncio.sleep(0.5)
 
