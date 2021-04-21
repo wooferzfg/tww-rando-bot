@@ -2,14 +2,11 @@ import asyncio
 from datetime import datetime, timedelta
 from racetime_bot import RaceHandler, monitor_cmd, can_monitor
 
+import randobot.constants as constants
+
 
 class RandoHandler(RaceHandler):
     stop_at = ["cancelled", "finished"]
-
-    STANDARD_RACE_PERMALINK = "MS45LjAAQQAFCyIAD3DAAgAAAAAAAQAA"
-    SPOILER_LOG_PERMALINK = "MS45LjAARXhhbXBsZVNwb2lsZXJMb2cAFwMGAg8QwAIAAAAAAAEAAA=="
-    DEFAULT_PLANNING_TIME = 50
-    MINIMUM_PLANNING_TIME = 20
 
     def __init__(self, generator, **kwargs):
         super().__init__(**kwargs)
@@ -17,6 +14,9 @@ class RandoHandler(RaceHandler):
         self.generator = generator
         self.loop = asyncio.get_event_loop()
         self.loop_ended = False
+
+        self.load_standard_presets()
+        self.load_spoiler_log_presets()
 
     async def begin(self):
         if not self.state.get("initialized"):
@@ -29,7 +29,7 @@ class RandoHandler(RaceHandler):
         self.state["file_name_available"] = False
         self.state["permalink"] = None
         self.state["spoiler_log_url"] = None
-        self.state["planning_time"] = self.DEFAULT_PLANNING_TIME
+        self.state["planning_time"] = constants.DEFAULT_PLANNING_TIME
         self.state["file_name"] = None
         self.state["initialized"] = True
         self.state["finished_entrants"] = set()
@@ -139,6 +139,15 @@ class RandoHandler(RaceHandler):
             time_remaining = duration.strftime("%-H:%M:%S")
             await self.send_message(f"You have {time_remaining} until the race starts!")
 
+    async def ex_presets(self, args, message):
+        msg = "Available standard presets: "
+        msg += ", ".join(constants.STANDARD_PERMALINKS.keys())
+        await self.send_message(msg)
+
+        msg = "Available spoiler log presets: "
+        msg += ", ".join(constants.SPOILER_LOG_PERMALINKS.keys())
+        await self.send_message(msg)
+
     def seconds_remaining(self):
         return (self.state.get("race_start_time") - datetime.now()).total_seconds()
 
@@ -155,8 +164,8 @@ class RandoHandler(RaceHandler):
     @monitor_cmd
     async def ex_reset(self, args, message):
         msg = "The Permalink has been reset."
-        if self.state.get("planning_time") != self.DEFAULT_PLANNING_TIME:
-            msg += " The planning time has also been reset to 50 minutes."
+        if self.state.get("planning_time") != constants.DEFAULT_PLANNING_TIME:
+            msg += f" The planning time has also been reset to {constants.DEFAULT_PLANNING_TIME} minutes."
         self.room_setup()
         await self.send_message(msg)
 
@@ -172,7 +181,7 @@ class RandoHandler(RaceHandler):
         planning_time = args[0]
 
         try:
-            planning_time = max(self.MINIMUM_PLANNING_TIME, int(planning_time))
+            planning_time = max(constants.MINIMUM_PLANNING_TIME, int(planning_time))
             self.state["planning_time"] = planning_time
             await self.send_message(f"Planning time set to {planning_time} minutes.")
         except (TypeError, ValueError):
@@ -197,9 +206,9 @@ class RandoHandler(RaceHandler):
 
         await self.send_message("Rolling seed...")
 
-        settings_permalink = self.STANDARD_RACE_PERMALINK
+        settings_permalink = constants.STANDARD_DEFAULT
         if len(args) > 0:
-            settings_permalink = args[0]
+            settings_permalink = self.standard_presets.get(args[0], args[0])
 
         generated_seed = self.generator.generate_seed(settings_permalink, False)
         permalink = generated_seed.get("permalink")
@@ -223,9 +232,9 @@ class RandoHandler(RaceHandler):
             await self.send_message("Seed already rolled!")
             return
 
-        settings_permalink = self.SPOILER_LOG_PERMALINK
+        settings_permalink = constants.SPOILER_LOG_DEFAULT
         if len(args) > 0:
-            settings_permalink = args[0]
+            settings_permalink = self.spoiler_log_presets.get(args[0], args[0])
 
         self.loop.create_task(self.start_spoiler_log_race(settings_permalink))
 
@@ -271,3 +280,15 @@ class RandoHandler(RaceHandler):
         await self.send_message(f"You have {planning_time} minutes to prepare your route!")
         await self.send_message(f"Spoiler Log: {spoiler_log_url}")
         self.state["spoiler_log_available"] = True
+
+    def load_standard_presets(self):
+        self.standard_presets = dict(constants.STANDARD_PERMALINKS)
+        for alias, key in constants.STANDARD_ALIASES.items():
+            if key in constants.STANDARD_PERMALINKS:
+                self.standard_presets[alias] = constants.STANDARD_PERMALINKS[key]
+
+    def load_spoiler_log_presets(self):
+        self.spoiler_log_presets = dict(constants.SPOILER_LOG_PERMALINKS)
+        for alias, key in constants.SPOILER_LOG_ALIASES.items():
+            if key in constants.SPOILER_LOG_PERMALINKS:
+                self.spoiler_log_presets[alias] = constants.SPOILER_LOG_PERMALINKS[key]
