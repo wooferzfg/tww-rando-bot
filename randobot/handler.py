@@ -179,7 +179,7 @@ class RandoHandler(RaceHandler):
             await self.send_message("Please specify planning time (in minutes).")
             return
 
-        planning_time = args[0]
+        planning_time = args[0].strip()
 
         try:
             planning_time = max(constants.MINIMUM_PLANNING_TIME, int(planning_time))
