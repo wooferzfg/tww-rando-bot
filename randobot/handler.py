@@ -2,7 +2,7 @@ import asyncio
 from datetime import datetime, timedelta
 from racetime_bot import RaceHandler, monitor_cmd, can_monitor
 
-import constants
+import randobot.constants as constants
 
 
 class RandoHandler(RaceHandler):
@@ -178,7 +178,7 @@ class RandoHandler(RaceHandler):
             await self.send_message("Please specify planning time (in minutes).")
             return
 
-        planning_time = args[0].strip()
+        planning_time = args[0]
 
         try:
             planning_time = max(constants.MINIMUM_PLANNING_TIME, int(planning_time))
@@ -208,7 +208,7 @@ class RandoHandler(RaceHandler):
 
         settings_permalink = constants.STANDARD_DEFAULT
         if len(args) > 0:
-            settings_permalink = self.standard_presets.get(args[0].strip(), constants.STANDARD_DEFAULT)
+            settings_permalink = self.standard_presets.get(args[0], args[0])
 
         generated_seed = self.generator.generate_seed(settings_permalink, False)
         permalink = generated_seed.get("permalink")
@@ -234,7 +234,7 @@ class RandoHandler(RaceHandler):
 
         settings_permalink = constants.SPOILER_LOG_DEFAULT
         if len(args) > 0:
-            settings_permalink = self.spoiler_log_presets.get(args[0].strip(), constants.SPOILER_LOG_DEFAULT)
+            settings_permalink = self.spoiler_log_presets.get(args[0], args[0])
 
         self.loop.create_task(self.start_spoiler_log_race(settings_permalink))
 
