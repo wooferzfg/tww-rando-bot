@@ -1,0 +1,24 @@
+from collections import OrderedDict
+
+STANDARD_DEFAULT = "MS45LjAAQQAFCyIAD3DAAgAAAAAAAQAA"
+STANDARD_PERMALINKS = OrderedDict([
+    ("tourney",   STANDARD_DEFAULT),
+    ("beginner",  "MS45LjAAQQAFAwIADzDAAYA8QIFBATAA"),
+    ("co-op",     "MS45LjAAQQAVCyYAD3DABAAAAAAAAQAA"),
+    ("allsanity", "MS45LjAAQQD//3+CD3BABQAAAAAAAAAA"),
+])
+STANDARD_ALIASES = {
+    "s4":   "tourney",
+    "coop": "co-op",
+}
+
+SPOILER_LOG_DEFAULT = "MS45LjAAQQAXAwYCDxDAAgAAAAAAAQAA"
+SPOILER_LOG_PERMALINKS = OrderedDict([
+    ("tourney",   SPOILER_LOG_DEFAULT),
+    ("allsanity", "MS45LjAAQQD//3+CD1BABQAAAAAAAAAA"),
+])
+SPOILER_LOG_ALIASES = {
+    "s1": "tourney",
+}
+DEFAULT_PLANNING_TIME = 50
+MINIMUM_PLANNING_TIME = 20
