@@ -6,6 +6,7 @@ STANDARD_PERMALINKS = OrderedDict([
     ("beginner",  "MS45LjAAQQAFAwIADzDAAYA8QIFBATAA"),
     ("co-op",     "MS45LjAAQQAVCyYAD3DABAAAAAAAAQAA"),
     ("allsanity", "MS45LjAAQQD//3+CD3BABQAAAAAAAAAA"),
+    ("s3",        "MS45LjAAQQAXAwQATjDAAwgAAAAAAQAA"),
 ])
 STANDARD_ALIASES = {
     "s4":   "tourney",
