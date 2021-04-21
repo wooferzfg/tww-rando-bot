@@ -166,7 +166,7 @@ class RandoHandler(RaceHandler):
     async def ex_reset(self, args, message):
         msg = "The Permalink has been reset."
         if self.state.get("planning_time") != constants.DEFAULT_PLANNING_TIME:
-            msg += " The planning time has also been reset to 50 minutes."
+            msg += f" The planning time has also been reset to {constants.DEFAULT_PLANNING_TIME} minutes."
         self.room_setup()
         await self.send_message(msg)
 
