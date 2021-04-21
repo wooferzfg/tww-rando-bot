@@ -33,7 +33,6 @@ class RandoHandler(RaceHandler):
         self.state["file_name"] = None
         self.state["initialized"] = True
         self.state["finished_entrants"] = set()
-        constants.DEFAULT_PLANNING_TIME
 
     def close_handler(self):
         self.loop_ended = True
