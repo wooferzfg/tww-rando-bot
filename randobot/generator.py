@@ -2,8 +2,8 @@ from datetime import datetime
 from github import Github, InputFileContent
 import os
 import random
+import shortuuid
 import string
-import uuid
 
 
 class Generator:
@@ -11,7 +11,7 @@ class Generator:
         self.github_token = github_token
 
     def generate_seed(self, permalink, generate_spoiler_log):
-        seed_name = uuid.uuid4()
+        seed_name = shortuuid.uuid()
         file_name = "".join(random.choice(string.digits) for _ in range(6))
 
         os.system(f"python wwrando/wwrando.py -seed={seed_name} -permalink={permalink}")
