@@ -10,8 +10,8 @@ class Generator:
     def __init__(self, github_token):
         self.github_token = github_token
 
-    def generate_seed(self, permalink, generate_spoiler_log):
-        seed_name = shortuuid.uuid()
+    def generate_seed(self, permalink, username, generate_spoiler_log):
+        seed_name = f"{username[:10]}{shortuuid.ShortUUID().random(length=12)}"
         file_name = "".join(random.choice(string.digits) for _ in range(6))
 
         os.system(f"python wwrando/wwrando.py -seed={seed_name} -permalink={permalink}")

@@ -210,7 +210,8 @@ class RandoHandler(RaceHandler):
         if len(args) > 0:
             settings_permalink = self.standard_presets.get(args[0], args[0])
 
-        generated_seed = self.generator.generate_seed(settings_permalink, False)
+        username = message.get('user', {}).get('name')
+        generated_seed = self.generator.generate_seed(settings_permalink, username, False)
         permalink = generated_seed.get("permalink")
 
         self.logger.info(permalink)
@@ -235,15 +236,16 @@ class RandoHandler(RaceHandler):
         settings_permalink = constants.SPOILER_LOG_DEFAULT
         if len(args) > 0:
             settings_permalink = self.spoiler_log_presets.get(args[0], args[0])
+        username = message.get('user', {}).get('name')
 
-        self.loop.create_task(self.start_spoiler_log_race(settings_permalink))
+        self.loop.create_task(self.start_spoiler_log_race(settings_permalink, username))
 
-    async def start_spoiler_log_race(self, settings_permalink):
+    async def start_spoiler_log_race(self, settings_permalink, username):
         self.state["spoiler_log_seed_rolled"] = True
 
         await self.send_message("Rolling seed...")
 
-        generated_seed = self.generator.generate_seed(settings_permalink, True)
+        generated_seed = self.generator.generate_seed(settings_permalink, username, True)
         spoiler_log_url = generated_seed.get("spoiler_log_url")
         permalink = generated_seed.get("permalink")
         file_name = generated_seed.get("file_name")
