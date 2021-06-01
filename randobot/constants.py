@@ -3,7 +3,7 @@ from collections import OrderedDict
 STANDARD_DEFAULT = "MS45LjAAQQAFCyIAD3DAAgAAAAAAAQAA"
 STANDARD_PERMALINKS = OrderedDict([
     ("tourney",   STANDARD_DEFAULT),
-    ("beginner",  "MS45LjAAQQAFAwIADzDAAYA8QIFBATAA"),
+    ("beginner",  "MS45LjAAQQAFAwIADzDAAYAcQIFBATAA"),
     ("co-op",     "MS45LjAAQQAVCyYAD3DABAAAAAAAAQAA"),
     ("allsanity", "MS45LjAAQQD//3+CD3BABQAAAAAAAAAA"),
     ("s3",        "MS45LjAAQQAXAwQATjDAAwgAAAAAAQAA"),
