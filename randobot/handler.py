@@ -60,8 +60,9 @@ class RandoHandler(RaceHandler):
                         permalink = self.state.get("permalink")
                         seed_hash = self.state.get("seed_hash")
                         await self.send_message(f"Permalink: {permalink}")
-                        await self.set_raceinfo(permalink, False, False)
                         await self.send_message(f"Seed Hash: {seed_hash}")
+                        race_info = f"{permalink} | Seed Hash: {seed_hash}"
+                        await self.set_raceinfo(race_info, False, False)
                         self.state["permalink_available"] = True
 
                     if not self.state.get("5_warning_sent") and seconds_remaining < 300:
@@ -234,8 +235,10 @@ class RandoHandler(RaceHandler):
         self.state["seed_hash"] = seed_hash
 
         await self.send_message(f"Permalink: {permalink}")
-        await self.set_raceinfo(permalink, False, False)
         await self.send_message(f"Seed Hash: {seed_hash}")
+
+        race_info = f"{permalink} | Seed Hash: {seed_hash}"
+        await self.set_raceinfo(race_info, False, False)
 
     async def ex_startspoilerlograce(self, args, message):
         if self.state.get("locked") and not can_monitor(message):
