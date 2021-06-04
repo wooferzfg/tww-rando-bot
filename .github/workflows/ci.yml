@@ -53,7 +53,7 @@ jobs:
             docker system prune -f || true
             sudo rm -r tww-rando-bot || true
             git clone --recursive https://github.com/wooferzfg/tww-rando-bot.git
-            echo ${{ secrets.WWRANDO_SEED_KEY }} > tww-rando-bot/wwrando/keys/seed_key.py
+            echo "${{ secrets.WWRANDO_SEED_KEY }}" > tww-rando-bot/wwrando/keys/seed_key.py
             cd tww-rando-bot
             docker-compose build --no-cache
             export GITHUB_TOKEN=${{ secrets.BOT_GITHUB_TOKEN }}
