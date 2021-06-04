@@ -28,6 +28,7 @@ class RandoHandler(RaceHandler):
         self.state["permalink_available"] = False
         self.state["file_name_available"] = False
         self.state["permalink"] = None
+        self.state["seed_hash"] = None
         self.state["spoiler_log_url"] = None
         self.state["planning_time"] = constants.DEFAULT_PLANNING_TIME
         self.state["file_name"] = None
@@ -57,8 +58,10 @@ class RandoHandler(RaceHandler):
                     if not self.state.get("permalink_available") and seconds_remaining < 900:
                         await self.send_message("You have 15 minutes until the race starts!")
                         permalink = self.state.get("permalink")
+                        seed_hash = self.state.get("seed_hash")
                         await self.send_message(f"Permalink: {permalink}")
                         await self.set_raceinfo(permalink, False, False)
+                        await self.send_message(f"Seed Hash: {seed_hash}")
                         self.state["permalink_available"] = True
 
                     if not self.state.get("5_warning_sent") and seconds_remaining < 300:
@@ -118,6 +121,13 @@ class RandoHandler(RaceHandler):
             await self.send_message(f"Permalink: {permalink}")
         else:
             await self.send_message("Permalink is not available yet!")
+
+    async def ex_hash(self, args, message):
+        seed_hash = self.state.get("seed_hash")
+        if seed_hash:
+            await self.send_message(f"Seed Hash: {seed_hash}")
+        else:
+            await self.send_message("Seed Hash is not available yet!")
 
     async def ex_filename(self, args, message):
         if (
@@ -200,8 +210,10 @@ class RandoHandler(RaceHandler):
 
         if self.state.get("permalink_available"):
             permalink = self.state.get("permalink")
+            seed_hash = self.state.get("seed_hash")
             await self.send_message("Seed already rolled!")
             await self.send_message(f"Permalink: {permalink}")
+            await self.send_message(f"Seed Hash: {seed_hash}")
             return
 
         await self.send_message("Rolling seed...")
@@ -212,14 +224,17 @@ class RandoHandler(RaceHandler):
 
         generated_seed = self.generator.generate_seed(settings_permalink, False)
         permalink = generated_seed.get("permalink")
+        seed_hash = generated_seed.get("seed_hash")
 
         self.logger.info(permalink)
 
         self.state["permalink"] = permalink
         self.state["permalink_available"] = True
+        self.state["seed_hash"] = seed_hash
 
         await self.send_message(f"Permalink: {permalink}")
         await self.set_raceinfo(permalink, False, False)
+        await self.send_message(f"Seed Hash: {seed_hash}")
 
     async def ex_startspoilerlograce(self, args, message):
         if self.state.get("locked") and not can_monitor(message):
@@ -246,6 +261,7 @@ class RandoHandler(RaceHandler):
         generated_seed = self.generator.generate_seed(settings_permalink, True)
         spoiler_log_url = generated_seed.get("spoiler_log_url")
         permalink = generated_seed.get("permalink")
+        seed_hash = generated_seed.get("seed_hash")
         file_name = generated_seed.get("file_name")
         planning_time = self.state.get("planning_time")
 
@@ -259,6 +275,7 @@ class RandoHandler(RaceHandler):
 
         self.state["spoiler_log_url"] = spoiler_log_url
         self.state["permalink"] = permalink
+        self.state["seed_hash"] = seed_hash
         self.state["file_name"] = file_name
         self.state["race_start_time"] = datetime.now() + timedelta(0, 15, 0, 0, planning_time)
         self.state["next_ten_minute_warning"] = (planning_time - time_to_next_warning) * 60
