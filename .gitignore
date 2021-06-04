@@ -1,5 +1,6 @@
 *.egg-info
 __pycache__
 .venv
-spoiler_log_*.txt
 permalink_*.txt
+seed_hash_*.txt
+spoiler_log_*.txt

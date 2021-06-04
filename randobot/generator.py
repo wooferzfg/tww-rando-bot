@@ -25,6 +25,12 @@ class Generator:
         permalink_file.close()
         os.remove(permalink_file_name)
 
+        seed_hash_file_name = f"seed_hash_{seed_name}.txt"
+        seed_hash_file = open(seed_hash_file_name, "r")
+        seed_hash = seed_hash_file.read()
+        seed_hash_file.close()
+        os.remove(seed_hash_file_name)
+
         if generate_spoiler_log:
             spoiler_log_file_name = f"spoiler_log_{seed_name}.txt"
             spoiler_log_file = open(spoiler_log_file_name, "r")
@@ -45,7 +51,8 @@ class Generator:
             spoiler_log_url = None
 
         return {
-            "permalink": permalink,
             "file_name": file_name,
+            "permalink": permalink,
+            "seed_hash": seed_hash,
             "spoiler_log_url": spoiler_log_url
         }
