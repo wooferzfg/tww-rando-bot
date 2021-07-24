@@ -1,6 +1,7 @@
 import asyncio
 from datetime import datetime, timedelta
 from racetime_bot import RaceHandler, monitor_cmd, can_monitor
+import random
 
 import randobot.constants as constants
 
@@ -219,9 +220,11 @@ class RandoHandler(RaceHandler):
 
         await self.send_message("Rolling seed...")
 
-        settings_permalink = constants.STANDARD_DEFAULT
-        if len(args) > 0:
-            settings_permalink = self.standard_presets.get(args[0], args[0])
+        settings_permalink = await self.choose_permalink(
+            constants.STANDARD_DEFAULT,
+            self.standard_presets,
+            args
+        )
 
         username = message.get('user', {}).get('name')
         generated_seed = self.generator.generate_seed(settings_permalink, username, False)
@@ -251,9 +254,11 @@ class RandoHandler(RaceHandler):
             await self.send_message("Seed already rolled!")
             return
 
-        settings_permalink = constants.SPOILER_LOG_DEFAULT
-        if len(args) > 0:
-            settings_permalink = self.spoiler_log_presets.get(args[0], args[0])
+        settings_permalink = await self.choose_permalink(
+            constants.SPOILER_LOG_DEFAULT,
+            self.spoiler_log_presets,
+            args
+        )
         username = message.get('user', {}).get('name')
 
         self.loop.create_task(self.start_spoiler_log_race(settings_permalink, username))
@@ -314,3 +319,17 @@ class RandoHandler(RaceHandler):
         for alias, key in constants.SPOILER_LOG_ALIASES.items():
             if key in constants.SPOILER_LOG_PERMALINKS:
                 self.spoiler_log_presets[alias] = constants.SPOILER_LOG_PERMALINKS[key]
+
+    async def choose_permalink(self, default_settings, presets, args):
+        if len(args) > 0:
+            settings_list = args
+        else:
+            settings_list = default_settings
+
+        if len(settings_list) > 1:
+            settings_key = random.choice(args)
+            await self.send_message(f"Using settings: {settings_key}")
+        else:
+            settings_key = settings_list[0]
+
+        return presets.get(settings_key, settings_key)
