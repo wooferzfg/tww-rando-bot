@@ -328,7 +328,9 @@ class RandoHandler(RaceHandler):
 
         if len(settings_list) > 1:
             settings_key = random.choice(args)
-            await self.send_message(f"Using settings: {settings_key}")
+            settings_text = f"Settings: {settings_key}"
+            await self.send_message(settings_text)
+            await self.set_raceinfo(settings_text, False, False)
         else:
             settings_key = settings_list[0]
 
