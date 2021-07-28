@@ -118,11 +118,19 @@ class RandoHandler(RaceHandler):
             await self.send_message("Spoiler Log is not available yet!")
 
     async def ex_permalink(self, args, message):
-        if self.state.get("permalink") and (can_monitor(message) or self.state.get("permalink_available")):
-            permalink = self.state.get("permalink")
+        permalink = self.state.get("permalink")
+        if permalink and (can_monitor(message) or self.state.get("permalink_available")):
             await self.send_message(f"Permalink: {permalink}")
         else:
             await self.send_message("Permalink is not available yet!")
+
+    async def ex_exampleperma(self, args, message):
+        example_permalink = self.state.get("example_permalink")
+        if example_permalink:
+            await self.send_message(f"Example Permalink: {example_permalink}")
+            await self.send_message("Warning: The seed from this permalink does not match the actual permalink!")
+        else:
+            await self.send_message("Example Permalink is not available yet!")
 
     async def ex_hash(self, args, message):
         seed_hash = self.state.get("seed_hash")
@@ -233,6 +241,7 @@ class RandoHandler(RaceHandler):
 
         self.logger.info(permalink)
 
+        self.state["example_permalink"] = settings_permalink
         self.state["permalink"] = permalink
         self.state["permalink_available"] = True
         self.state["seed_hash"] = seed_hash
@@ -283,6 +292,7 @@ class RandoHandler(RaceHandler):
         self.logger.info(permalink)
         self.logger.info(file_name)
 
+        self.state["example_permalink"] = settings_permalink
         self.state["spoiler_log_url"] = spoiler_log_url
         self.state["permalink"] = permalink
         self.state["seed_hash"] = seed_hash
