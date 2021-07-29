@@ -10,11 +10,17 @@ STANDARD_PERMALINKS = OrderedDict([
 STANDARD_DEFAULT = ["s4"]
 
 SPOILER_LOG_PERMALINKS = OrderedDict([
-    ("s1",   "MS45LjAAQQAXAwYCDxDAAgAAAAAAAQAA"),
+    ("preset-a",  "MS45LjAAQQA3AyYCD1DAAgAAAAAAAAAA"),
+    ("preset-b",  "MS45LjAAQQAXYyaCD1DAAgAAAAAAAAAA"),
+    ("preset-c",  "MS45LjAAQQAXAyYCD5DAAgAAAAAAAAAA"),
+    ("preset-d",  "MS45LjAAQQAXByYCD1DAAgAAAAAAAAAA"),
+    ("preset-e",  "MS45LjAAQQAXA2YCD1DAAwAAAAAAAAAA"),
+    ("preset-f",  "MS45LjAAQQAfCyYCD1DAAgAAAAAAAAAA"),
+    ("s1",        "MS45LjAAQQAXAwYCDxDAAgAAAAAAAQAA"),
     ("allsanity", "MS45LjAAQQD//3+CD1BABQAAAAAAAAAA"),
 ])
-SPOILER_LOG_DEFAULT = ["s1"]
-DEFAULT_PLANNING_TIME = 50
+SPOILER_LOG_DEFAULT = ["preset-a", "preset-b", "preset-c", "preset-d", "preset-e", "preset-f"]
+DEFAULT_PLANNING_TIME = 60
 MINIMUM_PLANNING_TIME = 20
 
-BANNABLE_PRESETS = ["preset-a", "preset-b", "preset-c", "preset-d", "preset-e", "preset-f"]
+BANNABLE_PRESETS = SPOILER_LOG_DEFAULT
