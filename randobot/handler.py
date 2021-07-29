@@ -35,6 +35,8 @@ class RandoHandler(RaceHandler):
         self.state["file_name"] = None
         self.state["initialized"] = True
         self.state["finished_entrants"] = set()
+        self.state["entrants"] = []
+        self.state["bans"] = {}
 
     def close_handler(self):
         self.loop_ended = True
@@ -89,6 +91,11 @@ class RandoHandler(RaceHandler):
 
     async def race_data(self, data):
         self.data = data.get("race")
+
+        self.state["entrants"] = [
+            entrant.get("user").get("name")
+            for entrant in self.data.get("entrants")
+        ]
 
         if self.state.get("spoiler_log_seed_rolled"):
             finished_entrants = {
@@ -188,6 +195,42 @@ class RandoHandler(RaceHandler):
             msg += f" The planning time has also been reset to {constants.DEFAULT_PLANNING_TIME} minutes."
         self.room_setup()
         await self.send_message(msg)
+
+    async def ex_banorder(self, args, message):
+        entrants = self.state.get("entrants").copy()
+
+        if len(entrants) == 0:
+            await self.send_message("The race has no entrants!")
+            return
+
+        random.shuffle(entrants)
+        ban_order = ", ".join(entrants)
+
+        await self.send_message(f"Ban Order: {ban_order}")
+
+    async def ex_ban(self, args, message):
+        bans = self.state.get("bans")
+        preset_to_ban = args[0]
+        bannable_presets = [
+            preset
+            for preset in constants.BANNABLE_PRESETS
+            if preset not in bans.values()
+        ]
+
+        if preset_to_ban not in bannable_presets:
+            bannable_presets_list = ", ".join(bannable_presets)
+            await self.send_message(f"{preset_to_ban} is not a valid preset to ban!")
+            await self.send_message(f"Available presets to ban: {bannable_presets_list}")
+            return
+
+        username = message.get('user', {}).get('name')
+
+        bans[username] = preset_to_ban
+
+        await self.print_banned_presets()
+
+    async def ex_bans(self, args, message):
+        await self.print_banned_presets()
 
     async def ex_setplanningtime(self, args, message):
         if self.state.get("spoiler_log_seed_rolled"):
@@ -336,12 +379,29 @@ class RandoHandler(RaceHandler):
         else:
             settings_list = default_settings
 
-        if len(settings_list) > 1:
-            settings_key = random.choice(settings_list)
+        banned_presets = self.state.get("bans").values()
+        settings_without_bans = [
+            preset
+            for preset in settings_list
+            if preset not in banned_presets
+        ]
+
+        if len(settings_list) > 1 and len(settings_without_bans) > 0:
+            settings_key = random.choice(settings_without_bans)
             settings_text = f"Settings: {settings_key}"
+
             await self.send_message(settings_text)
             await self.set_raceinfo(settings_text, False, False)
         else:
             settings_key = settings_list[0]
 
         return presets.get(settings_key, settings_key)
+
+    async def print_banned_presets(self):
+        banned_presets = self.state.get("bans").values()
+
+        if len(banned_presets) == 0:
+            await self.send_message("No presets are banned yet!")
+        else:
+            bannable_presets_list = ", ".join(banned_presets)
+            await self.send_message(f"Banned Presets: {bannable_presets_list}")

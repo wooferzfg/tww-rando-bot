@@ -23,3 +23,5 @@ SPOILER_LOG_ALIASES = {
 SPOILER_LOG_DEFAULT = ["tourney"]
 DEFAULT_PLANNING_TIME = 50
 MINIMUM_PLANNING_TIME = 20
+
+BANNABLE_PRESETS = ["preset-a", "preset-b", "preset-c", "preset-d", "preset-e", "preset-f"]
