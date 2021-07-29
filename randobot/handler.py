@@ -16,9 +16,6 @@ class RandoHandler(RaceHandler):
         self.loop = asyncio.get_event_loop()
         self.loop_ended = False
 
-        self.load_standard_presets()
-        self.load_spoiler_log_presets()
-
     async def begin(self):
         if not self.state.get("initialized"):
             self.room_setup()
@@ -273,7 +270,7 @@ class RandoHandler(RaceHandler):
 
         settings_permalink = await self.choose_permalink(
             constants.STANDARD_DEFAULT,
-            self.standard_presets,
+            constants.STANDARD_PERMALINKS,
             args
         )
 
@@ -308,7 +305,7 @@ class RandoHandler(RaceHandler):
 
         settings_permalink = await self.choose_permalink(
             constants.SPOILER_LOG_DEFAULT,
-            self.spoiler_log_presets,
+            constants.SPOILER_LOG_PERMALINKS,
             args
         )
         username = message.get('user', {}).get('name')
@@ -360,18 +357,6 @@ class RandoHandler(RaceHandler):
         await self.send_message(f"You have {planning_time} minutes to prepare your route!")
         await self.send_message(f"Spoiler Log: {spoiler_log_url}")
         self.state["spoiler_log_available"] = True
-
-    def load_standard_presets(self):
-        self.standard_presets = dict(constants.STANDARD_PERMALINKS)
-        for alias, key in constants.STANDARD_ALIASES.items():
-            if key in constants.STANDARD_PERMALINKS:
-                self.standard_presets[alias] = constants.STANDARD_PERMALINKS[key]
-
-    def load_spoiler_log_presets(self):
-        self.spoiler_log_presets = dict(constants.SPOILER_LOG_PERMALINKS)
-        for alias, key in constants.SPOILER_LOG_ALIASES.items():
-            if key in constants.SPOILER_LOG_PERMALINKS:
-                self.spoiler_log_presets[alias] = constants.SPOILER_LOG_PERMALINKS[key]
 
     async def choose_permalink(self, default_settings, presets, args):
         if len(args) > 0:
