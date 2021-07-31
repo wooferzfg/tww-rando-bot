@@ -176,9 +176,6 @@ class RandoHandler(RaceHandler):
         msg += ", ".join(constants.SPOILER_LOG_PERMALINKS.keys())
         await self.send_message(msg)
 
-    def seconds_remaining(self):
-        return (self.state.get("race_start_time") - datetime.now()).total_seconds()
-
     @monitor_cmd
     async def ex_lock(self, args, message):
         self.state["locked"] = True
@@ -416,3 +413,6 @@ class RandoHandler(RaceHandler):
         else:
             bannable_presets_list = ", ".join(banned_presets)
             await self.send_message(f"Banned Presets: {bannable_presets_list}")
+
+    def seconds_remaining(self):
+        return (self.state.get("race_start_time") - datetime.now()).total_seconds()
