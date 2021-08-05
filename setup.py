@@ -3,11 +3,11 @@ from setuptools import find_packages, setup
 setup(
     name='tww-rando-bot',
     description='racetime.gg bot for generating TWW Randomizer seeds.',
-    license='MIT',
+    license='GNU General Public License v3.0',
     classifiers=[
         'Development Status :: 5 - Production/Stable',
         'Environment :: Console',
-        'License :: OSI Approved :: MIT License',
+        'License :: OSI Approved :: GNU General Public License v3 (GPLv3)',
         'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: 3.8',
         'Programming Language :: Python :: 3.9',
