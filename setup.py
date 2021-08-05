@@ -19,8 +19,8 @@ setup(
     version='1.0.0',
     install_requires=[
         'racetime_bot@git+git://github.com/wooferzfg/racetime-bot@tww-rando-bot',
-        'PyGithub>=1.53',
-        'shortuuid>=1.0.1'
+        'PyGithub==1.53',
+        'shortuuid==1.0.1'
     ],
     packages=find_packages(),
     entry_points={
