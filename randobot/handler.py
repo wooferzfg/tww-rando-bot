@@ -136,12 +136,7 @@ class RandoHandler(RaceHandler):
             await self.send_message("Permalink is not available yet!")
 
     async def ex_exampleperma(self, args, message):
-        example_permalink = self.state.get("example_permalink")
-        if example_permalink:
-            await self.send_message(f"Example Permalink: {example_permalink}")
-            await self.send_message("Warning: The seed from this permalink does not match the actual permalink!")
-        else:
-            await self.send_message("Example Permalink is not available yet!")
+        await self.print_example_permalink()
 
     async def ex_hash(self, args, message):
         seed_hash = self.state.get("seed_hash")
@@ -380,6 +375,7 @@ class RandoHandler(RaceHandler):
         if self.state.get("spoiler_log_url"):
             await self.send_message(f"Spoiler Log: {spoiler_log_url}")
             self.state["spoiler_log_available"] = True
+            await self.print_example_permalink()
 
     async def choose_permalink(self, default_settings, presets, args):
         if len(args) > 0:
@@ -416,3 +412,11 @@ class RandoHandler(RaceHandler):
 
     def seconds_remaining(self):
         return (self.state.get("race_start_time") - datetime.now()).total_seconds()
+
+    async def print_example_permalink(self):
+        example_permalink = self.state.get("example_permalink")
+        if example_permalink:
+            await self.send_message(f"Example Permalink: {example_permalink}")
+            await self.send_message("Warning: The seed from this permalink does not match the actual permalink!")
+        else:
+            await self.send_message("Example Permalink is not available yet!")
