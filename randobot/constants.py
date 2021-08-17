@@ -19,6 +19,28 @@ SPOILER_LOG_PERMALINKS = OrderedDict([
     ("s1",        "MS45LjAAQQAXAwYCDxDAAgAAAAAAAQAA"),
     ("allsanity", "MS45LjAAQQD//3+CD1BABQAAAAAAAAAA"),
 ])
+
+SETTINGS_DESCRIPTIONS = OrderedDict([
+    ("beginner",  """Start with Sword, 2 DRM, Puzzle Secret Caves,
+ Free Gifts, Mail & Misc."""),
+    ("co-op",     """
+5 DRM, Puzzle Secret Caves, Free Gifts, Tingle Chests,
+ Short Sidequests, Mail, Island Puzzles, Submarines & Misc."""),
+    ("s1", """Start with Sword, 3 DRM, Puzzle Secret Caves, Great Fairies, Free Gifts,
+ Tingle Chests, Short Sidequests, Mail & Misc."""),
+    ("s3", """Start with Sword, 4 DRM, Puzzle Secret Caves, Great Fairies, Free Gifts,
+ Tingle Chests, Short Sidequests, Mail."""),
+    ("s4", """3 DRM, Puzzle Secret Caves, Island Puzzles,
+ Free Gifts, Mail, Submarines & Misc."""),
+    ("allsanity", "Everything enabled."),
+    ("preset-a",  "Long Sidequests."),
+    ("preset-b",  "Triforce Charts, Big Octos and Gunboats."),
+    ("preset-c",  "Swordless."),
+    ("preset-d",  "Lookout Platforms and Rafts."),
+    ("preset-e",  "4 Dungeon Race Mode and Key-Lunacy."),
+    ("preset-f",  "Combat Secret Caves, Submarines."),
+])
+
 SPOILER_LOG_DEFAULT = ["preset-a", "preset-b", "preset-c", "preset-d", "preset-e", "preset-f"]
 DEFAULT_PLANNING_TIME = 60
 MINIMUM_PLANNING_TIME = 20
