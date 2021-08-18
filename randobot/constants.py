@@ -19,6 +19,16 @@ SPOILER_LOG_PERMALINKS = OrderedDict([
     ("s1",        "MS45LjAAQQAXAwYCDxDAAgAAAAAAAQAA"),
     ("allsanity", "MS45LjAAQQD//3+CD1BABQAAAAAAAAAA"),
 ])
+
+SETTINGS_DESCRIPTIONS = OrderedDict([
+    ("preset-a",  "Long Sidequests"),
+    ("preset-b",  "Triforce Charts, Big Octos and Gunboats"),
+    ("preset-c",  "Swordless"),
+    ("preset-d",  "Lookout Platforms and Rafts"),
+    ("preset-e",  "4 Dungeon Race Mode, Key-Lunacy"),
+    ("preset-f",  "Combat Secret Caves, Submarines"),
+])
+
 SPOILER_LOG_DEFAULT = ["preset-a", "preset-b", "preset-c", "preset-d", "preset-e", "preset-f"]
 DEFAULT_PLANNING_TIME = 60
 MINIMUM_PLANNING_TIME = 20
