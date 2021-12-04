@@ -6,14 +6,15 @@ STANDARD_PERMALINKS = OrderedDict([
     ("co-op",     "MS45LjAAQQAVCyYAD3DABAAAAAAAAAAA"),
     ("allsanity", "MS45LjAAQQD//3+CD3BABQAAAAAAAAAA"),
     ("s3",        "MS45LjAAQQAXAwQATjDAAwgAAAAAAQAA"),
-    ("rsi-preset-1", "MS45LjAAU2FtcGxlUGVybWFsaW5rcwAFCyIAD3DAAggAAAAAAQAA"),
-    ("rsi-preset-2", "MS45LjAAU2FtcGxlUGVybWFsaW5rcwAFCyIAD3DAAhAAAAAAAQAA"),
-    ("rsi-preset-3", "MS45LjAAU2FtcGxlUGVybWFsaW5rcwAFCyIAD3DAAiAAAAAAAQAA"),
-    ("rsi-preset-4", "MS45LjAAU2FtcGxlUGVybWFsaW5rcwAFCyIAD3DAAgABAAAAAQAA"),
-    ("rsi-preset-5", "MS45LjAAU2FtcGxlUGVybWFsaW5rcwAFCyIAD3DAAgAAAgAAAQAA"),
-    ("rsi-preset-6", "MS45LjAAU2FtcGxlUGVybWFsaW5rcwAFCyIAD3DAAgAAAAQAAQAA"),
-    ("rsi-preset-7", "MS45LjAAU2FtcGxlUGVybWFsaW5rcwAFCyIAD3DAAgAAAAAEAQAA"),
-    ("rsi-preset-8", "MS45LjAAU2FtcGxlUGVybWFsaW5rcwAFCyIAD3DAAgAAAAgAAQAA"),
+    ("rsi-preset-1", "MS45LjAAQQAFCyIAD3DAAggAAAAAAQAA"),
+    ("rsi-preset-2", "MS45LjAAQQAFCyIAD3DAAhAAAAAAAQAA"),
+    ("rsi-preset-3", "MS45LjAAQQAFCyIAD3DAAiAAAAAAAQAA"),
+    ("rsi-preset-4", "MS45LjAAQQAFCyIAD3DAAgABAAAAAQAA"),
+    ("rsi-preset-5", "MS45LjAAQQAFCyIAD3DAAgCAAAAAAQAA"),
+    ("rsi-preset-6", "MS45LjAAQQAFCyIAD3DAAgAAAgAAAQAA"),
+    ("rsi-preset-7", "MS45LjAAQQAFCyIAD3DAAgAAAAQAAQAA"),
+    ("rsi-preset-8", "MS45LjAAQQAFCyIAD3DAAgAAAAAEAQAA"),
+    ("rsi-preset-9", "MS45LjAAQQAFCyIAD3DAAgAAAAgAAQAA"),
 ])
 
 STANDARD_DEFAULT = ["s4"]
