@@ -6,7 +6,6 @@ STANDARD_PERMALINKS = OrderedDict([
     ("co-op",     "MS45LjAAQQAVCyYAD3DABAAAAAAAAAAA"),
     ("allsanity", "MS45LjAAQQD//3+CD3BABQAAAAAAAAAA"),
     ("s3",        "MS45LjAAQQAXAwQATjDAAwgAAAAAAQAA"),
-    ("RandomStartingItem", "Filler"),
 ])
 STANDARD_DEFAULT = ["s4"]
 
