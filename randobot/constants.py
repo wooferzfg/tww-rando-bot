@@ -15,6 +15,7 @@ STANDARD_PERMALINKS = OrderedDict([
     ("rsi-preset-7", "MS45LjAAU2FtcGxlUGVybWFsaW5rcwAFCyIAD3DAAgAAAAAEAQAA"),
     ("rsi-preset-8", "MS45LjAAU2FtcGxlUGVybWFsaW5rcwAFCyIAD3DAAgAAAAgAAQAA"),
 ])
+
 STANDARD_DEFAULT = ["s4"]
 
 SPOILER_LOG_PERMALINKS = OrderedDict([
