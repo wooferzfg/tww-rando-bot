@@ -393,7 +393,7 @@ class RandoHandler(RaceHandler):
         if len(settings_list) > 1 and len(settings_without_bans) > 0:
             settings_key = random.choice(settings_without_bans)
             settings_text = f"Settings: {settings_key}"
-            settings_description = constants.SETTINGS_DESCRIPTIONS[settings_key]
+            settings_description = constants.SETTINGS_DESCRIPTIONS.get(settings_key)
             if settings_description:
                 settings_text += f" ({settings_description})"
 
