@@ -17,6 +17,12 @@ STANDARD_PERMALINKS = OrderedDict([
     ("rsi-preset-9", "MS45LjAAQQAFCyIAD3DAAgAAAAgAAQAA"),
 ])
 
+RANDOM_STARTING_ITEM_PRESETS = [
+    "rsi-preset-1", "rsi-preset-2", "rsi-preset-3", "rsi-preset-4",
+    "rsi-preset-5", "rsi-preset-6", "rsi-preset-7", "rsi-preset-8",
+    "rsi-preset-9"
+]
+
 STANDARD_DEFAULT = ["s4"]
 
 SPOILER_LOG_PERMALINKS = OrderedDict([
@@ -37,10 +43,19 @@ SETTINGS_DESCRIPTIONS = OrderedDict([
     ("preset-d",  "Lookout Platforms and Rafts"),
     ("preset-e",  "4 Dungeon Race Mode, Key-Lunacy"),
     ("preset-f",  "Combat Secret Caves, Submarines"),
+    ("rsi-preset-1", "Bait Bag"),
+    ("rsi-preset-2", "Bombs"),
+    ("rsi-preset-3", "Boomerang"),
+    ("rsi-preset-4", "Deku Leaf"),
+    ("rsi-preset-5", "Grappling Hook"),
+    ("rsi-preset-6", "Hookshot"),
+    ("rsi-preset-7", "Power Bracelets"),
+    ("rsi-preset-8", "Progressive Bow"),
+    ("rsi-preset-9", "Skull Hammer"),
 ])
 
 SPOILER_LOG_DEFAULT = ["preset-a", "preset-b", "preset-c", "preset-d", "preset-e", "preset-f"]
 DEFAULT_PLANNING_TIME = 60
 MINIMUM_PLANNING_TIME = 20
 
-BANNABLE_PRESETS = SPOILER_LOG_DEFAULT
+BANNABLE_PRESETS = SPOILER_LOG_DEFAULT + RANDOM_STARTING_ITEM_PRESETS
