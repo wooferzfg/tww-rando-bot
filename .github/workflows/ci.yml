@@ -12,7 +12,7 @@ jobs:
 
     steps:
       - name: Checkout commit
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Setup Python
         uses: actions/setup-python@v3
@@ -33,7 +33,7 @@ jobs:
 
     steps:
       - name: Checkout commit
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       # For initial setup, launch an Amazon Linux 2 AMI instance and run the following commands:
       #
