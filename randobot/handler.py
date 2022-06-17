@@ -401,7 +401,7 @@ class RandoHandler(RaceHandler):
         await self.send_message(f"You have {planning_time} minutes to prepare your route!")
 
         spoiler_log_url = self.state["spoiler_log_url"]
-        if self.state.get("spoiler_log_url"):
+        if spoiler_log_url:
             await self.send_message(f"Spoiler Log: {spoiler_log_url}")
             self.state["spoiler_log_available"] = True
             await self.print_example_permalink()
