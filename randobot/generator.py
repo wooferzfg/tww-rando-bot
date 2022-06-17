@@ -11,7 +11,7 @@ class Generator:
     def __init__(self, github_token):
         self.github_token = github_token
 
-    def generate_seed(self, permalink, username, generate_spoiler_log, randomizer_path="wwrando"):
+    def generate_seed(self, randomizer_path, permalink, username, generate_spoiler_log):
         trimmed_name = re.sub(r'\W+', '', username)[:12]
         random_suffix = shortuuid.ShortUUID().random(length=10)
         seed_name = f"{trimmed_name}{random_suffix}"

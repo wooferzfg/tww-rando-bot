@@ -271,7 +271,7 @@ class RandoHandler(RaceHandler):
         )
 
         username = message.get('user', {}).get('name')
-        generated_seed = self.generator.generate_seed(settings_permalink, username, False)
+        generated_seed = self.generator.generate_seed("wwrando", settings_permalink, username, False)
         permalink = generated_seed.get("permalink")
         seed_hash = generated_seed.get("seed_hash")
 
@@ -316,7 +316,7 @@ class RandoHandler(RaceHandler):
         )
 
         username = message.get('user', {}).get('name')
-        generated_seed = self.generator.generate_seed(settings_permalink, username, False, randomizer_path="wwrando-dev-tanjo3")
+        generated_seed = self.generator.generate_seed("wwrando-dev-tanjo3", settings_permalink, username, False)
         permalink = generated_seed.get("permalink")
         seed_hash = generated_seed.get("seed_hash")
 
@@ -329,7 +329,10 @@ class RandoHandler(RaceHandler):
 
         await self.send_message(f"Permalink: {permalink}")
         await self.send_message(f"Seed Hash: {seed_hash}")
-        await self.send_message(f"Please note that this seed has been rolled on the {constants.DEV_VERSION} version of the randomizer. You can download it here: {constants.DEV_DOWNLOAD}")
+        await self.send_message(
+            f"Please note that this seed has been rolled on the {constants.DEV_VERSION} version of the randomizer. "
+            "You can download it here: {constants.DEV_DOWNLOAD}"
+        )
 
         race_info = f"{permalink} | Seed Hash: {seed_hash}"
         await self.set_raceinfo(race_info, False, False)
@@ -375,7 +378,7 @@ class RandoHandler(RaceHandler):
         if settings_permalink:
             await self.send_message("Rolling seed...")
 
-            generated_seed = self.generator.generate_seed(settings_permalink, username, True)
+            generated_seed = self.generator.generate_seed("wwrando", settings_permalink, username, True)
             spoiler_log_url = generated_seed.get("spoiler_log_url")
             permalink = generated_seed.get("permalink")
             seed_hash = generated_seed.get("seed_hash")
