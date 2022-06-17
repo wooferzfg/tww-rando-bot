@@ -14,10 +14,6 @@ COPY . .
 
 RUN cd wwrando && pip install -r requirements.txt
 
-RUN pip install -e .
-
-RUN cd ..
-
 RUN cd wwrando-dev-tanjo3 && pip install -r requirements.txt
 
 RUN pip install -e .
