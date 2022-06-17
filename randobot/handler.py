@@ -244,22 +244,7 @@ class RandoHandler(RaceHandler):
             await self.send_message(f"{planning_time} is not a valid time.")
 
     async def ex_rollseed(self, args, message):
-        if self.state.get("locked") and not can_monitor(message):
-            await self.send_message(
-                "Seed rolling is locked. Only the creator of this room, a race monitor, or a moderator can roll a seed."
-            )
-            return
-
-        if self.state.get("spoiler_log_seed_rolled"):
-            await self.send_message("Seed rolling is disabled in spoiler log races!")
-            return
-
-        if self.state.get("permalink_available"):
-            permalink = self.state.get("permalink")
-            seed_hash = self.state.get("seed_hash")
-            await self.send_message("Seed already rolled!")
-            await self.send_message(f"Permalink: {permalink}")
-            await self.send_message(f"Seed Hash: {seed_hash}")
+        if not await self.can_roll_standard_seed(message):
             return
 
         await self.send_message("Rolling seed...")
@@ -271,7 +256,52 @@ class RandoHandler(RaceHandler):
         )
 
         username = message.get('user', {}).get('name')
-        generated_seed = self.generator.generate_seed(settings_permalink, username, False)
+        generated_seed = self.generator.generate_seed(constants.STANDARD_PATH, settings_permalink, username, False)
+        await self.update_race_room_with_generated_seed(settings_permalink, generated_seed, False)
+
+    async def ex_rolldevseed(self, args, message):
+        if not await self.can_roll_standard_seed(message):
+            return
+
+        await self.send_message("Rolling seed...")
+
+        settings_permalink = await self.choose_permalink(
+            constants.DEV_DEFAULT,
+            constants.DEV_PERMALINKS,
+            args
+        )
+
+        username = message.get('user', {}).get('name')
+        generated_seed = self.generator.generate_seed(constants.DEV_PATH, settings_permalink, username, False)
+        await self.update_race_room_with_generated_seed(settings_permalink, generated_seed, False)
+
+        await self.send_message(
+            f"Please note that this seed has been rolled on the {constants.DEV_VERSION} version of the randomizer. "
+            f"You can download it here: {constants.DEV_DOWNLOAD}"
+        )
+
+    async def can_roll_standard_seed(self, message):
+        if self.state.get("locked") and not can_monitor(message):
+            await self.send_message(
+                "Seed rolling is locked. Only the creator of this room, a race monitor, or a moderator can roll a seed."
+            )
+            return False
+
+        if self.state.get("spoiler_log_seed_rolled"):
+            await self.send_message("Seed rolling is disabled in spoiler log races!")
+            return False
+
+        if self.state.get("permalink_available"):
+            permalink = self.state.get("permalink")
+            seed_hash = self.state.get("seed_hash")
+            await self.send_message("Seed already rolled!")
+            await self.send_message(f"Permalink: {permalink}")
+            await self.send_message(f"Seed Hash: {seed_hash}")
+            return False
+
+        return True
+
+    async def update_race_room_with_generated_seed(self, settings_permalink, generated_seed, is_spoiler_log):
         permalink = generated_seed.get("permalink")
         seed_hash = generated_seed.get("seed_hash")
 
@@ -279,14 +309,27 @@ class RandoHandler(RaceHandler):
 
         self.state["example_permalink"] = settings_permalink
         self.state["permalink"] = permalink
-        self.state["permalink_available"] = True
         self.state["seed_hash"] = seed_hash
 
-        await self.send_message(f"Permalink: {permalink}")
-        await self.send_message(f"Seed Hash: {seed_hash}")
+        if is_spoiler_log:
+            spoiler_log_url = generated_seed.get("spoiler_log_url")
+            file_name = generated_seed.get("file_name")
 
-        race_info = f"{permalink} | Seed Hash: {seed_hash}"
-        await self.set_raceinfo(race_info, False, False)
+            self.logger.info(spoiler_log_url)
+            self.logger.info(file_name)
+
+            self.state["spoiler_log_url"] = spoiler_log_url
+            self.state["file_name"] = file_name
+
+            await self.send_message("Seed rolled!")
+        else:
+            self.state["permalink_available"] = True
+
+            await self.send_message(f"Permalink: {permalink}")
+            await self.send_message(f"Seed Hash: {seed_hash}")
+
+            race_info = f"{permalink} | Seed Hash: {seed_hash}"
+            await self.set_raceinfo(race_info, False, False)
 
     async def ex_startspoilerlogtimer(self, args, message):
         if self.state.get("locked") and not can_monitor(message):
@@ -329,23 +372,8 @@ class RandoHandler(RaceHandler):
         if settings_permalink:
             await self.send_message("Rolling seed...")
 
-            generated_seed = self.generator.generate_seed(settings_permalink, username, True)
-            spoiler_log_url = generated_seed.get("spoiler_log_url")
-            permalink = generated_seed.get("permalink")
-            seed_hash = generated_seed.get("seed_hash")
-            file_name = generated_seed.get("file_name")
-
-            self.logger.info(spoiler_log_url)
-            self.logger.info(permalink)
-            self.logger.info(file_name)
-
-            self.state["example_permalink"] = settings_permalink
-            self.state["spoiler_log_url"] = spoiler_log_url
-            self.state["permalink"] = permalink
-            self.state["seed_hash"] = seed_hash
-            self.state["file_name"] = file_name
-
-            await self.send_message("Seed rolled!")
+            generated_seed = self.generator.generate_seed(constants.STANDARD_PATH, settings_permalink, username, True)
+            await self.update_race_room_with_generated_seed(settings_permalink, generated_seed, True)
 
         planning_time = self.state.get("planning_time")
 
@@ -372,7 +400,8 @@ class RandoHandler(RaceHandler):
 
         await self.send_message(f"You have {planning_time} minutes to prepare your route!")
 
-        if self.state.get("spoiler_log_url"):
+        spoiler_log_url = self.state["spoiler_log_url"]
+        if spoiler_log_url:
             await self.send_message(f"Spoiler Log: {spoiler_log_url}")
             self.state["spoiler_log_available"] = True
             await self.print_example_permalink()

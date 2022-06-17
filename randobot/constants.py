@@ -9,6 +9,7 @@ STANDARD_PERMALINKS = OrderedDict([
 ])
 
 STANDARD_DEFAULT = ["s4"]
+STANDARD_PATH = "wwrando"
 
 SPOILER_LOG_PERMALINKS = OrderedDict([
     ("preset-a",  "MS45LjAAQQA3AyYCD1DAAgAAAAAAAAAA"),
@@ -33,5 +34,14 @@ SETTINGS_DESCRIPTIONS = OrderedDict([
 SPOILER_LOG_DEFAULT = ["preset-a", "preset-b", "preset-c", "preset-d", "preset-e", "preset-f"]
 DEFAULT_PLANNING_TIME = 60
 MINIMUM_PLANNING_TIME = 20
+
+DEV_PERMALINKS = OrderedDict([
+    ("default", "eJwz1LPUMzSIT0ktY3BkYGdkZigwYXjAWMDAKMUABg0MJAAAZlcFog=="),
+])
+
+DEV_DEFAULT = ["default"]
+DEV_PATH = "wwrando-dev-tanjo3"
+DEV_VERSION = "1.9.10_dev"
+DEV_DOWNLOAD = "https://github.com/tanjo3/wwrando/releases"
 
 BANNABLE_PRESETS = SPOILER_LOG_DEFAULT
