@@ -1,3 +1,7 @@
 [submodule "wwrando"]
 	path = wwrando
 	url = https://github.com/wooferzfg/wwrando.git
+[submodule "wwrando-dev-tanjo3"]
+	path = wwrando-dev-tanjo3
+	url = https://github.com/tanjo3/wwrando.git
+	branch = dev-build-no-ui

@@ -58,4 +58,12 @@ SPOILER_LOG_DEFAULT = ["preset-a", "preset-b", "preset-c", "preset-d", "preset-e
 DEFAULT_PLANNING_TIME = 60
 MINIMUM_PLANNING_TIME = 20
 
+DEV_PERMALINKS = OrderedDict([
+    ("default", "eJwz1LPUMzSIT0ktY3BkYGdkZigwYXjAWMDAKMUABg0MJAAAZlcFog=="),
+])
+
+DEV_DEFAULT = ["default"]
+DEV_VERSION = "1.9.10_dev"
+DEV_DOWNLOAD = "https://github.com/tanjo3/wwrando/releases"
+
 BANNABLE_PRESETS = SPOILER_LOG_DEFAULT + RANDOM_STARTING_ITEM_PRESETS

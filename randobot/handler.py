@@ -288,6 +288,52 @@ class RandoHandler(RaceHandler):
         race_info = f"{permalink} | Seed Hash: {seed_hash}"
         await self.set_raceinfo(race_info, False, False)
 
+    async def ex_rolldevseed(self, args, message):
+        if self.state.get("locked") and not can_monitor(message):
+            await self.send_message(
+                "Seed rolling is locked. Only the creator of this room, a race monitor, or a moderator can roll a seed."
+            )
+            return
+
+        if self.state.get("spoiler_log_seed_rolled"):
+            await self.send_message("Seed rolling is disabled in spoiler log races!")
+            return
+
+        if self.state.get("permalink_available"):
+            permalink = self.state.get("permalink")
+            seed_hash = self.state.get("seed_hash")
+            await self.send_message("Seed already rolled!")
+            await self.send_message(f"Permalink: {permalink}")
+            await self.send_message(f"Seed Hash: {seed_hash}")
+            return
+
+        await self.send_message("Rolling seed...")
+
+        settings_permalink = await self.choose_permalink(
+            constants.DEV_DEFAULT,
+            constants.DEV_PERMALINKS,
+            args
+        )
+
+        username = message.get('user', {}).get('name')
+        generated_seed = self.generator.generate_seed(settings_permalink, username, False, randomizer_path="wwrando-dev-tanjo3")
+        permalink = generated_seed.get("permalink")
+        seed_hash = generated_seed.get("seed_hash")
+
+        self.logger.info(permalink)
+
+        self.state["example_permalink"] = settings_permalink
+        self.state["permalink"] = permalink
+        self.state["permalink_available"] = True
+        self.state["seed_hash"] = seed_hash
+
+        await self.send_message(f"Permalink: {permalink}")
+        await self.send_message(f"Seed Hash: {seed_hash}")
+        await self.send_message(f"Please note that this seed has been rolled on the {constants.DEV_VERSION} version of the randomizer. You can download it here: {constants.DEV_DOWNLOAD}")
+
+        race_info = f"{permalink} | Seed Hash: {seed_hash}"
+        await self.set_raceinfo(race_info, False, False)
+
     async def ex_startspoilerlogtimer(self, args, message):
         if self.state.get("locked") and not can_monitor(message):
             await self.send_message(
