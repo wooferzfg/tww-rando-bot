@@ -256,7 +256,7 @@ class RandoHandler(RaceHandler):
         )
 
         username = message.get('user', {}).get('name')
-        generated_seed = self.generator.generate_seed("wwrando", settings_permalink, username, False)
+        generated_seed = self.generator.generate_seed(constants.STANDARD_PATH, settings_permalink, username, False)
         await self.update_race_room_with_generated_seed(settings_permalink, generated_seed, False)
 
     async def ex_rolldevseed(self, args, message):
@@ -272,7 +272,7 @@ class RandoHandler(RaceHandler):
         )
 
         username = message.get('user', {}).get('name')
-        generated_seed = self.generator.generate_seed("wwrando-dev-tanjo3", settings_permalink, username, False)
+        generated_seed = self.generator.generate_seed(constants.DEV_PATH, settings_permalink, username, False)
         await self.update_race_room_with_generated_seed(settings_permalink, generated_seed, False)
 
         await self.send_message(
@@ -372,7 +372,7 @@ class RandoHandler(RaceHandler):
         if settings_permalink:
             await self.send_message("Rolling seed...")
 
-            generated_seed = self.generator.generate_seed("wwrando", settings_permalink, username, True)
+            generated_seed = self.generator.generate_seed(constants.STANDARD_PATH, settings_permalink, username, True)
             await self.update_race_room_with_generated_seed(settings_permalink, generated_seed, True)
 
         planning_time = self.state.get("planning_time")

@@ -9,6 +9,7 @@ STANDARD_PERMALINKS = OrderedDict([
 ])
 
 STANDARD_DEFAULT = ["s4"]
+STANDARD_PATH = "wwrando"
 
 SPOILER_LOG_PERMALINKS = OrderedDict([
     ("preset-a",  "MS45LjAAQQA3AyYCD1DAAgAAAAAAAAAA"),
@@ -39,6 +40,7 @@ DEV_PERMALINKS = OrderedDict([
 ])
 
 DEV_DEFAULT = ["default"]
+DEV_PATH = "wwrando-dev-tanjo3"
 DEV_VERSION = "1.9.10_dev"
 DEV_DOWNLOAD = "https://github.com/tanjo3/wwrando/releases"
 
