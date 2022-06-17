@@ -262,7 +262,7 @@ class RandoHandler(RaceHandler):
     async def ex_rolldevseed(self, args, message):
         if not await self.can_roll_standard_seed(message):
             return
-        
+
         await self.send_message("Rolling seed...")
 
         settings_permalink = await self.choose_permalink(
@@ -298,9 +298,9 @@ class RandoHandler(RaceHandler):
             await self.send_message(f"Permalink: {permalink}")
             await self.send_message(f"Seed Hash: {seed_hash}")
             return False
-        
+
         return True
-    
+
     async def update_race_room_with_generated_seed(self, settings_permalink, generated_seed, is_spoiler_log):
         permalink = generated_seed.get("permalink")
         seed_hash = generated_seed.get("seed_hash")
