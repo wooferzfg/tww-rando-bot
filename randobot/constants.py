@@ -44,4 +44,13 @@ DEV_PATH = "wwrando-dev-tanjo3"
 DEV_VERSION = "1.9.10_dev"
 DEV_DOWNLOAD = "https://github.com/tanjo3/wwrando/releases"
 
+S5_PERMALINKS = OrderedDict([
+    ("default", "UzUuMABTNQAVAyIAJ3l8gAEWAIx7AIE+AAAA"),
+])
+
+S5_DEFAULT = ["default"]
+S5_PATH = "wwrando-s5-tournament"
+S5_VERSION = "S5.0"
+S5_DOWNLOAD = "https://github.com/wooferzfg/wwrando/releases/tag/s5.0"
+
 BANNABLE_PRESETS = SPOILER_LOG_DEFAULT

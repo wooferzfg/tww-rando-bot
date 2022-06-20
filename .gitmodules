@@ -5,3 +5,7 @@
 	path = wwrando-dev-tanjo3
 	url = https://github.com/tanjo3/wwrando.git
 	branch = dev-build-no-ui
+[submodule "wwrando-s5-tournament"]
+	path = wwrando-s5-tournament
+	url = https://github.com/tanjo3/wwrando.git
+	branch = s5-tournament-no-ui

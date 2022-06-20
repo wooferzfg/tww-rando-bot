@@ -1,4 +1,4 @@
 [flake8]
-exclude = wwrando, wwrando-dev-tanjo3
+exclude = wwrando, wwrando-dev-tanjo3, wwrando-s5-tournament
 max-line-length = 120
 extend-ignore = E203, W503

@@ -18,4 +18,6 @@ RUN cd wwrando && pip install -r requirements.txt
 
 RUN cd wwrando-dev-tanjo3 && pip install -r requirements.txt
 
+RUN cd wwrando-s5-tournament && pip install -r requirements.txt
+
 RUN pip install -e .

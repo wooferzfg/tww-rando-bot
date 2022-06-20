@@ -247,6 +247,17 @@ class RandoHandler(RaceHandler):
         if not await self.can_roll_standard_seed(message):
             return
 
+        if len(args) == 0:
+            await self.send_message(
+                "Please provide a preset or a 1.9.0 Permalink. Use the !presets command to see the list of presets."
+            )
+            await self.send_message("If you would like to roll a Season 5 seed, use the !s5 command.")
+            await self.send_message(
+                f"If you would like to roll a seed on the {constants.DEV_VERSION} " +
+                "version of the randomizer, use the !rolldevseed command."
+            )
+            return
+
         await self.send_message("Rolling seed...")
 
         settings_permalink = await self.choose_permalink(
@@ -278,6 +289,27 @@ class RandoHandler(RaceHandler):
         await self.send_message(
             f"Please note that this seed has been rolled on the {constants.DEV_VERSION} version of the randomizer. "
             f"You can download it here: {constants.DEV_DOWNLOAD}"
+        )
+
+    async def ex_s5(self, args, message):
+        if not await self.can_roll_standard_seed(message):
+            return
+
+        await self.send_message("Rolling seed...")
+
+        settings_permalink = await self.choose_permalink(
+            constants.S5_DEFAULT,
+            constants.S5_PERMALINKS,
+            args
+        )
+
+        username = message.get('user', {}).get('name')
+        generated_seed = self.generator.generate_seed(constants.S5_PATH, settings_permalink, username, False)
+        await self.update_race_room_with_generated_seed(settings_permalink, generated_seed, False)
+
+        await self.send_message(
+            f"Please note that this seed has been rolled on the {constants.S5_VERSION} version of the randomizer. "
+            f"You can download it here: {constants.S5_DOWNLOAD}"
         )
 
     async def can_roll_standard_seed(self, message):
