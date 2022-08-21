@@ -17,7 +17,7 @@ class Generator:
         seed_name = f"{trimmed_name}{random_suffix}"
         file_name = "".join(random.choice(string.digits) for _ in range(6))
 
-        os.system(f"python {randomizer_path}/wwrando.py -seed={seed_name} -permalink={permalink}")
+        os.system(f"python {randomizer_path}/wwrando.py -noui -seed={seed_name} -permalink={permalink}")
 
         permalink_file_name = f"permalink_{seed_name}.txt"
         permalink_file = open(permalink_file_name, "r")

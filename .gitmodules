@@ -5,6 +5,10 @@
 	path = wwrando-dev-tanjo3
 	url = https://github.com/tanjo3/wwrando.git
 	branch = dev-build-no-ui
+[submodule "wwrando-random-settings"]
+	path = wwrando-random-settings
+	url = https://github.com/tanjo3/wwrando.git
+	branch = random-settings
 [submodule "wwrando-s5-tournament"]
 	path = wwrando-s5-tournament
 	url = https://github.com/tanjo3/wwrando.git

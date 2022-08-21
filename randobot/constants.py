@@ -1,4 +1,14 @@
 from collections import OrderedDict
+from enum import Enum
+
+
+class SeedType(Enum):
+    STANDARD = 1
+    SPOILER_LOG = 2
+    DEV = 3
+    RANDOM_SETTINGS = 4
+    S5 = 5
+
 
 STANDARD_PERMALINKS = OrderedDict([
     ("s4",        "MS45LjAAQQAFCyIAD3DAAgAAAAAAAQAA"),
@@ -43,6 +53,11 @@ DEV_DEFAULT = ["default"]
 DEV_PATH = "wwrando-dev-tanjo3"
 DEV_VERSION = "1.9.10_dev"
 DEV_DOWNLOAD = "https://github.com/tanjo3/wwrando/releases"
+
+RS_PATH = "wwrando-random-settings"
+RS_VERSION = "v1.1"
+RS_DOWNLOAD = "https://github.com/tanjo3/wwrando/releases/tag/RS_v1.1"
+RS_TRACKER = "https://tww-rando-tracker-rsl.herokuapp.com/"
 
 S5_PERMALINKS = OrderedDict([
     ("default", "UzUuMABTNQAVAyIAJ3l8gAEWAIx7AIE+AAAA"),
