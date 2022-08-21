@@ -54,7 +54,7 @@ DEV_PATH = "wwrando-dev-tanjo3"
 DEV_VERSION = "1.9.10_dev"
 DEV_DOWNLOAD = "https://github.com/tanjo3/wwrando/releases"
 
-RS_PATH = "wwrando-dev-tanjo3"
+RS_PATH = "wwrando-random-settings"
 RS_VERSION = "v1.1"
 RS_DOWNLOAD = "https://github.com/tanjo3/wwrando/releases/tag/RS_v1.1"
 RS_TRACKER = "https://tww-rando-tracker-rsl.herokuapp.com/"
