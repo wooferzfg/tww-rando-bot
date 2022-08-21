@@ -4,6 +4,7 @@ from racetime_bot import RaceHandler, monitor_cmd, can_monitor
 import random
 
 import randobot.constants as constants
+from randobot.constants import SeedType
 
 
 class RandoHandler(RaceHandler):
@@ -268,7 +269,7 @@ class RandoHandler(RaceHandler):
 
         username = message.get('user', {}).get('name')
         generated_seed = self.generator.generate_seed(constants.STANDARD_PATH, settings_permalink, username, False)
-        await self.update_race_room_with_generated_seed(settings_permalink, generated_seed, False)
+        await self.update_race_room_with_generated_seed(settings_permalink, generated_seed, SeedType.STANDARD)
 
     async def ex_rolldevseed(self, args, message):
         if not await self.can_roll_standard_seed(message):
@@ -284,8 +285,7 @@ class RandoHandler(RaceHandler):
 
         username = message.get('user', {}).get('name')
         generated_seed = self.generator.generate_seed(constants.DEV_PATH, settings_permalink, username, False)
-        await self.update_race_room_with_generated_seed(settings_permalink, generated_seed, False)
-
+        await self.update_race_room_with_generated_seed(settings_permalink, generated_seed, SeedType.DEV)
         await self.send_message(
             f"Please note that this seed has been rolled on the {constants.DEV_VERSION} version of the randomizer. "
             f"You can download it here: {constants.DEV_DOWNLOAD}"
@@ -299,10 +299,10 @@ class RandoHandler(RaceHandler):
 
         username = message.get('user', {}).get('name')
         generated_seed = self.generator.generate_seed(constants.RS_PATH, username, username, False)
-        await self.update_race_room_with_generated_seed(None, generated_seed, False)
+        await self.update_race_room_with_generated_seed(None, generated_seed, SeedType.RANDOM_SETTINGS)
 
         await self.send_message(
-            f"Please note that this seed has been rolled on the {constants.RS_VERSION} version of the randomizer. "
+            f"Please note that this seed used the Random Settings {constants.RS_VERSION} build of the randomizer. "
             f"Download: {constants.RS_DOWNLOAD} "
             f"Tracker: {constants.RS_TRACKER}"
         )
@@ -321,7 +321,7 @@ class RandoHandler(RaceHandler):
 
         username = message.get('user', {}).get('name')
         generated_seed = self.generator.generate_seed(constants.S5_PATH, settings_permalink, username, False)
-        await self.update_race_room_with_generated_seed(settings_permalink, generated_seed, False)
+        await self.update_race_room_with_generated_seed(settings_permalink, generated_seed, SeedType.S5)
 
         await self.send_message(
             f"Please note that this seed has been rolled on the {constants.S5_VERSION} version of the randomizer. "
@@ -349,7 +349,7 @@ class RandoHandler(RaceHandler):
 
         return True
 
-    async def update_race_room_with_generated_seed(self, settings_permalink, generated_seed, is_spoiler_log):
+    async def update_race_room_with_generated_seed(self, settings_permalink, generated_seed, type):
         permalink = generated_seed.get("permalink")
         seed_hash = generated_seed.get("seed_hash")
 
@@ -359,7 +359,7 @@ class RandoHandler(RaceHandler):
         self.state["permalink"] = permalink
         self.state["seed_hash"] = seed_hash
 
-        if is_spoiler_log:
+        if type == SeedType.SPOILER_LOG:
             spoiler_log_url = generated_seed.get("spoiler_log_url")
             file_name = generated_seed.get("file_name")
 
@@ -370,6 +370,14 @@ class RandoHandler(RaceHandler):
             self.state["file_name"] = file_name
 
             await self.send_message("Seed rolled!")
+        elif type == SeedType.RANDOM_SETTINGS:
+            self.state["permalink"] = None
+
+            await self.send_message(f"Seed Name: {permalink}")
+            await self.send_message(f"Seed Hash: {seed_hash}")
+
+            race_info = f"{permalink} | Seed Hash: {seed_hash}"
+            await self.set_raceinfo(race_info, False, False)
         else:
             self.state["permalink_available"] = True
 

@@ -1,4 +1,14 @@
 from collections import OrderedDict
+from enum import Enum
+
+
+class SeedType(Enum):
+    STANDARD = 1
+    SPOILER_LOG = 2
+    DEV = 3
+    RANDOM_SETTINGS = 4
+    S5 = 5
+
 
 STANDARD_PERMALINKS = OrderedDict([
     ("s4",        "MS45LjAAQQAFCyIAD3DAAgAAAAAAAQAA"),
