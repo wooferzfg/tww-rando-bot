@@ -291,6 +291,22 @@ class RandoHandler(RaceHandler):
             f"You can download it here: {constants.DEV_DOWNLOAD}"
         )
 
+    async def ex_randomsettings(self, args, message):
+        if not await self.can_roll_standard_seed(message):
+            return
+
+        await self.send_message("Rolling seed...")
+
+        username = message.get('user', {}).get('name')
+        generated_seed = self.generator.generate_seed(constants.RS_PATH, username, username, False)
+        await self.update_race_room_with_generated_seed(None, generated_seed, False)
+
+        await self.send_message(
+            f"Please note that this seed has been rolled on the {constants.RS_VERSION} version of the randomizer. "
+            f"Download: {constants.RS_DOWNLOAD} "
+            f"Tracker: {constants.RS_TRACKER}"
+        )
+
     async def ex_s5(self, args, message):
         if not await self.can_roll_standard_seed(message):
             return
