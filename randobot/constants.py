@@ -57,7 +57,7 @@ DEV_DOWNLOAD = "https://github.com/tanjo3/wwrando/releases"
 RS_PATH = "wwrando-random-settings"
 RS_VERSION = "v1.1"
 RS_DOWNLOAD = "https://github.com/tanjo3/wwrando/releases/tag/RS_v1.1"
-RS_TRACKER = "https://tww-rando-tracker-rsl.herokuapp.com/"
+RS_TRACKER = "https://jaysc.github.io/tww-rando-tracker-rs/"
 
 S5_PERMALINKS = OrderedDict([
     ("default", "UzUuMABTNQAVAyIAJ3l8gAEWAIx7AIE+AAAA"),
