@@ -302,7 +302,7 @@ class RandoHandler(RaceHandler):
         await self.update_race_room_with_generated_seed(None, generated_seed, SeedType.RANDOM_SETTINGS)
 
         await self.send_message(
-            f"Please note that this seed used the Random Settings {constants.RS_VERSION} build of the randomizer. "
+            f"Please note that this seed uses the Random Settings {constants.RS_VERSION} build of the randomizer. "
             f"Download: {constants.RS_DOWNLOAD} "
             f"Tracker: {constants.RS_TRACKER}"
         )
@@ -373,10 +373,10 @@ class RandoHandler(RaceHandler):
         elif type == SeedType.RANDOM_SETTINGS:
             self.state["permalink"] = None
 
-            await self.send_message(f"Seed Name: {permalink}")
+            await self.send_message(f"Seed: {permalink}")
             await self.send_message(f"Seed Hash: {seed_hash}")
 
-            race_info = f"{permalink} | Seed Hash: {seed_hash}"
+            race_info = f"Seed: {permalink} | Seed Hash: {seed_hash}"
             await self.set_raceinfo(race_info, False, False)
         else:
             self.state["permalink_available"] = True
