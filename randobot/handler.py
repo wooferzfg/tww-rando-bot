@@ -45,6 +45,7 @@ class RandoHandler(RaceHandler):
         self.state["15_warning_sent"] = False
         self.state["5_warning_sent"] = False
         self.state["1_warning_sent"] = False
+        self.state["spoiler_log_race_started"] = False
 
     def close_handler(self):
         self.loop_ended = True
@@ -92,8 +93,9 @@ class RandoHandler(RaceHandler):
                             await self.send_message(f"File Name: {file_name}")
                             self.state["file_name_available"] = True
 
-                    if not self._race_in_progress() and seconds_remaining < 15:
+                    if not self.state.get("spoiler_log_race_started") and seconds_remaining < 15:
                         await self.force_start()
+                        self.state["spoiler_log_race_started"] = True
 
                 if self.data.get("started_at") is not None and self.state.get("breaks_set"):
                     break_duration = self.state.get("break_duration")
