@@ -41,6 +41,7 @@ class RandoHandler(RaceHandler):
         self.state["break_duration"] = constants.MINIMUM_BREAK_DURATION
         self.state["break_interval"] = constants.MINIMUM_BREAK_INTERVAL
         self.state["break_warning_sent"] = False
+        self.state["break_in_progress"] = False
         self.state["last_break_time"] = None
         self.state["15_warning_sent"] = False
         self.state["5_warning_sent"] = False
@@ -111,16 +112,16 @@ class RandoHandler(RaceHandler):
                         await self.send_message("@entrants Reminder: Next break in 5 minutes.")
                         self.state["break_warning_sent"] = True
 
-                    if seconds_until_next_break < 0:
-                        await asyncio.gather(
-                            self.send_message(
-                                f"@entrants Break time! Please pause your game for {break_duration} minutes."
-                            ),
-                            asyncio.sleep(break_duration * 60),
+                    if not self.state.get("break_in_progress") and seconds_until_next_break < 0:
+                        await self.send_message(
+                            f"@entrants Break time! Please pause your game for {break_duration} minutes."
                         )
-                        await self.send_message("@entrants Break ended. You may resume playing.")
+                        self.state["break_in_progress"] = True
 
+                    if self.state.get("break_in_progress") and seconds_until_next_break < break_duration * -60:
+                        await self.send_message("@entrants Break ended. You may resume playing.")
                         self.state["break_warning_sent"] = False
+                        self.state["break_in_progress"] = False
                         self.state["last_break_time"] = self.state.get("last_break_time") + timedelta(
                             0, 0, 0, 0, break_interval
                         )
