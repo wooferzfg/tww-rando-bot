@@ -1,7 +1,9 @@
 import asyncio
-from datetime import datetime, timedelta
-from racetime_bot import RaceHandler, monitor_cmd, can_monitor
 import random
+from datetime import datetime, timedelta
+
+import isodate
+from racetime_bot import RaceHandler, can_monitor, monitor_cmd
 
 import randobot.constants as constants
 from randobot.constants import SeedType
@@ -35,10 +37,14 @@ class RandoHandler(RaceHandler):
         self.state["finished_entrants"] = set()
         self.state["entrants"] = []
         self.state["bans"] = {}
+        self.state["breaks_set"] = False
+        self.state["break_duration"] = constants.MINIMUM_BREAK_DURATION
+        self.state["break_interval"] = constants.MINIMUM_BREAK_INTERVAL
+        self.state["break_warning_sent"] = False
+        self.state["last_break_time"] = None
         self.state["15_warning_sent"] = False
         self.state["5_warning_sent"] = False
         self.state["1_warning_sent"] = False
-        self.state["race_started"] = False
 
     def close_handler(self):
         self.loop_ended = True
@@ -86,9 +92,36 @@ class RandoHandler(RaceHandler):
                             await self.send_message(f"File Name: {file_name}")
                             self.state["file_name_available"] = True
 
-                    if not self.state.get("race_started") and seconds_remaining < 15:
+                    if not self._race_in_progress() and seconds_remaining < 15:
                         await self.force_start()
-                        self.state["race_started"] = True
+
+                if self.data.get("started_at") is not None and self.state.get("breaks_set"):
+                    break_duration = self.state.get("break_duration")
+                    break_interval = self.state.get("break_interval")
+
+                    if self.state.get("last_break_time") is None:
+                        self.state["last_break_time"] = isodate.parse_duration(self.data.get("started_at"))
+
+                    seconds_since_last_break = (datetime.now() - self.state.get("last_break_time")).total_seconds()
+                    seconds_until_next_break = (break_interval * 60) - seconds_since_last_break
+
+                    if not self.state.get("break_warning_sent") and seconds_until_next_break < 300:
+                        await self.send_message("@entrants Reminder: Next break in 5 minutes.")
+                        self.state["break_warning_sent"] = True
+
+                    if seconds_until_next_break < 0:
+                        await asyncio.gather(
+                            self.send_message(
+                                f"@entrants Break time! Please pause your game for {break_duration} minutes."
+                            ),
+                            asyncio.sleep(break_duration * 60),
+                        )
+                        await self.send_message("@entrants Break ended. You may resume playing.")
+
+                        self.state["break_warning_sent"] = False
+                        self.state["last_break_time"] = self.state.get("last_break_time") + timedelta(
+                            0, 0, 0, 0, break_interval
+                        )
             except Exception:
                 pass
             finally:
@@ -156,7 +189,7 @@ class RandoHandler(RaceHandler):
     async def ex_time(self, args, message):
         if not self.state.get("spoiler_log_seed_rolled"):
             await self.send_message("Seed has not been rolled yet!")
-        elif self.state.get("race_started"):
+        elif self._race_in_progress():
             await self.send_message("Race has already started!")
         else:
             duration = datetime.utcfromtimestamp(self.seconds_remaining())
@@ -508,3 +541,57 @@ class RandoHandler(RaceHandler):
             await self.send_message("Warning: The seed from this permalink does not match the actual permalink!")
         else:
             await self.send_message("Example Permalink is not available yet!")
+
+    async def ex_breaks(self, args, message):
+        if self._race_in_progress():
+            return
+
+        if len(args) == 0:
+            if self.state.get("breaks_set"):
+                await self.send_message(f"Breaks are set for {break_duration} minutes every {break_interval} minutes.")
+            else:
+                await self.send_message(
+                    'Breaks are off. Example usage is "!breaks 5 60" for 5-minute breaks every 60 minutes.'
+                )
+        elif len(args) == 1:
+            if args[0] == "off":
+                if self.state.get("breaks_set"):
+                    self.state["breaks_set"] = False
+                    self.state["break_duration"] = constants.MINIMUM_BREAK_DURATION
+                    self.state["break_interval"] = constants.MINIMUM_BREAK_INTERVAL
+                    await self.send_message("Breaks have been turned off.")
+                else:
+                    await self.send_message("Breaks are already off.")
+            else:
+                await self.send_message(
+                    'Error parsing command. Example usage is "!breaks 5 60" for 5-minute breaks every 60 minutes.'
+                )
+        else:
+            break_duration, break_interval = args
+
+            try:
+                break_duration = max(constants.MINIMUM_BREAK_DURATION, int(break_duration))
+            except (TypeError, ValueError):
+                await self.send_message(f"{break_duration} is not a valid time.")
+                return
+
+            try:
+                break_interval = max(constants.MINIMUM_BREAK_INTERVAL, int(break_interval))
+            except (TypeError, ValueError):
+                await self.send_message(f"{break_interval} is not a valid time.")
+                return
+
+            # Ensure that there's a valid amount of time in-between breaks
+            if break_interval <= break_duration + 5:
+                await self.send_message("Error. Please ensure there are more than 5 minutes in-between breaks.")
+                return
+
+            self.state["breaks_set"] = True
+            self.state["break_duration"] = break_duration
+            self.state["break_interval"] = break_interval
+            await self.send_message(
+                f"Breaks have been set for {break_duration} minutes every {break_interval} minutes."
+            )
+
+    def _race_in_progress(self):
+        return self.data.get("status").get("value") in ("pending", "in_progress")

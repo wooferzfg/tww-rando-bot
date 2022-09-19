@@ -69,3 +69,6 @@ S5_VERSION = "S5.0"
 S5_DOWNLOAD = "https://github.com/wooferzfg/wwrando/releases/tag/s5.0"
 
 BANNABLE_PRESETS = SPOILER_LOG_DEFAULT
+
+MINIMUM_BREAK_DURATION = 5
+MINIMUM_BREAK_INTERVAL = 60
