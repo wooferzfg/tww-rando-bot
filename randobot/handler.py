@@ -548,6 +548,8 @@ class RandoHandler(RaceHandler):
 
         if len(args) == 0:
             if self.state.get("breaks_set"):
+                break_duration = self.state.get("break_duration")
+                break_interval = self.state.get("break_interval")
                 await self.send_message(f"Breaks are set for {break_duration} minutes every {break_interval} minutes.")
             else:
                 await self.send_message(
