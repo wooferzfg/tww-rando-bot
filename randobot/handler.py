@@ -1,7 +1,7 @@
 import asyncio
 import isodate
 import random
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 
 from racetime_bot import RaceHandler, can_monitor, monitor_cmd
 
@@ -114,7 +114,7 @@ class RandoHandler(RaceHandler):
 
                     await self.send_message("parsed date")
 
-                    seconds_since_last_break = (datetime.now() - self.state.get("last_break_time")).total_seconds()
+                    seconds_since_last_break = (datetime.now(timezone.utc) - self.state.get("last_break_time")).total_seconds()
 
                     await self.send_message(f"second_since_last_break: {str(seconds_since_last_break)}")
 
