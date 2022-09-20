@@ -589,11 +589,8 @@ class RandoHandler(RaceHandler):
                 return
 
             # Ensure that there's a valid amount of time in-between breaks
-            if break_interval <= break_duration + constants.MINIMUM_BREAK_INTERVAL:
-                await self.send_message(
-                    f"Error. Please ensure there are more than {constants.MINIMUM_BREAK_INTERVAL}"
-                    " minutes in-between breaks."
-                )
+            if break_interval <= break_duration + 5:
+                await self.send_message("Error. Please ensure there are more than 5 minutes in-between breaks.")
                 return
 
             self.state["breaks_set"] = True
