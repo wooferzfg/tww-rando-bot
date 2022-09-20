@@ -98,13 +98,6 @@ class RandoHandler(RaceHandler):
                         await self.force_start()
                         self.state["spoiler_log_race_started"] = True
 
-                if self.state.get("breaks_set"):
-                    await self.send_message("self.data.get('started_at'):")
-                    if self.data.get("started_at") is None:
-                        await self.send_message("None")
-                    else:
-                        await self.send_message(self.data.get("started_at"))
-
                 if self.data.get("started_at") is not None and self.state.get("breaks_set"):
                     break_duration = self.state.get("break_duration")
                     break_interval = self.state.get("break_interval")
@@ -112,17 +105,10 @@ class RandoHandler(RaceHandler):
                     if self.state.get("last_break_time") is None:
                         self.state["last_break_time"] = isodate.parse_datetime(self.data.get("started_at"))
 
-                    await self.send_message("parsed date")
-
                     seconds_since_last_break = (
                         datetime.now(timezone.utc) - self.state.get("last_break_time")
                     ).total_seconds()
-
-                    await self.send_message(f"second_since_last_break: {str(seconds_since_last_break)}")
-
                     seconds_until_next_break = (break_interval * 60) - seconds_since_last_break
-
-                    await self.send_message(f"seconds_until_next_break: {str(seconds_since_last_break)}")
 
                     if not self.state.get("break_warning_sent") and seconds_until_next_break < 300:
                         await self.send_message("@entrants Reminder: Next break in 5 minutes.")
