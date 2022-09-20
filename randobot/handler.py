@@ -114,7 +114,9 @@ class RandoHandler(RaceHandler):
 
                     await self.send_message("parsed date")
 
-                    seconds_since_last_break = (datetime.now(timezone.utc) - self.state.get("last_break_time")).total_seconds()
+                    seconds_since_last_break = (
+                        datetime.now(timezone.utc) - self.state.get("last_break_time")
+                    ).total_seconds()
 
                     await self.send_message(f"second_since_last_break: {str(seconds_since_last_break)}")
 
