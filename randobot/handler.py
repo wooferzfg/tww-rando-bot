@@ -189,10 +189,10 @@ class RandoHandler(RaceHandler):
             await self.send_message("File Name is not available yet!")
 
     async def ex_time(self, args, message):
-        if not self.state.get("spoiler_log_seed_rolled"):
-            await self.send_message("Seed has not been rolled yet!")
-        elif self._race_in_progress():
+        if self._race_in_progress():
             await self.send_message("Race has already started!")
+        elif not self.state.get("spoiler_log_seed_rolled"):
+            await self.send_message("Seed has not been rolled yet!")
         else:
             duration = datetime.utcfromtimestamp(self.seconds_remaining())
             time_remaining = duration.strftime("%-H:%M:%S")
