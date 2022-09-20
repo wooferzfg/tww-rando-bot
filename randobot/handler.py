@@ -110,7 +110,7 @@ class RandoHandler(RaceHandler):
                     break_interval = self.state.get("break_interval")
 
                     if self.state.get("last_break_time") is None:
-                        self.state["last_break_time"] = isodate.parse_date(self.data.get("started_at"))
+                        self.state["last_break_time"] = isodate.parse_datetime(self.data.get("started_at"))
 
                     await self.send_message("parsed date")
 
