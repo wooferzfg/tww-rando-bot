@@ -2,7 +2,6 @@ import asyncio
 import random
 from datetime import datetime, timedelta
 
-import isodate
 from racetime_bot import RaceHandler, can_monitor, monitor_cmd
 
 import randobot.constants as constants
@@ -103,7 +102,7 @@ class RandoHandler(RaceHandler):
                     break_interval = self.state.get("break_interval")
 
                     if self.state.get("last_break_time") is None:
-                        self.state["last_break_time"] = isodate.parse_duration(self.data.get("started_at"))
+                        self.state["last_break_time"] = datetime.fromisoformat(self.data.get("started_at"))
 
                     seconds_since_last_break = (datetime.now() - self.state.get("last_break_time")).total_seconds()
                     seconds_until_next_break = (break_interval * 60) - seconds_since_last_break
