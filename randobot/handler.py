@@ -545,8 +545,8 @@ class RandoHandler(RaceHandler):
 
     async def ex_breaks(self, args, message):
         if self._race_in_progress():
-            seconds_until_next_break = self._get_seconds_until_next_break()
             if self.state.get("breaks_set"):
+                seconds_until_next_break = self._get_seconds_until_next_break()
                 if not self.state.get("break_in_progress"):
                     await self.send_message(
                         f"The next break is in {self._get_formatted_duration_str(seconds_until_next_break)}."
@@ -557,9 +557,9 @@ class RandoHandler(RaceHandler):
                     await self.send_message(
                         f"The break ends in {self._get_formatted_duration_str(seconds_until_break_ends)}."
                     )
-            return
-
-        if len(args) == 0:
+            else:
+                await self.send_message("Breaks have not been set.")
+        elif len(args) == 0:
             if self.state.get("breaks_set"):
                 break_duration = self.state.get("break_duration")
                 break_interval = self.state.get("break_interval")
