@@ -124,16 +124,6 @@ class RandoHandler(RaceHandler):
                         self.state["last_break_time"] = self.state.get("last_break_time") + timedelta(
                             0, 0, 0, 0, break_interval
                         )
-
-                if self.data.get("status").get("value") == "finished" and not self.state.get(
-                    "rsl_spoiler_log_unlocked"
-                ):
-                    spoiler_log_url = self.state.get("spoiler_log_url")
-                    await self.send_message(
-                        f"The race is now finished. The spoiler log can be found here: {spoiler_log_url}"
-                    )
-                    self.state["rsl_spoiler_log_unlocked"] = True
-
             except Exception:
                 pass
             finally:
@@ -166,6 +156,13 @@ class RandoHandler(RaceHandler):
                 )
 
             self.state["finished_entrants"] = finished_entrants
+
+        if self.data.get("status").get("value") == "finished" and not self.state.get("rsl_spoiler_log_unlocked"):
+            spoiler_log_url = self.state.get("spoiler_log_url")
+            await self.send_message(
+                f"The race is now finished. The spoiler log can be found here: {spoiler_log_url}"
+            )
+            self.state["rsl_spoiler_log_unlocked"] = True
 
     async def ex_spoilerlogurl(self, args, message):
         spoiler_log_url = self.state.get("spoiler_log_url")
