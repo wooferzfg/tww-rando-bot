@@ -47,6 +47,7 @@ class RandoHandler(RaceHandler):
         self.state["5_warning_sent"] = False
         self.state["1_warning_sent"] = False
         self.state["spoiler_log_race_started"] = False
+        self.state["rsl_spoiler_log_unlocked"] = False
 
     def close_handler(self):
         self.loop_ended = True
@@ -123,6 +124,16 @@ class RandoHandler(RaceHandler):
                         self.state["last_break_time"] = self.state.get("last_break_time") + timedelta(
                             0, 0, 0, 0, break_interval
                         )
+
+                if self.data.get("status").get("value") == "finished" and not self.state.get(
+                    "rsl_spoiler_log_unlocked"
+                ):
+                    spoiler_log_url = self.state.get("spoiler_log_url")
+                    await self.send_message(
+                        f"The race is now finished. The spoiler log can be found here: {spoiler_log_url}"
+                    )
+                    self.state["rsl_spoiler_log_unlocked"] = True
+
             except Exception:
                 pass
             finally:
@@ -332,7 +343,7 @@ class RandoHandler(RaceHandler):
         await self.send_message("Rolling seed...")
 
         username = message.get('user', {}).get('name')
-        generated_seed = self.generator.generate_seed(constants.RS_PATH, username, username, False)
+        generated_seed = self.generator.generate_seed(constants.RS_PATH, username, username, True)
         await self.update_race_room_with_generated_seed(None, generated_seed, SeedType.RANDOM_SETTINGS)
 
         await self.send_message(
@@ -406,6 +417,9 @@ class RandoHandler(RaceHandler):
             await self.send_message("Seed rolled!")
         elif type == SeedType.RANDOM_SETTINGS:
             self.state["permalink"] = None
+
+            spoiler_log_url = generated_seed.get("spoiler_log_url")
+            self.state["spoiler_log_url"] = spoiler_log_url
 
             await self.send_message(f"Seed: {permalink}")
             await self.send_message(f"Seed Hash: {seed_hash}")
