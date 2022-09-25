@@ -47,6 +47,8 @@ class RandoHandler(RaceHandler):
         self.state["5_warning_sent"] = False
         self.state["1_warning_sent"] = False
         self.state["spoiler_log_race_started"] = False
+        self.state["random_settings_seed_rolled"] = False
+        self.state["random_settings_spoiler_log_unlocked"] = False
 
     def close_handler(self):
         self.loop_ended = True
@@ -155,6 +157,15 @@ class RandoHandler(RaceHandler):
                 )
 
             self.state["finished_entrants"] = finished_entrants
+
+        if (
+            self.state.get("random_settings_seed_rolled")
+            and not self.state.get("random_settings_spoiler_log_unlocked")
+            and self.data.get("status").get("value") == "finished"
+        ):
+            spoiler_log_url = self.state.get("spoiler_log_url")
+            await self.send_message(f"The race is now finished. The spoiler log can be found here: {spoiler_log_url}")
+            self.state["random_settings_spoiler_log_unlocked"] = True
 
     async def ex_spoilerlogurl(self, args, message):
         spoiler_log_url = self.state.get("spoiler_log_url")
@@ -332,7 +343,7 @@ class RandoHandler(RaceHandler):
         await self.send_message("Rolling seed...")
 
         username = message.get('user', {}).get('name')
-        generated_seed = self.generator.generate_seed(constants.RS_PATH, username, username, False)
+        generated_seed = self.generator.generate_seed(constants.RS_PATH, username, username, True)
         await self.update_race_room_with_generated_seed(None, generated_seed, SeedType.RANDOM_SETTINGS)
 
         await self.send_message(
@@ -406,6 +417,8 @@ class RandoHandler(RaceHandler):
             await self.send_message("Seed rolled!")
         elif type == SeedType.RANDOM_SETTINGS:
             self.state["permalink"] = None
+            self.state["spoiler_log_url"] = generated_seed.get("spoiler_log_url")
+            self.state["random_settings_seed_rolled"] = True
 
             await self.send_message(f"Seed: {permalink}")
             await self.send_message(f"Seed Hash: {seed_hash}")
