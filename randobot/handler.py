@@ -628,7 +628,7 @@ class RandoHandler(RaceHandler):
         seconds_since_last_break = (datetime.now(timezone.utc) - self.state.get("last_break_time")).total_seconds()
         return (self.state.get("break_interval") * 60) - seconds_since_last_break
 
-    def _get_formatted_duration_str(duration_in_seconds):
+    def _get_formatted_duration_str(self, duration_in_seconds):
         if duration_in_seconds < 0:
             return "Invalid time"
         if duration_in_seconds == 0:
