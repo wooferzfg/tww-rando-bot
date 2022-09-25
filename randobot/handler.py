@@ -47,7 +47,7 @@ class RandoHandler(RaceHandler):
         self.state["5_warning_sent"] = False
         self.state["1_warning_sent"] = False
         self.state["spoiler_log_race_started"] = False
-        self.state["random_settings_seed_rolled"] = False
+        self.state["random_settings_spoiler_log_url"] = None
         self.state["random_settings_spoiler_log_unlocked"] = False
 
     def close_handler(self):
@@ -159,11 +159,11 @@ class RandoHandler(RaceHandler):
             self.state["finished_entrants"] = finished_entrants
 
         if (
-            self.state.get("random_settings_seed_rolled")
+            self.state.get("random_settings_spoiler_log_url") is not None
             and not self.state.get("random_settings_spoiler_log_unlocked")
             and self.data.get("status").get("value") == "finished"
         ):
-            spoiler_log_url = self.state.get("spoiler_log_url")
+            spoiler_log_url = self.state.get("random_settings_spoiler_log_url")
             await self.send_message(f"The race is now finished. The spoiler log can be found here: {spoiler_log_url}")
             self.state["random_settings_spoiler_log_unlocked"] = True
 
@@ -417,7 +417,7 @@ class RandoHandler(RaceHandler):
             await self.send_message("Seed rolled!")
         elif type == SeedType.RANDOM_SETTINGS:
             self.state["permalink"] = None
-            self.state["spoiler_log_url"] = generated_seed.get("spoiler_log_url")
+            self.state["random_settings_spoiler_log_url"] = generated_seed.get("spoiler_log_url")
             self.state["random_settings_seed_rolled"] = True
 
             await self.send_message(f"Seed: {permalink}")
@@ -628,7 +628,7 @@ class RandoHandler(RaceHandler):
         seconds_since_last_break = (datetime.now(timezone.utc) - self.state.get("last_break_time")).total_seconds()
         return (self.state.get("break_interval") * 60) - seconds_since_last_break
 
-    def _get_formatted_duration_str(duration_in_seconds):
+    def _get_formatted_duration_str(self, duration_in_seconds):
         if duration_in_seconds < 0:
             return "Invalid time"
         if duration_in_seconds == 0:
