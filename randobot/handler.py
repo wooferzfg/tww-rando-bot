@@ -158,10 +158,16 @@ class RandoHandler(RaceHandler):
 
             self.state["finished_entrants"] = finished_entrants
 
+        num_finished_entrants = sum(
+            entrant.get("status").get("value") in ("done", "dnf", "dq") for entrant in self.data.get("entrants")
+        )
         if (
             self.state.get("random_settings_spoiler_log_url") is not None
             and not self.state.get("random_settings_spoiler_log_unlocked")
-            and self.data.get("status").get("value") == "finished"
+            and (
+                self.data.get("status").get("value") == "finished"
+                or len(self.data.get("entrants")) == num_finished_entrants
+            )
         ):
             spoiler_log_url = self.state.get("random_settings_spoiler_log_url")
             await self.send_message(f"The race is now finished. The spoiler log can be found here: {spoiler_log_url}")
