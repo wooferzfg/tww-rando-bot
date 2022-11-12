@@ -482,7 +482,7 @@ class RandoHandler(RaceHandler):
             await self.send_message("Rolling seed...")
 
             generated_seed = self.generator.generate_seed(constants.STANDARD_PATH, settings_permalink, username, True)
-            await self.update_race_room_with_generated_seed(settings_permalink, generated_seed, True)
+            await self.update_race_room_with_generated_seed(settings_permalink, generated_seed, SeedType.SPOILER_LOG)
 
         planning_time = self.state.get("planning_time")
 
