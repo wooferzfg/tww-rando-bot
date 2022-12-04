@@ -18,7 +18,7 @@ class Generator:
         file_name = "".join(random.choice(string.digits) for _ in range(6))
 
         os.system(
-            f"{randomizer_path}/.venv/bin/python {randomizer_path}/wwrando.py "
+            f"/venv/{randomizer_path}/bin/python {randomizer_path}/wwrando.py "
             f"-noui -seed={seed_name} -permalink={permalink}"
         )
 
