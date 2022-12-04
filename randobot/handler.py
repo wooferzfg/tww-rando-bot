@@ -166,7 +166,7 @@ class RandoHandler(RaceHandler):
             and not self.state.get("random_settings_spoiler_log_unlocked")
             and (
                 self.data.get("status").get("value") == "finished"
-                or len(self.data.get("entrants")) == num_finished_entrants
+                or (len(self.data.get("entrants")) == num_finished_entrants and num_finished_entrants > 0)
             )
         ):
             spoiler_log_url = self.state.get("random_settings_spoiler_log_url")
