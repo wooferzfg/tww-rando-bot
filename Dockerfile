@@ -14,12 +14,12 @@ COPY . .
 
 RUN pip install --upgrade pip
 
-RUN cd wwrando && pip install -r requirements.txt
+RUN cd wwrando && python -m venv .venv && .venv/bin/pip install -r requirements.txt
 
-RUN cd wwrando-dev-tanjo3 && pip install -r requirements.txt
+RUN cd wwrando-dev-tanjo3 && python -m venv .venv && .venv/bin/pip install -r requirements.txt
 
-RUN cd wwrando-s5-tournament && pip install -r requirements.txt
+RUN cd wwrando-s5-tournament && python -m venv .venv && .venv/bin/pip install -r requirements.txt
 
-RUN cd wwrando-random-settings && pip install -r requirements.txt
+RUN cd wwrando-random-settings && python -m venv .venv && .venv/bin/pip install -r requirements.txt
 
 RUN pip install -e .
