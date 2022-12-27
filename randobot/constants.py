@@ -13,9 +13,9 @@ class SeedType(Enum):
 STANDARD_PERMALINKS = OrderedDict([
     ("s5",        "MS4xMC4wAEEAFQMiAPOOwAMMsADCuAcA6kMAAAA="),
     ("s4",        "MS4xMC4wAEEABQsiAAUAvgMcsAACAAAAAkAQAAA="),
-    ("beginner",  "MS4xMC4wAEEABQMCAHOGwAMMcADi/Acg4ocUAAM="),
-    ("co-op",     "MS4xMC4wAEEAFQsmANkMwQMcMAECAAAAAgAAAAA="),
-    ("allsanity", "MS4xMC4wAEEA//9/gtsMwQMcUAECAAAAAgAAAAA="),
+    ("beginner",  "MS4xMC4wAEEABQMCAHOGwAMMcADi/Acg6ocUAAM="),
+    ("co-op",     "MS4xMC4wAEEAFQsmANsMwQMcMAECAAAACgAAAAA="),
+    ("allsanity", "MS4xMC4wAEEA//9/gtsMwQMcUAECAAAACgAAAAA="),
     ("s3",        "MS4xMC4wAEEAFwMEAAQAvhMM8AADAAAAAkAQAAA="),
 ])
 
