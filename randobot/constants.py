@@ -22,14 +22,14 @@ STANDARD_DEFAULT = ["s4"]
 STANDARD_PATH = "wwrando"
 
 SPOILER_LOG_PERMALINKS = OrderedDict([
-    ("preset-a",  "MS4xMC4wAEEANwMmAg2gvgMUsAACAAAAAkAAAAA="),
-    ("preset-b",  "MS4xMC4wAEEAF2Mmgg2gvgMUsAACAAAAAkAAAAA="),
-    ("preset-c",  "MS4xMC4wAEEAFwMmAg2gvgMksAACAAAAAkAAAAA="),
-    ("preset-d",  "MS4xMC4wAEEAFwcmAg2gvgMUsAACAAAAAkAAAAA="),
-    ("preset-e",  "MS4xMC4wAEEAFwNmAg2gvgMU8AACAAAAAkAAAAA="),
-    ("preset-f",  "MS4xMC4wAEEAHwsmAg2gvgMUsAACAAAAAkAAAAA="),
-    ("s1",        "MS4xMC4wAEEAFwMGAg2gvgMEsAACAAAAAkAQAAA="),
-    ("allsanity", "MS4xMC4wAEEA//9/gg+gvgMUUAEAAAAAAAAAAAA="),
+    ("preset-a",  "MS4xMC4wAEEANwMmAgEAoAMUsAACAAAAAkAAAAA="),
+    ("preset-b",  "MS4xMC4wAEEAF2MmggEAoAMUsAACAAAAAkAAAAA="),
+    ("preset-c",  "MS4xMC4wAEEAFwMmAgEAoAMksAACAAAAAkAAAAA="),
+    ("preset-d",  "MS4xMC4wAEEAFwcmAgEAoAMUsAACAAAAAkAAAAA="),
+    ("preset-e",  "MS4xMC4wAEEAFwNmAgEAoAMU8AACAAAAAkAAAAA="),
+    ("preset-f",  "MS4xMC4wAEEAHwsmAgEAoAMUsAACAAAAAkAAAAA="),
+    ("s1",        "MS4xMC4wAEEAFwMGAgEAoAMEsAACAAAAAkAQAAA="),
+    ("allsanity", "MS4xMC4wAEEA//9/ggMAoAMUUAEAAAAAAAAAAAA="),
 ])
 
 SETTINGS_DESCRIPTIONS = OrderedDict([
