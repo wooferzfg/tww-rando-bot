@@ -299,17 +299,6 @@ class RandoHandler(RaceHandler):
         if not await self.can_roll_standard_seed(message):
             return
 
-        if len(args) == 0:
-            await self.send_message(
-                "Please provide a preset or a 1.9.0 Permalink. Use the !presets command to see the list of presets."
-            )
-            await self.send_message("If you would like to roll a Season 5 seed, use the !s5 command.")
-            await self.send_message(
-                f"If you would like to roll a seed on the {constants.DEV_VERSION} " +
-                "version of the randomizer, use the !rolldevseed command."
-            )
-            return
-
         await self.send_message("Rolling seed...")
 
         settings_permalink = await self.choose_permalink(

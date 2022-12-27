@@ -11,6 +11,7 @@ class SeedType(Enum):
 
 
 STANDARD_PERMALINKS = OrderedDict([
+    ("s5",        "MS4xMC4wAEEAFQMiAPOOwAMMsADCuAcA6kMAAAA="),
     ("s4",        "MS4xMC4wAEEABQsiAAUAvgMcsAACAAAAAkAQAAA="),
     ("beginner",  "MS4xMC4wAEEABQMCAHOGwAMMcADi/Acg4ocUAAM="),
     ("co-op",     "MS4xMC4wAEEAFQsmANkMwQMcMAECAAAAAgAAAAA="),
@@ -18,7 +19,7 @@ STANDARD_PERMALINKS = OrderedDict([
     ("s3",        "MS4xMC4wAEEAFwMEAAQAvhMM8AADAAAAAkAQAAA="),
 ])
 
-STANDARD_DEFAULT = ["s4"]
+STANDARD_DEFAULT = ["s5"]
 STANDARD_PATH = "wwrando"
 
 SPOILER_LOG_PERMALINKS = OrderedDict([
