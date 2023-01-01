@@ -11,26 +11,26 @@ class SeedType(Enum):
 
 
 STANDARD_PERMALINKS = OrderedDict([
-    ("s5",        "MS4xMC4wAEEAFQMiAPOOwAMMsADCuAcA6kMAAAA="),
-    ("s4",        "MS4xMC4wAEEABQsiAAUAvgMcsAACAAAAAkAQAAA="),
-    ("beginner",  "MS4xMC4wAEEABQMCAHOGwAMMcADi/Acg6ocUAAM="),
-    ("co-op",     "MS4xMC4wAEEAFQsmANsMwQMcMAECAAAACgAAAAA="),
-    ("allsanity", "MS4xMC4wAEEA//9/gtsMwQMcUAECAAAACgAAAAA="),
-    ("s3",        "MS4xMC4wAEEAFwMEAAQAvhMM8AADAAAAAkAQAAA="),
+    ("s5",        "MS4xMC4wAEEAFQMiAPOOwAMMsACCcQ8AAMkHAQAA"),
+    ("s4",        "MS4xMC4wAEEABQsiAAUAvgMcsAACAAAAAAGAIAAA"),
+    ("beginner",  "MS4xMC4wAEEABQMCAHOGwAMMcADC+Q8AAskPKQAG"),
+    ("co-op",     "MS4xMC4wAEEAFQsmANsMwQMcMAECAAAAAAGAAAAA"),
+    ("allsanity", "MS4xMC4wAEEA//9/gtsMwQMcUAECAAAAAAkAAAAA"),
+    ("s3",        "MS4xMC4wAEEAFwMEAAQAvhMM8AADAAAAAAGAIAAA"),
 ])
 
 STANDARD_DEFAULT = ["s5"]
 STANDARD_PATH = "wwrando"
 
 SPOILER_LOG_PERMALINKS = OrderedDict([
-    ("preset-a",  "MS4xMC4wAEEANwMmAgEAoAMUsAACAAAAAkAAAAA="),
-    ("preset-b",  "MS4xMC4wAEEAF2MmggEAoAMUsAACAAAAAkAAAAA="),
-    ("preset-c",  "MS4xMC4wAEEAFwMmAgEAoAMksAACAAAAAkAAAAA="),
-    ("preset-d",  "MS4xMC4wAEEAFwcmAgEAoAMUsAACAAAAAkAAAAA="),
-    ("preset-e",  "MS4xMC4wAEEAFwNmAgEAoAMU8AACAAAAAkAAAAA="),
-    ("preset-f",  "MS4xMC4wAEEAHwsmAgEAoAMUsAACAAAAAkAAAAA="),
-    ("s1",        "MS4xMC4wAEEAFwMGAgEAoAMEsAACAAAAAkAQAAA="),
-    ("allsanity", "MS4xMC4wAEEA//9/ggMAoAMUUAEAAAAAAAAAAAA="),
+    ("preset-a",  "MS4xMC4wAEEANwMmAgEAoAMUsAACAAAAAAGAAAAA"),
+    ("preset-b",  "MS4xMC4wAEEAF2MmggEAoAMUsAACAAAAAAGAAAAA"),
+    ("preset-c",  "MS4xMC4wAEEAFwMmAgEAoAMksAACAAAAAAGAAAAA"),
+    ("preset-d",  "MS4xMC4wAEEAFwcmAgEAoAMUsAACAAAAAAGAAAAA"),
+    ("preset-e",  "MS4xMC4wAEEAFwNmAgEAoAMU8AACAAAAAAGAAAAA"),
+    ("preset-f",  "MS4xMC4wAEEAHwsmAgEAoAMUsAACAAAAAAGAAAAA"),
+    ("s1",        "MS4xMC4wAEEAFwMGAgEAoAMEsAACAAAAAAGAIAAA"),
+    ("allsanity", "MS4xMC4wAEEA//9/ggMAoAMUUAECAAAAAAEAAAAA"),
 ])
 
 SETTINGS_DESCRIPTIONS = OrderedDict([
