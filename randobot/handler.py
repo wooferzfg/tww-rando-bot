@@ -308,7 +308,7 @@ class RandoHandler(RaceHandler):
         )
 
         username = message.get('user', {}).get('name')
-        generated_seed = self.generator.generate_seed(constants.STANDARD_PATH, settings_permalink, username, False)
+        generated_seed = await self._generate_seed(constants.STANDARD_PATH, settings_permalink, username, False)
         await self.update_race_room_with_generated_seed(settings_permalink, generated_seed, SeedType.STANDARD)
 
     async def ex_rolldevseed(self, args, message):
@@ -324,7 +324,7 @@ class RandoHandler(RaceHandler):
         )
 
         username = message.get('user', {}).get('name')
-        generated_seed = self.generator.generate_seed(constants.DEV_PATH, settings_permalink, username, False)
+        generated_seed = await self._generate_seed(constants.DEV_PATH, settings_permalink, username, False)
         await self.update_race_room_with_generated_seed(settings_permalink, generated_seed, SeedType.DEV)
         await self.send_message(
             f"Please note that this seed has been rolled on the {constants.DEV_VERSION} version of the randomizer. "
@@ -338,7 +338,7 @@ class RandoHandler(RaceHandler):
         await self.send_message("Rolling seed...")
 
         username = message.get('user', {}).get('name')
-        generated_seed = self.generator.generate_seed(constants.RS_PATH, username, username, True)
+        generated_seed = await self._generate_seed(constants.RS_PATH, username, username, True)
         await self.update_race_room_with_generated_seed(None, generated_seed, SeedType.RANDOM_SETTINGS)
 
         await self.send_message(
@@ -449,7 +449,7 @@ class RandoHandler(RaceHandler):
         if settings_permalink:
             await self.send_message("Rolling seed...")
 
-            generated_seed = self.generator.generate_seed(constants.STANDARD_PATH, settings_permalink, username, True)
+            generated_seed = await self._generate_seed(constants.STANDARD_PATH, settings_permalink, username, True)
             await self.update_race_room_with_generated_seed(settings_permalink, generated_seed, SeedType.SPOILER_LOG)
 
         planning_time = self.state.get("planning_time")
@@ -651,3 +651,10 @@ class RandoHandler(RaceHandler):
             if permalink_or_preset.startswith(prefix):
                 return True
         return False
+
+    async def _generate_seed(self, randomizer_path, permalink, username, generate_spoiler_log):
+        try:
+            return self.generator.generate_seed(randomizer_path, permalink, username, generate_spoiler_log)
+        except Exception:
+            await self.send_message("Failed to generate seed!")
+            raise Exception("Failed to generate seed")
