@@ -511,7 +511,7 @@ class RandoHandler(RaceHandler):
         if self._is_permalink(settings_key):
             return settings_key
         if settings_key in presets:
-            return settings_key
+            return presets.get(settings_key)
 
         await self.send_message(f"Preset \"{settings_key}\" not found!")
         raise Exception("Preset not found")
