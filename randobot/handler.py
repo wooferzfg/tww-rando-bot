@@ -508,7 +508,13 @@ class RandoHandler(RaceHandler):
         else:
             settings_key = settings_list[0]
 
-        return presets.get(settings_key, settings_key)
+        if self._is_permalink(settings_key):
+            return settings_key
+        if settings_key in presets:
+            return settings_key
+
+        await self.send_message(f"Preset \"{settings_key}\" not found!")
+        raise Exception("Preset not found")
 
     async def print_banned_presets(self):
         banned_presets = self.state.get("bans").values()
@@ -639,3 +645,9 @@ class RandoHandler(RaceHandler):
 
     def _race_in_progress(self):
         return self.data.get("status").get("value") in ("pending", "in_progress")
+
+    def _is_permalink(self, permalink_or_preset):
+        for prefix in constants.PERMALINK_PREFIXES:
+            if permalink_or_preset.startswith(prefix):
+                return True
+        return False
