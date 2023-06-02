@@ -347,27 +347,6 @@ class RandoHandler(RaceHandler):
             f"Tracker: {constants.RS_TRACKER}"
         )
 
-    async def ex_s5(self, args, message):
-        if not await self.can_roll_standard_seed(message):
-            return
-
-        await self.send_message("Rolling seed...")
-
-        settings_permalink = await self.choose_permalink(
-            constants.S5_DEFAULT,
-            constants.S5_PERMALINKS,
-            args
-        )
-
-        username = message.get('user', {}).get('name')
-        generated_seed = self.generator.generate_seed(constants.S5_PATH, settings_permalink, username, False)
-        await self.update_race_room_with_generated_seed(settings_permalink, generated_seed, SeedType.S5)
-
-        await self.send_message(
-            f"Please note that this seed has been rolled on the {constants.S5_VERSION} version of the randomizer. "
-            f"You can download it here: {constants.S5_DOWNLOAD}"
-        )
-
     async def can_roll_standard_seed(self, message):
         if self.state.get("locked") and not can_monitor(message):
             await self.send_message(

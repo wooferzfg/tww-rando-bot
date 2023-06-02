@@ -7,7 +7,6 @@ class SeedType(Enum):
     SPOILER_LOG = 2
     DEV = 3
     RANDOM_SETTINGS = 4
-    S5 = 5
 
 
 STANDARD_PERMALINKS = OrderedDict([
@@ -59,15 +58,6 @@ RS_PATH = "wwrando-random-settings"
 RS_VERSION = "v1.3.1"
 RS_DOWNLOAD = "https://github.com/tanjo3/wwrando/releases/tag/RS_v1.3.1"
 RS_TRACKER = "https://jaysc.github.io/tww-rando-tracker-rs/"
-
-S5_PERMALINKS = OrderedDict([
-    ("default", "UzUuMABTNQAVAyIAJ3l8gAEWAIx7AIE+AAAA"),
-])
-
-S5_DEFAULT = ["default"]
-S5_PATH = "wwrando-s5-tournament"
-S5_VERSION = "S5.0"
-S5_DOWNLOAD = "https://github.com/wooferzfg/wwrando/releases/tag/s5.0"
 
 BANNABLE_PRESETS = SPOILER_LOG_DEFAULT
 
