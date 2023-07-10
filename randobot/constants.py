@@ -10,6 +10,7 @@ class SeedType(Enum):
 
 
 STANDARD_PERMALINKS = OrderedDict([
+    ("s6",        "MS4xMC4wAEEAFwMiAHPowgMMsACCcQ8AAMkHAAAA"),
     ("s5",        "MS4xMC4wAEEAFQMiAJPowAMMsACCcQ8AAMkHAQAA"),
     ("s4",        "MS4xMC4wAEEABQsiAAUAvgMcsAACAAAAAAGAIAAA"),
     ("miniblins", "MS4xMC4wAEEABwMCAHOGwAMMcADC+Q8AAskPKQAG"),
@@ -18,7 +19,19 @@ STANDARD_PERMALINKS = OrderedDict([
     ("s3",        "MS4xMC4wAEEAFwMEAAQAvhMM8AADAAAAAAGAIAAA"),
 ])
 
-STANDARD_DEFAULT = ["s5"]
+RUNNER_AGREEMENTS = OrderedDict([
+    ("4drm",     "4-Dungeon Race Mode"),
+    ("nosword",  "No Starting Sword"),
+    ("der",      "Randomized Dungeon Entrances"),
+    ("keys",     "Key-Lunacy"),
+    ("tingle",   "Tingle Chests"),
+    ("expen",    "Expensive Purchases"),
+    ("subs",     "Submarines"),
+    ("minis",    "Minigames"),
+    ("combat",   "Combat Secret Caves"),
+])
+
+STANDARD_DEFAULT = ["s6"]
 STANDARD_PATH = "wwrando"
 
 SPOILER_LOG_PERMALINKS = OrderedDict([

@@ -1,10 +1,13 @@
-from datetime import datetime
-from github import Github, InputFileContent
+import base64
 import os
 import random
 import re
-import shortuuid
 import string
+import struct
+from datetime import datetime
+
+import shortuuid
+from github import Github, InputFileContent
 
 
 class Generator:
@@ -59,3 +62,104 @@ class Generator:
             "seed_hash": seed_hash,
             "spoiler_log_url": spoiler_log_url
         }
+
+    @staticmethod
+    def encode_permalink(version, seed, bit_array):
+        # NOTE: This function only works with the official 1.10 version of the randomizer!
+
+        # Start the permalink with the version number and seed name
+        permalink = b""
+        permalink += version
+        permalink += b"\0"
+        permalink += seed
+        permalink += b"\0"
+
+        # Unpack the bytes object as a bit array
+        bit_array = bit_array[::-1]
+        bytes_array = [bit_array[i : i + 8] for i in range(0, len(bit_array), 8)]
+        for byte in bytes_array:
+            byte = int("".join(byte[::-1]), 2)
+            permalink += struct.pack(">B", byte)
+
+        return base64.b64encode(permalink).decode("ascii")
+
+    @staticmethod
+    def decode_permalink(base64_encoded_permalink):
+        # NOTE: This function only works with the official 1.10 version of the randomizer!
+
+        # Decode permalink into a bytes object
+        permalink = base64.b64decode(base64_encoded_permalink)
+
+        # Split the permalink into the version, seed name, and option bits
+        version, seed, options_bytes = permalink.split(b"\0", 2)
+
+        # Unpack the option bytes object as a bit array
+        option_bytes = struct.unpack(f">{'B'*len(options_bytes)}", options_bytes)
+        bit_array = []
+        for byte in option_bytes:
+            bit_array.extend(list(bin(byte)[2:].zfill(8))[::-1])
+        bit_array = bit_array[::-1]
+
+        return version, seed, bit_array
+
+    @staticmethod
+    def apply_ra_modifier(base_permalink, modifier):
+        # NOTE: This function only works with the official 1.10 version of the randomizer!
+
+        # Convert the permalink to a bit array
+        version, seed, bit_array = Generator.decode_permalink(base_permalink)
+
+        # Modify bit array depending on modifier
+        match modifier:
+            case "4drm":
+                bit_array[87] = "0"
+                bit_array[88] = "1"
+                bit_array[89] = "1"
+            case "nosword":
+                bit_array[98] = "0"
+                bit_array[99] = "1"
+            case "der":
+                bit_array[142] = "0"
+                bit_array[143] = "0"
+                bit_array[144] = "1"
+            case "keys":
+                bit_array[145] = "1"
+            case "tingle":
+                bit_array[149] = "1"
+            case "expen":
+                bit_array[151] = "1"
+            case "subs":
+                bit_array[156] = "1"
+            case "minis":
+                bit_array[160] = "1"
+            case "combat":
+                bit_array[164] = "1"
+
+        # Encode updated bit array back into a permalink
+        updated_permalink = Generator.encode_permalink(version, seed, bit_array)
+
+        return updated_permalink
+
+    @staticmethod
+    def update_hint_distribution_for_ra(base_permalink):
+        # NOTE: This function only works with the official 1.10 version of the randomizer!
+
+        # Convert the permalink to a bit array
+        version, seed, bit_array = Generator.decode_permalink(base_permalink)
+
+        # Set the number of location hints to 8
+        bit_array[119] = "1"
+        bit_array[120] = "0"
+        bit_array[121] = "0"
+        bit_array[122] = "0"
+
+        # Set the number of barren hints to 5
+        bit_array[123] = "0"
+        bit_array[124] = "1"
+        bit_array[125] = "0"
+        bit_array[126] = "1"
+
+        # Encode updated bit array back into a permalink
+        updated_permalink = Generator.encode_permalink(version, seed, bit_array)
+
+        return updated_permalink

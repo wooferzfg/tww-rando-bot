@@ -1,12 +1,13 @@
 import asyncio
-import isodate
 import random
 from datetime import datetime, timedelta, timezone
 
+import isodate
 from racetime_bot import RaceHandler, can_monitor, monitor_cmd
 
 import randobot.constants as constants
 from randobot.constants import SeedType
+from randobot.generator import Generator
 
 
 class RandoHandler(RaceHandler):
@@ -223,6 +224,15 @@ class RandoHandler(RaceHandler):
         msg += ", ".join(constants.SPOILER_LOG_PERMALINKS.keys())
         await self.send_message(msg)
 
+    async def ex_ra(self, args, message):
+        msg = 'Runners\' agreements (RAs) may be used to modify S6 seeds. Example usage: "s6+4drm+nosword". '
+        msg += "Valid RA modifiers: "
+        msg += ", ".join([
+            f"{ra} ({description})"
+            for ra, description in constants.RUNNER_AGREEMENTS.items()
+        ])
+        await self.send_message(msg)
+        
     @monitor_cmd
     async def ex_lock(self, args, message):
         self.state["locked"] = True
@@ -484,37 +494,115 @@ class RandoHandler(RaceHandler):
             await self.print_example_permalink()
 
     async def choose_permalink(self, default_settings, presets, args):
-        if len(args) > 0:
-            settings_list = args
-        else:
-            settings_list = default_settings
+        # Use default settings if no arguments are provided to the command
+        settings_list = args if len(args) > 0 else default_settings
 
+        # Split args into permalinks and presets
+        permalink_args = []
+        preset_args = []
+        for settings in settings_list:
+            if self._is_permalink(settings):
+                permalink_args.append(settings)
+            else:
+                # Convert all non-permalink settings to lowercase
+                preset_args.append(settings.lower())
+
+        # Remove any settings that are banned
         banned_presets = self.state.get("bans").values()
-        settings_without_bans = [
-            preset
-            for preset in settings_list
-            if preset not in banned_presets
+        unbanned_presets = [
+            preset for preset in preset_args if preset not in banned_presets
         ]
 
-        if len(settings_list) > 1 and len(settings_without_bans) > 0:
-            settings_key = random.choice(settings_without_bans)
+        # Raise exception if all settings are banned
+        if len(permalink_args) + len(unbanned_presets) == 0:
+            msg = f"There were no valid settings to choose from after bans!"
+            await self.send_message(msg)
+            raise Exception(msg)
+
+        # Split out runners' agreement modifiers from the settings
+        parsed_presets = [tuple(settings.split("+")) for settings in unbanned_presets]
+
+        # Raise exception if any of the presets are invalid
+        invalid_presets = set(
+            f'"{settings[0]}"'
+            for settings in parsed_presets
+            if settings[0] not in presets.keys()
+        )
+        if len(invalid_presets) > 0:
+            msg = f"Invalid preset{'s' if len(invalid_presets) != 1 else ''}: {', '.join(invalid_presets)}"
+            await self.send_message(msg)
+            raise Exception(msg)
+
+        # Raise exception if any runners' agreement modifiers are applied to non-S6 seeds
+        invalid_presets = set(
+            f'"{"+".join(settings)}"'
+            for settings in parsed_presets
+            if len(settings) > 1 and settings[0] != "s6"
+        )
+        if len(invalid_presets) > 0:
+            msg = f"Invalid preset{'s' if len(invalid_presets) != 1 else ''}: {', '.join(invalid_presets)}"
+            msg += " - Runners' agreement modifiers are not allowed for non-S6 seeds!"
+            await self.send_message(msg)
+            raise Exception(msg)
+
+        # Raise exception if any runners' agreement modifiers are invalid
+        invalid_presets = set(
+            f'"{"+".join(settings)}"'
+            for settings in parsed_presets
+            if any(
+                modifier not in constants.RUNNER_AGREEMENTS.keys()
+                for modifier in settings[1:]
+            )
+        )
+        if len(invalid_presets) > 0:
+            msg = f"Invalid preset{'s' if len(invalid_presets) != 1 else ''}: {', '.join(invalid_presets)}"
+            msg += f" - Invalid runners' agreement modifier{'s' if len(invalid_presets) != 1 else ''}!"
+            await self.send_message(msg)
+            raise Exception(msg)
+
+        # Select a settings key at random from the list of valid settings
+        valid_settings = permalink_args + parsed_presets
+        settings_idx = int(random.random() * len(valid_settings))
+        if settings_idx < len(permalink_args):
+            settings_key = permalink_args[settings_idx]
+            preset_modifiers = []
+        else:
+            settings_idx -= len(permalink_args)
+            settings_key, *preset_modifiers = parsed_presets[settings_idx]
+
+        # If a selection was made from more than one option or if selection is a S6 seed with runners' agreement
+        # modifiers, update race room chat and info
+        if len(valid_settings) > 1 or len(preset_modifiers) > 0:
             settings_text = f"Settings: {settings_key}"
+            if len(preset_modifiers) > 0:
+                settings_text += f"+{'+'.join(preset_modifiers)}"
             settings_description = constants.SETTINGS_DESCRIPTIONS.get(settings_key)
             if settings_description:
                 settings_text += f" ({settings_description})"
-
             await self.send_message(settings_text)
             await self.set_raceinfo(settings_text, False, False)
-        else:
-            settings_key = settings_list[0]
 
+        # Determine the permalink for the settings
         if self._is_permalink(settings_key):
-            return settings_key
-        if settings_key in presets:
-            return presets.get(settings_key)
+            settings_permalink = settings_key
+        else:
+            # Get base S6 permalink
+            settings_permalink = presets.get(settings_key)
 
-        await self.send_message(f"Preset \"{settings_key}\" not found!")
-        raise Exception("Preset not found")
+            # Add additional settings based on modifiers
+            for modifier in preset_modifiers:
+                settings_permalink = Generator.apply_ra_modifier(
+                    settings_permalink, modifier
+                )
+
+            # Update the hint distribution
+            if len(preset_modifiers) > 0:
+                settings_permalink = Generator.update_hint_distribution_for_ra(
+                    settings_permalink
+                )
+
+        # Return the permalink for the settings
+        return settings_permalink
 
     async def print_banned_presets(self):
         banned_presets = self.state.get("bans").values()
