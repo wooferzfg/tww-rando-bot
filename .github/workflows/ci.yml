@@ -25,6 +25,12 @@ jobs:
       - name: Run flake8
         run: flake8
 
+      - name: Install requirements
+        run: pip install -e .
+
+      - name: Run tests
+        run: python -m unittest discover -s randobot/tests -p 'test_*.py'
+
   deploy:
     runs-on: ubuntu-latest
     needs: build
