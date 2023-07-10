@@ -567,8 +567,7 @@ class RandoHandler(RaceHandler):
             settings_key = permalink_args[settings_idx]
             preset_modifiers = []
         else:
-            settings_idx -= len(permalink_args)
-            settings_key, *preset_modifiers = parsed_presets[settings_idx]
+            settings_key, *preset_modifiers = valid_settings[settings_idx]
 
         # If a selection was made from more than one option or if selection is a S6 seed with runners' agreement
         # modifiers, update race room chat and info
