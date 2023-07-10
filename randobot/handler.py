@@ -232,7 +232,7 @@ class RandoHandler(RaceHandler):
             for ra, description in constants.RUNNER_AGREEMENTS.items()
         ])
         await self.send_message(msg)
-        
+
     @monitor_cmd
     async def ex_lock(self, args, message):
         self.state["locked"] = True
@@ -515,7 +515,7 @@ class RandoHandler(RaceHandler):
 
         # Raise exception if all settings are banned
         if len(permalink_args) + len(unbanned_presets) == 0:
-            msg = f"There were no valid settings to choose from after bans!"
+            msg = "There were no valid settings to choose from after bans!"
             await self.send_message(msg)
             raise Exception(msg)
 
