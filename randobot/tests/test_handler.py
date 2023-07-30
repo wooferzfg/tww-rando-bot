@@ -37,7 +37,10 @@ def create_rando_handler(generator, state):
 
 
 def get_mock_message_data():
-    return {"user": {"name": "test_user"}}
+    return {
+        "is_monitor": True,
+        "user": {"name": "test_user"},
+    }
 
 
 class TestHandler(unittest.IsolatedAsyncioTestCase):

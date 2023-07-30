@@ -50,6 +50,7 @@ class RandoHandler(RaceHandler):
         self.state["spoiler_log_race_started"] = False
         self.state["random_settings_spoiler_log_url"] = None
         self.state["random_settings_spoiler_log_unlocked"] = False
+        self.state["locked"] = True
 
     def close_handler(self):
         self.loop_ended = True
@@ -360,7 +361,9 @@ class RandoHandler(RaceHandler):
     async def can_roll_standard_seed(self, message):
         if self.state.get("locked") and not can_monitor(message):
             await self.send_message(
-                "Seed rolling is locked. Only the creator of this room, a race monitor, or a moderator can roll a seed."
+                "Seed rolling is locked. "
+                "Only the creator of this room, a race monitor, or a moderator can roll a seed. "
+                "(Use !unlock to unlock seed rolling.)"
             )
             return False
 
@@ -422,7 +425,7 @@ class RandoHandler(RaceHandler):
         if self.state.get("locked") and not can_monitor(message):
             await self.send_message(
                 "Race starting is locked. Only the creator of this room, a race monitor, "
-                "or a moderator can start a race."
+                "or a moderator can start a race. (Use !unlock to unlock race starting.)"
             )
             return
 
@@ -436,7 +439,7 @@ class RandoHandler(RaceHandler):
         if self.state.get("locked") and not can_monitor(message):
             await self.send_message(
                 "Seed rolling is locked. Only the creator of this room, a race monitor, "
-                "or a moderator can roll a seed."
+                "or a moderator can roll a seed. (Use !unlock to unlock seed rolling.)"
             )
             return
 
