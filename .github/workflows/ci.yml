@@ -57,7 +57,7 @@ jobs:
           script: |
             docker stop $(docker ps -aq) || true
             docker rm $(docker ps -aq) || true
-            docker system prune -f || true
+            docker system prune -af || true
             sudo rm -r tww-rando-bot || true
             git clone --recursive https://github.com/wooferzfg/tww-rando-bot.git
             echo "${{ secrets.WWRANDO_SEED_KEY }}" > tww-rando-bot/wwrando/keys/seed_key.py
