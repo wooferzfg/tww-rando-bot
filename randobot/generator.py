@@ -7,7 +7,7 @@ import struct
 from datetime import datetime
 
 import shortuuid
-from github import Github, InputFileContent
+from github import Auth, Github, InputFileContent
 
 
 class Generator:
@@ -45,7 +45,8 @@ class Generator:
             os.remove(spoiler_log_file_name)
 
             timestamp = datetime.now().strftime("%Y-%m-%d-%H:%M:%S")
-            gh = Github(self.github_token)
+            auth = Auth.Token(self.github_token)
+            gh = Github(auth=auth)
             gh_auth_user = gh.get_user()
             gist = gh_auth_user.create_gist(
                 public=False,
