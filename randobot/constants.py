@@ -5,8 +5,7 @@ from enum import Enum
 class SeedType(Enum):
     STANDARD = 1
     SPOILER_LOG = 2
-    DEV = 3
-    RANDOM_SETTINGS = 4
+    RANDOM_SETTINGS = 3
 
 
 STANDARD_PERMALINKS = OrderedDict([
@@ -66,6 +65,19 @@ DEV_DEFAULT = ["default"]
 DEV_PATH = "wwrando-dev-tanjo3"
 DEV_VERSION = "1.9.10_dev"
 DEV_DOWNLOAD = "https://github.com/tanjo3/wwrando/releases"
+
+MP_PERMALINKS = OrderedDict([
+    ("mixed-pools", "MS4xMC4wX2Q1MTRhMjIAQQDfsGDs8CcC4vgJxj0AACQfAAAAEA=="),
+])
+MP_DEFAULT = ["mixed-pools"]
+
+MP_SL_PERMALINKS = OrderedDict([
+    ("mixed-pools-sl", "MS4xMC4wX2Q1MTRhMjIAQQDfsGDs8CcC4vgJxj0AACQfAAAAAA=="),
+])
+MP_SL_DEFAULT = ["mixed-pools-sl"]
+
+MP_PATH = "wwrando-mixed-pools"
+MP_DOWNLOAD = "https://github.com/wooferzfg/wwrando/releases/tag/mixed-pools-tourney-build"
 
 RS_PATH = "wwrando-random-settings"
 RS_VERSION = "v1.3.1"

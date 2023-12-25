@@ -10,3 +10,7 @@
 	path = wwrando-random-settings
 	url = https://github.com/wooferzfg/wwrando.git
 	branch = random-settings
+[submodule "wwrando-mixed-pools"]
+	path = wwrando-mixed-pools
+	url = https://github.com/wooferzfg/wwrando.git
+	branch = mixed-pools-tourney

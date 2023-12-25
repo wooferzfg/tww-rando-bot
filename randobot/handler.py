@@ -30,6 +30,7 @@ class RandoHandler(RaceHandler):
         self.state["permalink_available"] = False
         self.state["file_name_available"] = False
         self.state["permalink"] = None
+        self.state["example_permalink"] = None
         self.state["seed_hash"] = None
         self.state["spoiler_log_url"] = None
         self.state["planning_time"] = constants.DEFAULT_PLANNING_TIME
@@ -336,11 +337,34 @@ class RandoHandler(RaceHandler):
 
         username = message.get('user', {}).get('name')
         generated_seed = await self._generate_seed(constants.DEV_PATH, settings_permalink, username, False)
-        await self.update_race_room_with_generated_seed(settings_permalink, generated_seed, SeedType.DEV)
+        await self.update_race_room_with_generated_seed(settings_permalink, generated_seed, SeedType.STANDARD)
         await self.send_message(
             f"Please note that this seed has been rolled on the {constants.DEV_VERSION} version of the randomizer. "
             f"You can download it here: {constants.DEV_DOWNLOAD}"
         )
+
+    async def ex_rollmpseed(self, args, message):
+        if not await self.can_roll_standard_seed(message):
+            return
+
+        await self.send_message("Rolling seed...")
+
+        settings_permalink = await self.choose_permalink(
+            constants.MP_DEFAULT,
+            constants.MP_PERMALINKS,
+            args
+        )
+
+        username = message.get('user', {}).get('name')
+        generated_seed = await self._generate_seed(
+            constants.MP_PATH,
+            settings_permalink,
+            username,
+            generate_spoiler_log=False,
+            new_args_format=True,
+        )
+        await self.update_race_room_with_generated_seed(settings_permalink, generated_seed, SeedType.STANDARD)
+        await self.print_mixed_pools_build()
 
     async def ex_randomsettings(self, args, message):
         if not await self.can_roll_standard_seed(message):
@@ -377,6 +401,20 @@ class RandoHandler(RaceHandler):
             await self.send_message("Seed already rolled!")
             await self.send_message(f"Permalink: {permalink}")
             await self.send_message(f"Seed Hash: {seed_hash}")
+            return False
+
+        return True
+
+    async def can_start_spoiler_log_race(self, message):
+        if self.state.get("locked") and not can_monitor(message):
+            await self.send_message(
+                "Seed rolling is locked. Only the creator of this room, a race monitor, "
+                "or a moderator can roll a seed. (Use !unlock to unlock seed rolling.)"
+            )
+            return False
+
+        if self.state.get("spoiler_log_seed_rolled"):
+            await self.send_message("Seed already rolled!")
             return False
 
         return True
@@ -433,18 +471,10 @@ class RandoHandler(RaceHandler):
             await self.send_message("Race already started!")
             return
 
-        self.loop.create_task(self.start_spoiler_log_race(None, None))
+        self.loop.create_task(self.start_spoiler_log_race())
 
     async def ex_startspoilerlograce(self, args, message):
-        if self.state.get("locked") and not can_monitor(message):
-            await self.send_message(
-                "Seed rolling is locked. Only the creator of this room, a race monitor, "
-                "or a moderator can roll a seed. (Use !unlock to unlock seed rolling.)"
-            )
-            return
-
-        if self.state.get("spoiler_log_seed_rolled"):
-            await self.send_message("Seed already rolled!")
+        if not await self.can_start_spoiler_log_race(message):
             return
 
         settings_permalink = await self.choose_permalink(
@@ -454,16 +484,38 @@ class RandoHandler(RaceHandler):
         )
         username = message.get('user', {}).get('name')
 
-        self.loop.create_task(self.start_spoiler_log_race(settings_permalink, username))
+        await self.send_message("Rolling seed...")
+        generated_seed = await self._generate_seed(constants.STANDARD_PATH, settings_permalink, username, True)
+        await self.update_race_room_with_generated_seed(settings_permalink, generated_seed, SeedType.SPOILER_LOG)
 
-    async def start_spoiler_log_race(self, settings_permalink, username):
+        self.loop.create_task(self.start_spoiler_log_race())
+
+    async def ex_startmpspoilerlograce(self, args, message):
+        if not await self.can_start_spoiler_log_race(message):
+            return
+
+        settings_permalink = await self.choose_permalink(
+            constants.MP_SL_DEFAULT,
+            constants.MP_SL_PERMALINKS,
+            args
+        )
+        username = message.get('user', {}).get('name')
+
+        await self.send_message("Rolling seed...")
+        generated_seed = await self._generate_seed(
+            constants.MP_PATH,
+            settings_permalink,
+            username,
+            generate_spoiler_log=True,
+            new_args_format=True,
+        )
+        await self.update_race_room_with_generated_seed(settings_permalink, generated_seed, SeedType.SPOILER_LOG)
+        await self.print_mixed_pools_build()
+
+        self.loop.create_task(self.start_spoiler_log_race())
+
+    async def start_spoiler_log_race(self):
         self.state["spoiler_log_seed_rolled"] = True
-
-        if settings_permalink:
-            await self.send_message("Rolling seed...")
-
-            generated_seed = await self._generate_seed(constants.STANDARD_PATH, settings_permalink, username, True)
-            await self.update_race_room_with_generated_seed(settings_permalink, generated_seed, SeedType.SPOILER_LOG)
 
         planning_time = self.state.get("planning_time")
 
@@ -618,6 +670,12 @@ class RandoHandler(RaceHandler):
     def seconds_remaining(self):
         return (self.state.get("race_start_time") - datetime.now()).total_seconds()
 
+    async def print_mixed_pools_build(self):
+        await self.send_message(
+            f"Please note that this seed has been rolled on the Mixed Pools Tournament version of the randomizer. "
+            f"You can download it here: {constants.MP_DOWNLOAD}"
+        )
+
     async def print_example_permalink(self):
         example_permalink = self.state.get("example_permalink")
         if example_permalink:
@@ -742,9 +800,9 @@ class RandoHandler(RaceHandler):
                 return True
         return False
 
-    async def _generate_seed(self, randomizer_path, permalink, username, generate_spoiler_log):
+    async def _generate_seed(self, *args, **kwargs):
         try:
-            return self.generator.generate_seed(randomizer_path, permalink, username, generate_spoiler_log)
+            return self.generator.generate_seed(*args, **kwargs)
         except Exception:
             await self.send_message("Failed to generate seed!")
             raise Exception("Failed to generate seed")
