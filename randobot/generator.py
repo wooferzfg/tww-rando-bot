@@ -14,15 +14,19 @@ class Generator:
     def __init__(self, github_token):
         self.github_token = github_token
 
-    def generate_seed(self, randomizer_path, permalink, username, generate_spoiler_log):
+    def generate_seed(self, randomizer_path, permalink, username, generate_spoiler_log, new_args_format=False):
         trimmed_name = re.sub(r'\W+', '', username)[:12]
         random_suffix = shortuuid.ShortUUID().random(length=10)
         seed_name = f"{trimmed_name}{random_suffix}"
         file_name = "".join(random.choice(string.digits) for _ in range(6))
 
+        if new_args_format:
+            args = f"--noui --dry --seed={seed_name} --permalink={permalink}"
+        else:
+            args = f"-noui -seed={seed_name} -permalink={permalink}"
+
         os.system(
-            f"/venv/{randomizer_path}/bin/python {randomizer_path}/wwrando.py "
-            f"-noui -seed={seed_name} -permalink={permalink}"
+            f"/venv/{randomizer_path}/bin/python {randomizer_path}/wwrando.py {args}"
         )
 
         permalink_file_name = f"permalink_{seed_name}.txt"
