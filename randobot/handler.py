@@ -356,7 +356,13 @@ class RandoHandler(RaceHandler):
         )
 
         username = message.get('user', {}).get('name')
-        generated_seed = await self._generate_seed(constants.MP_PATH, settings_permalink, username, False, new_args_format=True)
+        generated_seed = await self._generate_seed(
+            constants.MP_PATH,
+            settings_permalink,
+            username,
+            generate_spoiler_log=False,
+            new_args_format=True,
+        )
         await self.update_race_room_with_generated_seed(settings_permalink, generated_seed, SeedType.STANDARD)
         await self.print_mixed_pools_build()
 
@@ -496,7 +502,13 @@ class RandoHandler(RaceHandler):
         username = message.get('user', {}).get('name')
 
         await self.send_message("Rolling seed...")
-        generated_seed = await self._generate_seed(constants.MP_PATH, settings_permalink, username, True, new_args_format=True)
+        generated_seed = await self._generate_seed(
+            constants.MP_PATH,
+            settings_permalink,
+            username,
+            generate_spoiler_log=True,
+            new_args_format=True,
+        )
         await self.update_race_room_with_generated_seed(settings_permalink, generated_seed, SeedType.SPOILER_LOG)
         await self.print_mixed_pools_build()
 
