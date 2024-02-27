@@ -390,25 +390,25 @@ class TestHandler(unittest.IsolatedAsyncioTestCase):
         self.assertEqual(mock_send_message.call_count, 4)
         mock_send_message.assert_has_calls([
             call("Rolling seed..."),
-            call("Permalink: PERMA_MS4xMC4wX2Q1MTRhMjIAQQDfsGDs8CcC4vgJxj0AACQfAAAAEA=="),
+            call("Permalink: PERMA_MS4xMC4wXzVmMWJhZTYAQQDfsGDs4E8ExPETjHsAAEg+AAAAIA=="),
             call("Seed Hash: SEED HASH"),
             call(
                 "Please note that this seed has been rolled on the Mixed Pools "
-                "Tournament version of the randomizer. You can download it here: "
-                "https://github.com/wooferzfg/wwrando/releases/tag/mixed-pools-tourney-build"
+                "version of the randomizer. You can download it here: "
+                "https://github.com/wooferzfg/wwrando/releases/tag/mixed-pools-build"
             ),
         ])
 
         self.assertEqual(mock_set_raceinfo.call_count, 1)
         mock_set_raceinfo.assert_has_calls([
-            call("PERMA_MS4xMC4wX2Q1MTRhMjIAQQDfsGDs8CcC4vgJxj0AACQfAAAAEA== | Seed Hash: SEED HASH", False, False),
+            call("PERMA_MS4xMC4wXzVmMWJhZTYAQQDfsGDs4E8ExPETjHsAAEg+AAAAIA== | Seed Hash: SEED HASH", False, False),
         ])
 
         self.assertEqual(mock_generate_seed.call_count, 1)
         mock_generate_seed.assert_has_calls([
             call(
                 "wwrando-mixed-pools",
-                "MS4xMC4wX2Q1MTRhMjIAQQDfsGDs8CcC4vgJxj0AACQfAAAAEA==",
+                "MS4xMC4wXzVmMWJhZTYAQQDfsGDs4E8ExPETjHsAAEg+AAAAIA==",
                 "test_user",
                 generate_spoiler_log=False,
                 new_args_format=True,
@@ -520,8 +520,8 @@ class TestHandler(unittest.IsolatedAsyncioTestCase):
             call("Seed rolled!"),
             call(
                 "Please note that this seed has been rolled on the Mixed Pools "
-                "Tournament version of the randomizer. You can download it here: "
-                "https://github.com/wooferzfg/wwrando/releases/tag/mixed-pools-tourney-build"
+                "version of the randomizer. You can download it here: "
+                "https://github.com/wooferzfg/wwrando/releases/tag/mixed-pools-build"
             ),
             call("Preparation stage starts in 15 seconds..."),
             call("5..."),
@@ -531,7 +531,7 @@ class TestHandler(unittest.IsolatedAsyncioTestCase):
             call("1..."),
             call("You have 60 minutes to prepare your route!"),
             call("Spoiler Log: SPOILER_LOG_URL"),
-            call("Example Permalink: MS4xMC4wX2Q1MTRhMjIAQQDfsGDs8CcC4vgJxj0AACQfAAAAAA=="),
+            call("Example Permalink: MS4xMC4wXzVmMWJhZTYAQQDfsGDs4E8ExPETjHsAAEg+AAAAAA=="),
             call("Warning: The seed from this permalink does not match the actual permalink!")
         ])
 
@@ -541,7 +541,7 @@ class TestHandler(unittest.IsolatedAsyncioTestCase):
         mock_generate_seed.assert_has_calls([
             call(
                 "wwrando-mixed-pools",
-                "MS4xMC4wX2Q1MTRhMjIAQQDfsGDs8CcC4vgJxj0AACQfAAAAAA==",
+                "MS4xMC4wXzVmMWJhZTYAQQDfsGDs4E8ExPETjHsAAEg+AAAAAA==",
                 "test_user",
                 generate_spoiler_log=True,
                 new_args_format=True,
@@ -549,8 +549,8 @@ class TestHandler(unittest.IsolatedAsyncioTestCase):
         ])
 
         self.assertEqual(state["spoiler_log_seed_rolled"], True)
-        self.assertEqual(state["example_permalink"], "MS4xMC4wX2Q1MTRhMjIAQQDfsGDs8CcC4vgJxj0AACQfAAAAAA==")
-        self.assertEqual(state["permalink"], "PERMA_MS4xMC4wX2Q1MTRhMjIAQQDfsGDs8CcC4vgJxj0AACQfAAAAAA==")
+        self.assertEqual(state["example_permalink"], "MS4xMC4wXzVmMWJhZTYAQQDfsGDs4E8ExPETjHsAAEg+AAAAAA==")
+        self.assertEqual(state["permalink"], "PERMA_MS4xMC4wXzVmMWJhZTYAQQDfsGDs4E8ExPETjHsAAEg+AAAAAA==")
         self.assertEqual(state["spoiler_log_url"], "SPOILER_LOG_URL")
         self.assertEqual(state["seed_hash"], "SEED HASH")
         self.assertEqual(state["file_name"], "FILENAME")

@@ -672,7 +672,7 @@ class RandoHandler(RaceHandler):
 
     async def print_mixed_pools_build(self):
         await self.send_message(
-            f"Please note that this seed has been rolled on the Mixed Pools Tournament version of the randomizer. "
+            f"Please note that this seed has been rolled on the Mixed Pools version of the randomizer. "
             f"You can download it here: {constants.MP_DOWNLOAD}"
         )
 

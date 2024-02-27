@@ -13,4 +13,4 @@
 [submodule "wwrando-mixed-pools"]
 	path = wwrando-mixed-pools
 	url = https://github.com/wooferzfg/wwrando.git
-	branch = mixed-pools-tourney
+	branch = mixed-pools
