@@ -67,17 +67,17 @@ DEV_VERSION = "1.9.10_dev"
 DEV_DOWNLOAD = "https://github.com/tanjo3/wwrando/releases"
 
 MP_PERMALINKS = OrderedDict([
-    ("mixed-pools", "MS4xMC4wX2Q1MTRhMjIAQQDfsGDs8CcC4vgJxj0AACQfAAAAEA=="),
+    ("mixed-pools", "MS4xMC4wXzVmMWJhZTYAQQDfsGDs4E8ExPETjHsAAEg+AAAAIA=="),
 ])
 MP_DEFAULT = ["mixed-pools"]
 
 MP_SL_PERMALINKS = OrderedDict([
-    ("mixed-pools-sl", "MS4xMC4wX2Q1MTRhMjIAQQDfsGDs8CcC4vgJxj0AACQfAAAAAA=="),
+    ("mixed-pools-sl", "MS4xMC4wXzVmMWJhZTYAQQDfsGDs4E8ExPETjHsAAEg+AAAAAA=="),
 ])
 MP_SL_DEFAULT = ["mixed-pools-sl"]
 
 MP_PATH = "wwrando-mixed-pools"
-MP_DOWNLOAD = "https://github.com/wooferzfg/wwrando/releases/tag/mixed-pools-tourney-build"
+MP_DOWNLOAD = "https://github.com/wooferzfg/wwrando/releases/tag/mixed-pools-build"
 
 RS_PATH = "wwrando-random-settings"
 RS_VERSION = "v1.3.1"
