@@ -415,6 +415,43 @@ class TestHandler(unittest.IsolatedAsyncioTestCase):
             ),
         ])
 
+    @patch.object(MockGenerator, "generate_seed", side_effect=mock_generate_seed_standard)
+    @patch.object(RandoHandler, "set_raceinfo", return_value=async_return(None))
+    @patch.object(RandoHandler, "send_message", return_value=async_return(None))
+    async def test_miniblins(self, mock_send_message, mock_set_raceinfo, mock_generate_seed):
+        generator = MockGenerator()
+        state = {}
+        handler = create_rando_handler(generator, state)
+        await handler.ex_miniblins([], get_mock_message_data())
+
+        self.assertEqual(mock_send_message.call_count, 4)
+        mock_send_message.assert_has_calls([
+            call("Rolling seed..."),
+            call("Permalink: PERMA_MS4xMC4wXzVmMWJhZTYAQQBNMEBMAEAEEvETzn8AEEh+SAEAIw=="),
+            call("Seed Hash: SEED HASH"),
+            call(
+                "Please note that this seed has been rolled on the Mixed Pools "
+                "version of the randomizer. You can download it here: "
+                "https://github.com/wooferzfg/wwrando/releases/tag/mixed-pools-build"
+            ),
+        ])
+
+        self.assertEqual(mock_set_raceinfo.call_count, 1)
+        mock_set_raceinfo.assert_has_calls([
+            call("PERMA_MS4xMC4wXzVmMWJhZTYAQQBNMEBMAEAEEvETzn8AEEh+SAEAIw== | Seed Hash: SEED HASH", False, False),
+        ])
+
+        self.assertEqual(mock_generate_seed.call_count, 1)
+        mock_generate_seed.assert_has_calls([
+            call(
+                "wwrando-mixed-pools",
+                "MS4xMC4wXzVmMWJhZTYAQQBNMEBMAEAEEvETzn8AEEh+SAEAIw==",
+                "test_user",
+                generate_spoiler_log=False,
+                new_args_format=True,
+            ),
+        ])
+
     @patch("asyncio.sleep", return_value=async_return(None))
     @patch("random.random", return_value=0.6123)
     @patch.object(MockGenerator, "generate_seed", side_effect=mock_generate_seed_spoiler_log)

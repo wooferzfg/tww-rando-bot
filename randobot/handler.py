@@ -366,6 +366,9 @@ class RandoHandler(RaceHandler):
         await self.update_race_room_with_generated_seed(settings_permalink, generated_seed, SeedType.STANDARD)
         await self.print_mixed_pools_build()
 
+    async def ex_miniblins(self, args, message):
+        await self.ex_rollmpseed(['miniblins'], message)
+
     async def ex_randomsettings(self, args, message):
         if not await self.can_roll_standard_seed(message):
             return
