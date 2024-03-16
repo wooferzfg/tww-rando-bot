@@ -9,13 +9,13 @@ class SeedType(Enum):
 
 
 STANDARD_PERMALINKS = OrderedDict([
-    ("s6",        "MS4xMC4wAEEAFwMiAHPowgMMsACCcQ8AAMkHAAAA"),
-    ("s5",        "MS4xMC4wAEEAFQMiAJPowAMMsACCcQ8AAMkHAQAA"),
-    ("s4",        "MS4xMC4wAEEABQsiAAUAvgMcsAACAAAAAAGAIAAA"),
-    ("miniblins", "MS4xMC4wAEEABwMCAHOGwAMMcADC+Q8AAskPKQAG"),
-    ("co-op",     "MS4xMC4wAEEAFQsmANsMwQMcMAGCcQ8AAMkHAAAA"),
-    ("allsanity", "MS4xMC4wAEEA//9/gtsMwQMcUAECAAAAAAkAAAAA"),
-    ("s3",        "MS4xMC4wAEEAFwMEAAQAvhMM8AADAAAAAAGAIAAA"),
+    ("s6",           "MS4xMC4wAEEAFwMiAHPowgMMsACCcQ8AAMkHAAAA"),
+    ("s5",           "MS4xMC4wAEEAFQMiAJPowAMMsACCcQ8AAMkHAQAA"),
+    ("s4",           "MS4xMC4wAEEABQsiAAUAvgMcsAACAAAAAAGAIAAA"),
+    ("miniblins-s1", "MS4xMC4wAEEABwMCAHOGwAMMcADC+Q8AAskPKQAG"),
+    ("co-op",        "MS4xMC4wAEEAFQsmANsMwQMcMAGCcQ8AAMkHAAAA"),
+    ("allsanity",    "MS4xMC4wAEEA//9/gtsMwQMcUAECAAAAAAkAAAAA"),
+    ("s3",           "MS4xMC4wAEEAFwMEAAQAvhMM8AADAAAAAAGAIAAA"),
 ])
 
 RUNNER_AGREEMENTS = OrderedDict([
@@ -67,6 +67,7 @@ DEV_VERSION = "1.9.10_dev"
 DEV_DOWNLOAD = "https://github.com/tanjo3/wwrando/releases"
 
 MP_PERMALINKS = OrderedDict([
+    ("miniblins",   "MS4xMC4wXzVmMWJhZTYAQQBNMEBMAEAEEvETzn8AEEh+SAEAIw=="),
     ("mixed-pools", "MS4xMC4wXzVmMWJhZTYAQQDfsGDs4E8ExPETjHsAAEg+AAAAIA=="),
 ])
 MP_DEFAULT = ["mixed-pools"]
