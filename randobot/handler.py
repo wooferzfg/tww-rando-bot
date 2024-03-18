@@ -375,9 +375,22 @@ class RandoHandler(RaceHandler):
 
         await self.send_message("Rolling seed...")
 
+        settings_permalink = await self.choose_permalink(
+            constants.RS_DEFAULT,
+            constants.RS_PERMALINKS,
+            args
+        )
+
         username = message.get('user', {}).get('name')
-        generated_seed = await self._generate_seed(constants.RS_PATH, username, username, True)
-        await self.update_race_room_with_generated_seed(None, generated_seed, SeedType.RANDOM_SETTINGS)
+        generated_seed = await self._generate_seed(
+            constants.RS_PATH,
+            settings_permalink,
+            username,
+            generate_spoiler_log=True,
+            args_format=ArgFormat.RS14,
+        )
+
+        await self.update_race_room_with_generated_seed(settings_permalink, generated_seed, SeedType.RANDOM_SETTINGS)
 
         await self.send_message(
             f"Please note that this seed uses the Random Settings {constants.RS_VERSION} build of the randomizer. "
@@ -443,18 +456,10 @@ class RandoHandler(RaceHandler):
             self.state["file_name"] = file_name
 
             await self.send_message("Seed rolled!")
-        elif type == SeedType.RANDOM_SETTINGS:
-            self.state["permalink"] = None
-            self.state["random_settings_spoiler_log_url"] = generated_seed.get("spoiler_log_url")
-            self.state["random_settings_seed_rolled"] = True
-
-            await self.send_message(f"Seed: {permalink}")
-            await self.send_message(f"Seed Hash: {seed_hash}")
-
-            race_info = f"Seed: {permalink} | Seed Hash: {seed_hash}"
-            await self.set_raceinfo(race_info, False, False)
         else:
             self.state["permalink_available"] = True
+            if type == SeedType.RANDOM_SETTINGS:
+                self.state["random_settings_spoiler_log_url"] = generated_seed.get("spoiler_log_url")
 
             await self.send_message(f"Permalink: {permalink}")
             await self.send_message(f"Seed Hash: {seed_hash}")

@@ -65,7 +65,7 @@ jobs:
             echo "${{ secrets.WWRANDO_SEED_KEY }}" > tww-rando-bot/wwrando/keys/seed_key.py
             echo "${{ secrets.WWRANDO_MP_SEED_KEY }}" > tww-rando-bot/wwrando-mixed-pools/keys/seed_key.py
             echo "${{ secrets.WWRANDO_DEV_TANJO3_SEED_KEY }}" > tww-rando-bot/wwrando-dev-tanjo3/keys/seed_key.py
-            echo "${{ secrets.WWRANDO_DEV_TANJO3_SEED_KEY }}" > tww-rando-bot/wwrando-random-settings/keys/seed_key.py
+            echo "${{ secrets.WWRANDO_RS_SEED_KEY }}" > tww-rando-bot/wwrando-random-settings/keys/seed_key.py
             cd tww-rando-bot
             docker-compose build --no-cache
             export GITHUB_TOKEN=${{ secrets.BOT_GITHUB_TOKEN }}
