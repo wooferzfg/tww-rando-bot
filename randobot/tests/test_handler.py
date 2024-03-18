@@ -2,6 +2,7 @@ import asyncio
 import unittest
 from unittest.mock import call, patch
 
+from randobot.generator import ArgFormat
 from randobot.handler import RandoHandler
 
 
@@ -10,7 +11,7 @@ class MockGenerator():
         raise Exception("Method not properly mocked")
 
 
-def mock_generate_seed_standard(randomizer_path, permalink, username, generate_spoiler_log, new_args_format=False):
+def mock_generate_seed_standard(randomizer_path, permalink, username, generate_spoiler_log, args_format=ArgFormat.V110):
     return {
         "file_name": "FILENAME",
         "permalink": f"PERMA_{permalink}",
@@ -19,7 +20,8 @@ def mock_generate_seed_standard(randomizer_path, permalink, username, generate_s
     }
 
 
-def mock_generate_seed_spoiler_log(randomizer_path, permalink, username, generate_spoiler_log, new_args_format=False):
+def mock_generate_seed_spoiler_log(randomizer_path, permalink, username, generate_spoiler_log,
+                                   args_format=ArgFormat.V110):
     if not generate_spoiler_log:
         raise Exception("Did not generate spoiler log")
 
@@ -411,7 +413,7 @@ class TestHandler(unittest.IsolatedAsyncioTestCase):
                 "MS4xMC4wXzVmMWJhZTYAQQDfsGDs4E8ExPETjHsAAEg+AAAAIA==",
                 "test_user",
                 generate_spoiler_log=False,
-                new_args_format=True,
+                args_format=ArgFormat.V111,
             ),
         ])
 
@@ -448,7 +450,7 @@ class TestHandler(unittest.IsolatedAsyncioTestCase):
                 "MS4xMC4wXzVmMWJhZTYAQQBNMEBMAEAEEvETzn8AEEh+SAEAIw==",
                 "test_user",
                 generate_spoiler_log=False,
-                new_args_format=True,
+                args_format=ArgFormat.V111,
             ),
         ])
 
@@ -581,7 +583,7 @@ class TestHandler(unittest.IsolatedAsyncioTestCase):
                 "MS4xMC4wXzVmMWJhZTYAQQDfsGDs4E8ExPETjHsAAEg+AAAAAA==",
                 "test_user",
                 generate_spoiler_log=True,
-                new_args_format=True,
+                args_format=ArgFormat.V111,
             ),
         ])
 

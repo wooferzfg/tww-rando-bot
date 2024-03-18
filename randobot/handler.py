@@ -7,7 +7,7 @@ from racetime_bot import RaceHandler, can_monitor, monitor_cmd
 
 import randobot.constants as constants
 from randobot.constants import SeedType
-from randobot.generator import Generator
+from randobot.generator import ArgFormat, Generator
 
 
 class RandoHandler(RaceHandler):
@@ -361,7 +361,7 @@ class RandoHandler(RaceHandler):
             settings_permalink,
             username,
             generate_spoiler_log=False,
-            new_args_format=True,
+            args_format=ArgFormat.V111,
         )
         await self.update_race_room_with_generated_seed(settings_permalink, generated_seed, SeedType.STANDARD)
         await self.print_mixed_pools_build()
@@ -510,7 +510,7 @@ class RandoHandler(RaceHandler):
             settings_permalink,
             username,
             generate_spoiler_log=True,
-            new_args_format=True,
+            args_format=ArgFormat.V111,
         )
         await self.update_race_room_with_generated_seed(settings_permalink, generated_seed, SeedType.SPOILER_LOG)
         await self.print_mixed_pools_build()
