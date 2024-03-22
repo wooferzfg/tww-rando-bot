@@ -636,7 +636,7 @@ class TestHandler(unittest.IsolatedAsyncioTestCase):
             ),
         ])
 
-        self.assertEqual(state["example_permalink"],"UlMxLjQuMC1kZXYzAEEAgQU=")
+        self.assertEqual(state["example_permalink"], "UlMxLjQuMC1kZXYzAEEAgQU=")
         self.assertEqual(state["permalink"], "PERMA_UlMxLjQuMC1kZXYzAEEAgQU=")
         self.assertEqual(state["random_settings_spoiler_log_url"], "SPOILER_LOG_URL")
         self.assertEqual(state["random_settings_spoiler_log_unlocked"], False)
