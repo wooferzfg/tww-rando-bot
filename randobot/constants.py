@@ -81,13 +81,18 @@ MP_PATH = "wwrando-mixed-pools"
 MP_DOWNLOAD = "https://github.com/wooferzfg/wwrando/releases/tag/mixed-pools-build"
 
 RS_PATH = "wwrando-random-settings"
-RS_VERSION = "v1.3.1"
-RS_DOWNLOAD = "https://github.com/tanjo3/wwrando/releases/tag/RS_v1.3.1"
+RS_VERSION = "RS1.4.0-dev3"
+RS_DOWNLOAD = "https://github.com/Aelire/wwrando/releases/tag/RS1.4.0-dev3"
 RS_TRACKER = "https://jaysc.github.io/tww-rando-tracker-rs/"
+RS_DEFAULT = ["random-settings"]
+RS_PERMALINKS = OrderedDict([
+    ("random-settings", "UlMxLjQuMC1kZXYzAEEAgQU="),
+]
+)
 
 BANNABLE_PRESETS = SPOILER_LOG_DEFAULT
 
 MINIMUM_BREAK_DURATION = 5
 MINIMUM_BREAK_INTERVAL = 60
 
-PERMALINK_PREFIXES = ["MS4", "eJw"]
+PERMALINK_PREFIXES = ["MS4", "eJw", "UlM"]

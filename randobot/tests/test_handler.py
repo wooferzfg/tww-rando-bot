@@ -2,6 +2,7 @@ import asyncio
 import unittest
 from unittest.mock import call, patch
 
+from randobot.generator import ArgFormat
 from randobot.handler import RandoHandler
 
 
@@ -10,7 +11,7 @@ class MockGenerator():
         raise Exception("Method not properly mocked")
 
 
-def mock_generate_seed_standard(randomizer_path, permalink, username, generate_spoiler_log, new_args_format=False):
+def mock_generate_seed_standard(randomizer_path, permalink, username, generate_spoiler_log, args_format=ArgFormat.V110):
     return {
         "file_name": "FILENAME",
         "permalink": f"PERMA_{permalink}",
@@ -19,7 +20,8 @@ def mock_generate_seed_standard(randomizer_path, permalink, username, generate_s
     }
 
 
-def mock_generate_seed_spoiler_log(randomizer_path, permalink, username, generate_spoiler_log, new_args_format=False):
+def mock_generate_seed_spoiler_log(randomizer_path, permalink, username, generate_spoiler_log,
+                                   args_format=ArgFormat.V110):
     if not generate_spoiler_log:
         raise Exception("Did not generate spoiler log")
 
@@ -411,7 +413,7 @@ class TestHandler(unittest.IsolatedAsyncioTestCase):
                 "MS4xMC4wXzVmMWJhZTYAQQDfsGDs4E8ExPETjHsAAEg+AAAAIA==",
                 "test_user",
                 generate_spoiler_log=False,
-                new_args_format=True,
+                args_format=ArgFormat.V111,
             ),
         ])
 
@@ -448,7 +450,7 @@ class TestHandler(unittest.IsolatedAsyncioTestCase):
                 "MS4xMC4wXzVmMWJhZTYAQQBNMEBMAEAEEvETzn8AEEh+SAEAIw==",
                 "test_user",
                 generate_spoiler_log=False,
-                new_args_format=True,
+                args_format=ArgFormat.V111,
             ),
         ])
 
@@ -581,7 +583,7 @@ class TestHandler(unittest.IsolatedAsyncioTestCase):
                 "MS4xMC4wXzVmMWJhZTYAQQDfsGDs4E8ExPETjHsAAEg+AAAAAA==",
                 "test_user",
                 generate_spoiler_log=True,
-                new_args_format=True,
+                args_format=ArgFormat.V111,
             ),
         ])
 
@@ -591,6 +593,54 @@ class TestHandler(unittest.IsolatedAsyncioTestCase):
         self.assertEqual(state["spoiler_log_url"], "SPOILER_LOG_URL")
         self.assertEqual(state["seed_hash"], "SEED HASH")
         self.assertEqual(state["file_name"], "FILENAME")
+
+    @patch("asyncio.sleep", return_value=async_return(None))
+    @patch.object(MockGenerator, "generate_seed", side_effect=mock_generate_seed_spoiler_log)
+    @patch.object(RandoHandler, "set_raceinfo", return_value=async_return(None))
+    @patch.object(RandoHandler, "send_message", return_value=async_return(None))
+    async def test_randomsettings(self, mock_send_message, mock_set_raceinfo, mock_generate_seed, mock_sleep):
+        generator = MockGenerator()
+        state = {}
+        handler = create_rando_handler(generator, state)
+        await handler.ex_randomsettings([], get_mock_message_data())
+
+        await wait_for_all_async_tasks()
+
+        self.assertEqual(mock_send_message.call_count, 4)
+        mock_send_message.assert_has_calls([
+            call("Rolling seed..."),
+            call("Permalink: PERMA_UlMxLjQuMC1kZXYzAEEAgQU="),
+            call("Seed Hash: SEED HASH"),
+            call(
+                "Please note that this seed uses the Random Settings RS1.4.0-dev3 "
+                "build of the randomizer. "
+                "Download: https://github.com/Aelire/wwrando/releases/tag/RS1.4.0-dev3 "
+                "Tracker: https://jaysc.github.io/tww-rando-tracker-rs/"
+            ),
+
+        ])
+
+        self.assertEqual(mock_set_raceinfo.call_count, 1)
+        mock_set_raceinfo.assert_has_calls([
+            call("PERMA_UlMxLjQuMC1kZXYzAEEAgQU= | Seed Hash: SEED HASH", False, False),
+        ])
+
+        self.assertEqual(mock_generate_seed.call_count, 1)
+        mock_generate_seed.assert_has_calls([
+            call(
+                "wwrando-random-settings",
+                "UlMxLjQuMC1kZXYzAEEAgQU=",
+                "test_user",
+                generate_spoiler_log=True,
+                args_format=ArgFormat.RS14,
+            ),
+        ])
+
+        self.assertEqual(state["example_permalink"], "UlMxLjQuMC1kZXYzAEEAgQU=")
+        self.assertEqual(state["permalink"], "PERMA_UlMxLjQuMC1kZXYzAEEAgQU=")
+        self.assertEqual(state["random_settings_spoiler_log_url"], "SPOILER_LOG_URL")
+        self.assertEqual(state["random_settings_spoiler_log_unlocked"], False)
+        self.assertEqual(state["seed_hash"], "SEED HASH")
 
 
 if __name__ == "__main__":
