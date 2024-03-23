@@ -9,7 +9,7 @@
 [submodule "wwrando-random-settings"]
 	path = wwrando-random-settings
 	url = https://github.com/Aelire/wwrando.git
-	branch = randobot-support
+	branch = randobot-support-keep-gclib
 [submodule "wwrando-mixed-pools"]
 	path = wwrando-mixed-pools
 	url = https://github.com/wooferzfg/wwrando.git
