@@ -1,4 +1,10 @@
-FROM python:3.10-buster
+# This is the default version under which randobot will run
+FROM python:3.12-bookworm
+
+# Copy python from the source image for any additional version we need to support
+COPY --from=python:3.10-bookworm /usr/local/bin/python3 /usr/local/bin/python3.10
+COPY --from=python:3.10-bookworm /usr/local/lib/libpython3.10.so.1.0 /usr/local/lib/libpython3.10.so.1.0
+COPY --from=python:3.10-bookworm /usr/local/lib/python3.10/ /usr/local/lib/python3.10
 
 WORKDIR /tww-rando-bot
 
