@@ -48,6 +48,7 @@ jobs:
       # sudo yum install -y docker git
       # sudo service docker start
       # sudo usermod -aG docker ec2-user
+      # Install docker compose plugin: https://docs.docker.com/compose/install/linux/#install-the-plugin-manually
       - name: Deploy using SSH
         uses: appleboy/ssh-action@v1.0.3
         with:
@@ -65,8 +66,8 @@ jobs:
             echo "${{ secrets.WWRANDO_DEV_TANJO3_SEED_KEY }}" > tww-rando-bot/wwrando-dev-tanjo3/keys/seed_key.py
             echo "${{ secrets.WWRANDO_RS_SEED_KEY }}" > tww-rando-bot/wwrando-random-settings/keys/seed_key.py
             cd tww-rando-bot
-            docker compose build --no-cache
             export GITHUB_TOKEN=${{ secrets.BOT_GITHUB_TOKEN }}
             export CLIENT_ID=${{ secrets.RACETIME_CLIENT_ID }}
             export CLIENT_SECRET=${{ secrets.RACETIME_CLIENT_SECRET }}
+            docker compose build --no-cache --pull
             docker compose up -d
