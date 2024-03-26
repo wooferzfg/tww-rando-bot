@@ -14,7 +14,7 @@ generating [TWW Randomizer](https://github.com/LagoLunatic/wwrando) seeds in rac
 ### Installation
 
 1. Clone the repo
-2. Build the Docker image with `docker-compose build`
+2. Build the Docker image with `docker compose build`
 
 ### Usage
 
@@ -25,4 +25,4 @@ export CATEGORY_SLUG=... # the slug of the racetime.gg category the bot should o
 export CLIENT_ID=... # the OAuth2 client ID for this bot on racetime.gg
 export CLIENT_SECRET=... # the OAuth2 client secret for this bot on racetime.gg
 ```
-2. Run `docker-compose up` to start the bot.
+2. Run `docker compose up` to start the bot.
