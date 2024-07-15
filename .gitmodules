@@ -6,10 +6,6 @@
 	path = wwrando-s7
 	url = https://github.com/tanjo3/wwrando.git
 	branch = s7-tournament
-[submodule "wwrando-dev-tanjo3"]
-	path = wwrando-dev-tanjo3
-	url = https://github.com/wooferzfg/wwrando.git
-	branch = dev-build-no-ui
 [submodule "wwrando-random-settings"]
 	path = wwrando-random-settings
 	url = https://github.com/Aelire/wwrando.git

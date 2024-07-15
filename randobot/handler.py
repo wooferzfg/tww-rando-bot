@@ -347,26 +347,6 @@ class RandoHandler(RaceHandler):
         await self.send_message(f"Download: {constants.S7_DOWNLOAD}")
         await self.send_message(f"Tracker: {constants.S7_TRACKER}")
 
-    async def ex_rolldevseed(self, args, message):
-        if not await self.can_roll_standard_seed(message):
-            return
-
-        await self.send_message("Rolling seed...")
-
-        settings_permalink = await self.choose_permalink(
-            constants.DEV_DEFAULT,
-            constants.DEV_PERMALINKS,
-            args
-        )
-
-        username = message.get('user', {}).get('name')
-        generated_seed = await self._generate_seed(constants.DEV_PATH, settings_permalink, username, False)
-        await self.update_race_room_with_generated_seed(settings_permalink, generated_seed, SeedType.STANDARD)
-        await self.send_message(
-            f"Please note that this seed has been rolled on the {constants.DEV_VERSION} version of the randomizer. "
-            f"You can download it here: {constants.DEV_DOWNLOAD}"
-        )
-
     async def ex_rollmpseed(self, args, message):
         if not await self.can_roll_standard_seed(message):
             return

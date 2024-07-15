@@ -72,15 +72,6 @@ S7_PATH = "wwrando-s7"
 S7_DOWNLOAD = "https://github.com/tanjo3/wwrando/releases/tag/s7-v1"
 S7_TRACKER = "https://wooferzfg.me/tww-rando-tracker/s7-tournament"
 
-DEV_PERMALINKS = OrderedDict([
-    ("default", "eJwz1LPUMzSIT0ktY3BkYGdkZigwYXjAWMDAKMUABg0MJAAAZlcFog=="),
-])
-
-DEV_DEFAULT = ["default"]
-DEV_PATH = "wwrando-dev-tanjo3"
-DEV_VERSION = "1.9.10_dev"
-DEV_DOWNLOAD = "https://github.com/tanjo3/wwrando/releases"
-
 MP_PERMALINKS = OrderedDict([
     ("miniblins",   "MS4xMC4wXzVmMWJhZTYAQQBNMEBMAEAEEvETzn8AEEh+SAEAIw=="),
     ("mixed-pools", "MS4xMC4wXzVmMWJhZTYAQQDfsGDs4E8ExPETjHsAAEg+AAAAIA=="),
