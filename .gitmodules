@@ -2,6 +2,10 @@
 	path = wwrando
 	url = https://github.com/wooferzfg/wwrando.git
 	branch = no-ui-spoiler-log
+[submodule "wwrando-s7"]
+	path = wwrando-s7
+	url = https://github.com/tanjo3/wwrando.git
+	branch = s7-tournament
 [submodule "wwrando-dev-tanjo3"]
 	path = wwrando-dev-tanjo3
 	url = https://github.com/wooferzfg/wwrando.git

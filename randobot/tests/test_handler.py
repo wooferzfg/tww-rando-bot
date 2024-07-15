@@ -11,7 +11,8 @@ class MockGenerator():
         raise Exception("Method not properly mocked")
 
 
-def mock_generate_seed_standard(randomizer_path, permalink, username, generate_spoiler_log, args_format=ArgFormat.V110):
+def mock_generate_seed_standard(randomizer_path, permalink, username, generate_spoiler_log,
+                                modifiers = "", args_format=ArgFormat.V110):
     return {
         "file_name": "FILENAME",
         "permalink": f"PERMA_{permalink}",
@@ -21,7 +22,7 @@ def mock_generate_seed_standard(randomizer_path, permalink, username, generate_s
 
 
 def mock_generate_seed_spoiler_log(randomizer_path, permalink, username, generate_spoiler_log,
-                                   args_format=ArgFormat.V110):
+                                   modifiers = "", args_format=ArgFormat.V110):
     if not generate_spoiler_log:
         raise Exception("Did not generate spoiler log")
 
@@ -75,65 +76,72 @@ class TestHandler(unittest.IsolatedAsyncioTestCase):
         self.assertEqual(mock_send_message.call_count, 1)
         mock_send_message.assert_has_calls([
             call(
-                "Runners' agreements (RAs) may be used to modify S6 seeds. Example usage: \"s6+4drm+nosword\""
-                ". Valid RA modifiers: 4drm (4-Dungeon Race Mode), nosword (No Starting Sword), der (Randomized "
-                "Dungeon Entrances), keys (Key-Lunacy), tingle (Tingle Chests), expen (Expensive Purchases), "
-                "subs (Submarines), minis (Minigames), combat (Combat Secret Caves)"
+                "Runners' agreements (RAs) may be used to modify S7 seeds. Example usage: \"!s7 4drm+nosword\". "
+                "Valid RA modifiers: 4rbm (4-Required Bosses Mode), nosword (No Starting Sword), "
+                "der (Randomized Dungeon Entrances), ber (Randomized Boss Entrances), keys (Key-Lunacy), "
+                "tingle (Tingle Chests replacing Dungeon Secrets), expen (Expensive Purchases), subs (Submarines), "
+                "minis (Minigames), plats (Lookout Platforms on Islet of Steel, Southern Fairy, and Seven-Star)"
             ),
         ])
 
     @patch.object(MockGenerator, "generate_seed", side_effect=mock_generate_seed_standard)
     @patch.object(RandoHandler, "set_raceinfo", return_value=async_return(None))
     @patch.object(RandoHandler, "send_message", return_value=async_return(None))
-    async def test_rollseed_s6(self, mock_send_message, mock_set_raceinfo, mock_generate_seed):
+    async def test_rollseed_s7(self, mock_send_message, mock_set_raceinfo, mock_generate_seed):
         generator = MockGenerator()
         state = {}
         handler = create_rando_handler(generator, state)
-        await handler.ex_rollseed(["s6"], get_mock_message_data())
+        await handler.ex_s7([], get_mock_message_data())
 
-        self.assertEqual(mock_send_message.call_count, 3)
+        self.assertEqual(mock_send_message.call_count, 6)
         mock_send_message.assert_has_calls([
             call("Rolling seed..."),
-            call("Permalink: PERMA_MS4xMC4wAEEAFwMiAHPowgMMsACCcQ8AAMkHAAAA"),
+            call("Permalink: PERMA_eJwz1DM00DOIt7RITrQwM2VwZLhrVMTF0czAwMDCAAUcIEKAgYGJg3GlykMQAyoRwuLAsmajv8G85QwMk/iB6jUB5s8MHw=="),
             call("Seed Hash: SEED HASH"),
+            call('Please note that this seed uses the S7 Tournament build of the randomizer.'),
+            call('Download: https://github.com/tanjo3/wwrando/releases/tag/s7-v1'),
+            call('Tracker: https://wooferzfg.me/tww-rando-tracker/s7-tournament'),
         ])
 
         self.assertEqual(mock_set_raceinfo.call_count, 1)
         mock_set_raceinfo.assert_has_calls([
-            call("PERMA_MS4xMC4wAEEAFwMiAHPowgMMsACCcQ8AAMkHAAAA | Seed Hash: SEED HASH", False, False),
+            call("PERMA_eJwz1DM00DOIt7RITrQwM2VwZLhrVMTF0czAwMDCAAUcIEKAgYGJg3GlykMQAyoRwuLAsmajv8G85QwMk/iB6jUB5s8MHw== | Seed Hash: SEED HASH", False, False),
         ])
 
         self.assertEqual(mock_generate_seed.call_count, 1)
         mock_generate_seed.assert_has_calls([
-            call("wwrando", "MS4xMC4wAEEAFwMiAHPowgMMsACCcQ8AAMkHAAAA", "test_user", False),
+            call("wwrando-s7", "eJwz1DM00DOIt7RITrQwM2VwZLhrVMTF0czAwMDCAAUcIEKAgYGJg3GlykMQAyoRwuLAsmajv8G85QwMk/iB6jUB5s8MHw==", "test_user", generate_spoiler_log=False, modifiers="", args_format=ArgFormat.VS7),
         ])
 
     @patch.object(MockGenerator, "generate_seed", side_effect=mock_generate_seed_standard)
     @patch.object(RandoHandler, "set_raceinfo", return_value=async_return(None))
     @patch.object(RandoHandler, "send_message", return_value=async_return(None))
-    async def test_rollseed_s6_with_ra(self, mock_send_message, mock_set_raceinfo, mock_generate_seed):
+    async def test_rollseed_s7_with_ra(self, mock_send_message, mock_set_raceinfo, mock_generate_seed):
         generator = MockGenerator()
         state = {}
         handler = create_rando_handler(generator, state)
-        await handler.ex_rollseed(["s6+4drm+nosword"], get_mock_message_data())
+        await handler.ex_s7(["4rbm+nosword"], get_mock_message_data())
 
-        self.assertEqual(mock_send_message.call_count, 4)
+        self.assertEqual(mock_send_message.call_count, 7)
         mock_send_message.assert_has_calls([
             call("Rolling seed..."),
-            call("Settings: s6+4drm+nosword"),
-            call("Permalink: PERMA_MS4xMC4wAEEAFwMiAHMKwwMc8ACCcQ8AAMkHAAAA"),
+            call("Settings: s7+4rbm+nosword"),
+            call("Permalink: PERMA_eJwz1DM00DOIt7RITrQwM2VwZLhrVMTF0czAwMDCAAUcIEKAgYGJg3GlykMQAyoRwuLAsmajv8G85QwMk/iB6jUB5s8MHw=="),
             call("Seed Hash: SEED HASH"),
+            call('Please note that this seed uses the S7 Tournament build of the randomizer.'),
+            call('Download: https://github.com/tanjo3/wwrando/releases/tag/s7-v1'),
+            call('Tracker: https://wooferzfg.me/tww-rando-tracker/s7-tournament'),
         ])
 
         self.assertEqual(mock_set_raceinfo.call_count, 2)
         mock_set_raceinfo.assert_has_calls([
-            call("Settings: s6+4drm+nosword", False, False),
-            call("PERMA_MS4xMC4wAEEAFwMiAHMKwwMc8ACCcQ8AAMkHAAAA | Seed Hash: SEED HASH", False, False),
+            call("Settings: s7+4rbm+nosword", False, False),
+            call("PERMA_eJwz1DM00DOIt7RITrQwM2VwZLhrVMTF0czAwMDCAAUcIEKAgYGJg3GlykMQAyoRwuLAsmajv8G85QwMk/iB6jUB5s8MHw== | Seed Hash: SEED HASH", False, False),
         ])
 
         self.assertEqual(mock_generate_seed.call_count, 1)
         mock_generate_seed.assert_has_calls([
-            call("wwrando", "MS4xMC4wAEEAFwMiAHMKwwMc8ACCcQ8AAMkHAAAA", "test_user", False),
+            call("wwrando-s7", "eJwz1DM00DOIt7RITrQwM2VwZLhrVMTF0czAwMDCAAUcIEKAgYGJg3GlykMQAyoRwuLAsmajv8G85QwMk/iB6jUB5s8MHw==", "test_user", generate_spoiler_log=False, modifiers="4rbm,nosword", args_format=ArgFormat.VS7),
         ])
 
     @patch("random.random", return_value=0.6123)
@@ -259,30 +267,33 @@ class TestHandler(unittest.IsolatedAsyncioTestCase):
         generator = MockGenerator()
         state = {}
         handler = create_rando_handler(generator, state)
-        await handler.ex_rollseed([
-            "S6+4drm",
-            "s5",
-            "MS4xMC4wAEEAFQsmANsMwQMcMAGCcQ8AAMkHAAAA",
-            "MS4xMC4wAEEA//9/gtsMwQMcUAECAAAAAAkAAAAA",
+        await handler.ex_s7([
+            "4rbm",
+            "nosword",
+            "4rbm+nosword",
+            "eJwz1DM00DOIt7RITrQwM2VwZPAUCGAgEkgwMPxmOuENZjMxNDEwMAIAROIG7Q==",
         ], get_mock_message_data())
 
-        self.assertEqual(mock_send_message.call_count, 4)
+        self.assertEqual(mock_send_message.call_count, 7)
         mock_send_message.assert_has_calls([
             call("Rolling seed..."),
-            call("Settings: s6+4drm"),
-            call("Permalink: PERMA_MS4xMC4wAEEAFwMiAHMKwwMM8ACCcQ8AAMkHAAAA"),
+            call("Settings: s7+nosword"),
+            call("Permalink: PERMA_eJwz1DM00DOIt7RITrQwM2VwZLhrVMTF0czAwMDCAAUcIEKAgYGJg3GlykMQAyoRwuLAsmajv8G85QwMk/iB6jUB5s8MHw=="),
             call("Seed Hash: SEED HASH"),
+            call('Please note that this seed uses the S7 Tournament build of the randomizer.'),
+            call('Download: https://github.com/tanjo3/wwrando/releases/tag/s7-v1'),
+            call('Tracker: https://wooferzfg.me/tww-rando-tracker/s7-tournament'),
         ])
 
         self.assertEqual(mock_set_raceinfo.call_count, 2)
         mock_set_raceinfo.assert_has_calls([
-            call("Settings: s6+4drm", False, False),
-            call("PERMA_MS4xMC4wAEEAFwMiAHMKwwMM8ACCcQ8AAMkHAAAA | Seed Hash: SEED HASH", False, False),
+            call("Settings: s7+nosword", False, False),
+            call("PERMA_eJwz1DM00DOIt7RITrQwM2VwZLhrVMTF0czAwMDCAAUcIEKAgYGJg3GlykMQAyoRwuLAsmajv8G85QwMk/iB6jUB5s8MHw== | Seed Hash: SEED HASH", False, False),
         ])
 
         self.assertEqual(mock_generate_seed.call_count, 1)
         mock_generate_seed.assert_has_calls([
-            call("wwrando", "MS4xMC4wAEEAFwMiAHMKwwMM8ACCcQ8AAMkHAAAA", "test_user", False),
+            call("wwrando-s7", "eJwz1DM00DOIt7RITrQwM2VwZLhrVMTF0czAwMDCAAUcIEKAgYGJg3GlykMQAyoRwuLAsmajv8G85QwMk/iB6jUB5s8MHw==", "test_user", generate_spoiler_log=False, modifiers="nosword", args_format=ArgFormat.VS7),
         ])
 
     @patch("random.random", return_value=0.6123)
@@ -338,28 +349,6 @@ class TestHandler(unittest.IsolatedAsyncioTestCase):
 
     @patch("random.random", return_value=0.6123)
     @patch.object(RandoHandler, "send_message", return_value=async_return(None))
-    async def test_non_s6_ra(
-        self,
-        mock_send_message,
-        mock_random,
-    ):
-        generator = MockGenerator()
-        state = {}
-        handler = create_rando_handler(generator, state)
-        with self.assertRaises(Exception):
-            await handler.ex_rollseed([
-                "s5+4drm",
-                "s4",
-            ], get_mock_message_data())
-
-        self.assertEqual(mock_send_message.call_count, 2)
-        mock_send_message.assert_has_calls([
-            call("Rolling seed..."),
-            call("Invalid preset: \"s5+4drm\" - Runners' agreement modifiers are not allowed for non-S6 seeds!"),
-        ])
-
-    @patch("random.random", return_value=0.6123)
-    @patch.object(RandoHandler, "send_message", return_value=async_return(None))
     async def test_invalid_ra(
         self,
         mock_send_message,
@@ -369,15 +358,15 @@ class TestHandler(unittest.IsolatedAsyncioTestCase):
         state = {}
         handler = create_rando_handler(generator, state)
         with self.assertRaises(Exception):
-            await handler.ex_rollseed([
-                "s6+garbage",
-                "s4",
+            await handler.ex_s7([
+                "s7+garbage",
+                "s7",
             ], get_mock_message_data())
 
         self.assertEqual(mock_send_message.call_count, 2)
         mock_send_message.assert_has_calls([
             call("Rolling seed..."),
-            call("Invalid preset: \"s6+garbage\" - Invalid runners' agreement modifier!"),
+            call("Invalid preset: \"s7+garbage\" - Invalid runners' agreement modifier!"),
         ])
 
     @patch.object(MockGenerator, "generate_seed", side_effect=mock_generate_seed_standard)

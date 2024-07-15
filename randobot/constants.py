@@ -18,18 +18,6 @@ STANDARD_PERMALINKS = OrderedDict([
     ("s3",           "MS4xMC4wAEEAFwMEAAQAvhMM8AADAAAAAAGAIAAA"),
 ])
 
-RUNNER_AGREEMENTS = OrderedDict([
-    ("4drm",     "4-Dungeon Race Mode"),
-    ("nosword",  "No Starting Sword"),
-    ("der",      "Randomized Dungeon Entrances"),
-    ("keys",     "Key-Lunacy"),
-    ("tingle",   "Tingle Chests"),
-    ("expen",    "Expensive Purchases"),
-    ("subs",     "Submarines"),
-    ("minis",    "Minigames"),
-    ("combat",   "Combat Secret Caves"),
-])
-
 STANDARD_DEFAULT = ["s6"]
 STANDARD_PATH = "wwrando"
 
@@ -56,6 +44,33 @@ SETTINGS_DESCRIPTIONS = OrderedDict([
 SPOILER_LOG_DEFAULT = ["preset-a", "preset-b", "preset-c", "preset-d", "preset-e", "preset-f"]
 DEFAULT_PLANNING_TIME = 60
 MINIMUM_PLANNING_TIME = 20
+
+S7_PERMALINKS = OrderedDict([
+    ("s7",   "eJwz1DM00DOIt7RITrQwM2VwZLhrVMTF0czAwMDCAAUcIEKAgYGJg3GlykMQAyoRwuLAsmajv8G85QwMk/iB6jUB5s8MHw=="),
+])
+S7_DEFAULT = ["s7"]
+
+S7_SL_PERMALINKS = OrderedDict([
+    ("s7-sl", "eJwz1DM00DOIt7RITrQwM2VwZLhrVMTF0czAwMDCAAUcIEKAgYGJg3GlykMQAyoRwuLAsmajv8G85QwMk/iB6jkB5q8L/w=="),
+])
+S7_SL_DEFAULT = ["s7-sl"]
+
+RUNNER_AGREEMENTS = OrderedDict([
+    ("4rbm",     "4-Required Bosses Mode"),
+    ("nosword",  "No Starting Sword"),
+    ("der",      "Randomized Dungeon Entrances"),
+    ("ber",      "Randomized Boss Entrances"),
+    ("keys",     "Key-Lunacy"),
+    ("tingle",   "Tingle Chests replacing Dungeon Secrets"),
+    ("expen",    "Expensive Purchases"),
+    ("subs",     "Submarines"),
+    ("minis",    "Minigames"),
+    ("plats",    "Lookout Platforms on Islet of Steel, Southern Fairy, and Seven-Star"),
+])
+
+S7_PATH = "wwrando-s7"
+S7_DOWNLOAD = "https://github.com/tanjo3/wwrando/releases/tag/s7-v1"
+S7_TRACKER = "https://wooferzfg.me/tww-rando-tracker/s7-tournament"
 
 DEV_PERMALINKS = OrderedDict([
     ("default", "eJwz1LPUMzSIT0ktY3BkYGdkZigwYXjAWMDAKMUABg0MJAAAZlcFog=="),
@@ -87,8 +102,7 @@ RS_TRACKER = "https://jaysc.github.io/tww-rando-tracker-rs/"
 RS_DEFAULT = ["random-settings"]
 RS_PERMALINKS = OrderedDict([
     ("random-settings", "UlMxLjQuMC1kZXYzAEEAgQU="),
-]
-)
+])
 
 BANNABLE_PRESETS = SPOILER_LOG_DEFAULT
 
