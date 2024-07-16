@@ -7,7 +7,7 @@ from racetime_bot import RaceHandler, can_monitor, monitor_cmd
 
 import randobot.constants as constants
 from randobot.constants import SeedType
-from randobot.generator import ArgFormat, Generator
+from randobot.generator import ArgFormat
 
 
 class RandoHandler(RaceHandler):
@@ -227,7 +227,7 @@ class RandoHandler(RaceHandler):
         await self.send_message(msg)
 
     async def ex_ra(self, args, message):
-        msg = 'Runners\' agreements (RAs) may be used to modify S6 seeds. Example usage: "s6+4drm+nosword". '
+        msg = 'Runners\' agreements (RAs) may be used to modify S7 seeds. Example usage: "!s7 4drm+nosword". '
         msg += "Valid RA modifiers: "
         msg += ", ".join([
             f"{ra} ({description})"
@@ -323,51 +323,32 @@ class RandoHandler(RaceHandler):
         generated_seed = await self._generate_seed(constants.STANDARD_PATH, settings_permalink, username, False)
         await self.update_race_room_with_generated_seed(settings_permalink, generated_seed, SeedType.STANDARD)
 
-    async def ex_rolldevseed(self, args, message):
+    async def ex_s7(self, args, message):
         if not await self.can_roll_standard_seed(message):
             return
 
         await self.send_message("Rolling seed...")
 
-        settings_permalink = await self.choose_permalink(
-            constants.DEV_DEFAULT,
-            constants.DEV_PERMALINKS,
+        settings_permalink, modifiers = await self.choose_s7_permalink(
+            constants.S7_DEFAULT,
+            constants.S7_PERMALINKS,
             args
         )
 
-        username = message.get('user', {}).get('name')
-        generated_seed = await self._generate_seed(constants.DEV_PATH, settings_permalink, username, False)
-        await self.update_race_room_with_generated_seed(settings_permalink, generated_seed, SeedType.STANDARD)
-        await self.send_message(
-            f"Please note that this seed has been rolled on the {constants.DEV_VERSION} version of the randomizer. "
-            f"You can download it here: {constants.DEV_DOWNLOAD}"
-        )
-
-    async def ex_rollmpseed(self, args, message):
-        if not await self.can_roll_standard_seed(message):
-            return
-
-        await self.send_message("Rolling seed...")
-
-        settings_permalink = await self.choose_permalink(
-            constants.MP_DEFAULT,
-            constants.MP_PERMALINKS,
-            args
-        )
-
-        username = message.get('user', {}).get('name')
+        username = message.get("user", {}).get("name")
         generated_seed = await self._generate_seed(
-            constants.MP_PATH,
+            constants.S7_PATH,
             settings_permalink,
             username,
             generate_spoiler_log=False,
-            args_format=ArgFormat.V111,
+            modifiers=modifiers,
+            args_format=ArgFormat.VS7,
         )
         await self.update_race_room_with_generated_seed(settings_permalink, generated_seed, SeedType.STANDARD)
-        await self.print_mixed_pools_build()
+        await self.print_s7_build()
 
     async def ex_miniblins(self, args, message):
-        await self.ex_rollmpseed(['miniblins'], message)
+        await self.ex_s7(['miniblins'], message)
 
     async def ex_randomsettings(self, args, message):
         if not await self.can_roll_standard_seed(message):
@@ -498,27 +479,28 @@ class RandoHandler(RaceHandler):
 
         self.loop.create_task(self.start_spoiler_log_race())
 
-    async def ex_startmpspoilerlograce(self, args, message):
+    async def ex_starts7spoilerlograce(self, args, message):
         if not await self.can_start_spoiler_log_race(message):
             return
 
-        settings_permalink = await self.choose_permalink(
-            constants.MP_SL_DEFAULT,
-            constants.MP_SL_PERMALINKS,
+        settings_permalink, modifiers = await self.choose_s7_permalink(
+            constants.S7_SL_DEFAULT,
+            constants.S7_SL_PERMALINKS,
             args
         )
         username = message.get('user', {}).get('name')
 
         await self.send_message("Rolling seed...")
         generated_seed = await self._generate_seed(
-            constants.MP_PATH,
+            constants.S7_PATH,
             settings_permalink,
             username,
             generate_spoiler_log=True,
-            args_format=ArgFormat.V111,
+            modifiers=modifiers,
+            args_format=ArgFormat.VS7,
         )
         await self.update_race_room_with_generated_seed(settings_permalink, generated_seed, SeedType.SPOILER_LOG)
-        await self.print_mixed_pools_build()
+        await self.print_s7_build()
 
         self.loop.create_task(self.start_spoiler_log_race())
 
@@ -582,29 +564,82 @@ class RandoHandler(RaceHandler):
             await self.send_message(msg)
             raise Exception(msg)
 
-        # Split out runners' agreement modifiers from the settings
-        parsed_presets = [tuple(settings.split("+")) for settings in unbanned_presets]
-
         # Raise exception if any of the presets are invalid
         invalid_presets = set(
-            f'"{settings[0]}"'
-            for settings in parsed_presets
-            if settings[0] not in presets.keys()
+            f'"{settings}"'
+            for settings in unbanned_presets
+            if settings not in presets.keys()
         )
         if len(invalid_presets) > 0:
             msg = f"Invalid preset{'s' if len(invalid_presets) != 1 else ''}: {', '.join(invalid_presets)}"
             await self.send_message(msg)
             raise Exception(msg)
 
-        # Raise exception if any runners' agreement modifiers are applied to non-S6 seeds
+        # Select a settings key at random from the list of valid settings
+        valid_settings = permalink_args + unbanned_presets
+        settings_idx = int(random.random() * len(valid_settings))
+        settings_key = valid_settings[settings_idx]
+
+        # If a selection was made from more than one option or if selection is a S7 seed with runners' agreement
+        # modifiers, update race room chat and info
+        if len(valid_settings) > 1:
+            settings_text = f"Settings: {settings_key}"
+            settings_description = constants.SETTINGS_DESCRIPTIONS.get(settings_key)
+            if settings_description:
+                settings_text += f" ({settings_description})"
+            await self.send_message(settings_text)
+            await self.set_raceinfo(settings_text, False, False)
+
+        # Determine the permalink for the settings
+        if self._is_permalink(settings_key):
+            settings_permalink = settings_key
+        else:
+            # Get base permalink
+            settings_permalink = presets.get(settings_key)
+
+        return settings_permalink
+
+    async def choose_s7_permalink(self, default_settings, presets, args):
+        # Use default settings if no arguments are provided to the command
+        settings_list = args if len(args) > 0 else default_settings
+
+        # Split args into permalinks and presets
+        permalink_args = []
+        preset_args = []
+        for settings in settings_list:
+            if self._is_permalink(settings):
+                permalink_args.append(settings)
+            else:
+                # Convert all non-permalink settings to lowercase
+                preset_args.append(settings.lower())
+
+        # Remove any settings that are banned
+        banned_presets = self.state.get("bans").values()
+        unbanned_presets = [
+            preset for preset in preset_args if preset not in banned_presets
+        ]
+
+        # Raise exception if all settings are banned
+        if len(permalink_args) + len(unbanned_presets) == 0:
+            msg = "There were no valid settings to choose from after bans!"
+            await self.send_message(msg)
+            raise Exception(msg)
+
+        # Split out runners' agreement modifiers from the settings
+        parsed_presets = [
+            tuple(settings.split("+"))
+            for settings in unbanned_presets
+        ]
+
+        # Raise exception if any of the presets are invalid
+        valid_presets = list(presets.keys()) + list(constants.RUNNER_AGREEMENTS.keys())
         invalid_presets = set(
-            f'"{"+".join(settings)}"'
+            f'"{settings[0]}"'
             for settings in parsed_presets
-            if len(settings) > 1 and settings[0] != "s6"
+            if settings[0] not in valid_presets
         )
         if len(invalid_presets) > 0:
             msg = f"Invalid preset{'s' if len(invalid_presets) != 1 else ''}: {', '.join(invalid_presets)}"
-            msg += " - Runners' agreement modifiers are not allowed for non-S6 seeds!"
             await self.send_message(msg)
             raise Exception(msg)
 
@@ -612,10 +647,7 @@ class RandoHandler(RaceHandler):
         invalid_presets = set(
             f'"{"+".join(settings)}"'
             for settings in parsed_presets
-            if any(
-                modifier not in constants.RUNNER_AGREEMENTS.keys()
-                for modifier in settings[1:]
-            )
+            if len(settings) > 1 and any(modifier not in constants.RUNNER_AGREEMENTS.keys() for modifier in settings)
         )
         if len(invalid_presets) > 0:
             msg = f"Invalid preset{'s' if len(invalid_presets) != 1 else ''}: {', '.join(invalid_presets)}"
@@ -626,13 +658,15 @@ class RandoHandler(RaceHandler):
         # Select a settings key at random from the list of valid settings
         valid_settings = permalink_args + parsed_presets
         settings_idx = int(random.random() * len(valid_settings))
-        if settings_idx < len(permalink_args):
-            settings_key = permalink_args[settings_idx]
+        settings = valid_settings[settings_idx]
+        if settings_idx < len(permalink_args) or settings[0] in presets:
+            settings_key = settings[0]
             preset_modifiers = []
         else:
-            settings_key, *preset_modifiers = valid_settings[settings_idx]
+            settings_key = "s7"
+            preset_modifiers = settings
 
-        # If a selection was made from more than one option or if selection is a S6 seed with runners' agreement
+        # If a selection was made from more than one option or if selection is a S7 seed with runners' agreement
         # modifiers, update race room chat and info
         if len(valid_settings) > 1 or len(preset_modifiers) > 0:
             settings_text = f"Settings: {settings_key}"
@@ -644,27 +678,15 @@ class RandoHandler(RaceHandler):
             await self.send_message(settings_text)
             await self.set_raceinfo(settings_text, False, False)
 
-        # Determine the permalink for the settings
+        # Determine the permalink and modifiers for the settings
         if self._is_permalink(settings_key):
             settings_permalink = settings_key
+            modifiers = ""
         else:
-            # Get base S6 permalink
             settings_permalink = presets.get(settings_key)
+            modifiers = ",".join(preset_modifiers)
 
-            # Add additional settings based on modifiers
-            for modifier in preset_modifiers:
-                settings_permalink = Generator.apply_ra_modifier(
-                    settings_permalink, modifier
-                )
-
-            # Update the hint distribution
-            if len(preset_modifiers) > 0:
-                settings_permalink = Generator.update_hint_distribution_for_ra(
-                    settings_permalink
-                )
-
-        # Return the permalink for the settings
-        return settings_permalink
+        return settings_permalink, modifiers
 
     async def print_banned_presets(self):
         banned_presets = self.state.get("bans").values()
@@ -678,11 +700,10 @@ class RandoHandler(RaceHandler):
     def seconds_remaining(self):
         return (self.state.get("race_start_time") - datetime.now()).total_seconds()
 
-    async def print_mixed_pools_build(self):
-        await self.send_message(
-            f"Please note that this seed has been rolled on the Mixed Pools version of the randomizer. "
-            f"You can download it here: {constants.MP_DOWNLOAD}"
-        )
+    async def print_s7_build(self):
+        await self.send_message("Please note that this seed uses the S7 Tournament build of the randomizer.")
+        await self.send_message(f"Download: {constants.S7_DOWNLOAD}")
+        await self.send_message(f"Tracker: {constants.S7_TRACKER}")
 
     async def print_example_permalink(self):
         example_permalink = self.state.get("example_permalink")
