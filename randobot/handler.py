@@ -343,7 +343,7 @@ class RandoHandler(RaceHandler):
             args_format=ArgFormat.VS7,
         )
         await self.update_race_room_with_generated_seed(settings_permalink, generated_seed, SeedType.STANDARD)
-        await self.send_message(f"Please note that this seed uses the S7 Tournament build of the randomizer.")
+        await self.send_message("Please note that this seed uses the S7 Tournament build of the randomizer.")
         await self.send_message(f"Download: {constants.S7_DOWNLOAD}")
         await self.send_message(f"Tracker: {constants.S7_TRACKER}")
 

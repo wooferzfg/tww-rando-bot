@@ -12,7 +12,7 @@ class MockGenerator():
 
 
 def mock_generate_seed_standard(randomizer_path, permalink, username, generate_spoiler_log,
-                                modifiers = "", args_format=ArgFormat.V110):
+                                modifiers="", args_format=ArgFormat.V110):
     return {
         "file_name": "FILENAME",
         "permalink": f"PERMA_{permalink}",
@@ -22,7 +22,7 @@ def mock_generate_seed_standard(randomizer_path, permalink, username, generate_s
 
 
 def mock_generate_seed_spoiler_log(randomizer_path, permalink, username, generate_spoiler_log,
-                                   modifiers = "", args_format=ArgFormat.V110):
+                                   modifiers="", args_format=ArgFormat.V110):
     if not generate_spoiler_log:
         raise Exception("Did not generate spoiler log")
 
@@ -94,9 +94,10 @@ class TestHandler(unittest.IsolatedAsyncioTestCase):
         await handler.ex_s7([], get_mock_message_data())
 
         self.assertEqual(mock_send_message.call_count, 6)
+        permalink = "eJwz1DM00DOIt7RITrQwM2VwZLhrVMTF0czAwMDCAAUcIEKAgYGJg3GlykMQAyoRwuLAsmajv8G85QwMk/iB6jUB5s8MHw=="
         mock_send_message.assert_has_calls([
             call("Rolling seed..."),
-            call("Permalink: PERMA_eJwz1DM00DOIt7RITrQwM2VwZLhrVMTF0czAwMDCAAUcIEKAgYGJg3GlykMQAyoRwuLAsmajv8G85QwMk/iB6jUB5s8MHw=="),
+            call(f"Permalink: PERMA_{permalink}"),
             call("Seed Hash: SEED HASH"),
             call('Please note that this seed uses the S7 Tournament build of the randomizer.'),
             call('Download: https://github.com/tanjo3/wwrando/releases/tag/s7-v1'),
@@ -105,12 +106,13 @@ class TestHandler(unittest.IsolatedAsyncioTestCase):
 
         self.assertEqual(mock_set_raceinfo.call_count, 1)
         mock_set_raceinfo.assert_has_calls([
-            call("PERMA_eJwz1DM00DOIt7RITrQwM2VwZLhrVMTF0czAwMDCAAUcIEKAgYGJg3GlykMQAyoRwuLAsmajv8G85QwMk/iB6jUB5s8MHw== | Seed Hash: SEED HASH", False, False),
+            call(f"PERMA_{permalink} | Seed Hash: SEED HASH", False, False),
         ])
 
         self.assertEqual(mock_generate_seed.call_count, 1)
         mock_generate_seed.assert_has_calls([
-            call("wwrando-s7", "eJwz1DM00DOIt7RITrQwM2VwZLhrVMTF0czAwMDCAAUcIEKAgYGJg3GlykMQAyoRwuLAsmajv8G85QwMk/iB6jUB5s8MHw==", "test_user", generate_spoiler_log=False, modifiers="", args_format=ArgFormat.VS7),
+            call("wwrando-s7", permalink, "test_user", generate_spoiler_log=False,
+                 modifiers="", args_format=ArgFormat.VS7),
         ])
 
     @patch.object(MockGenerator, "generate_seed", side_effect=mock_generate_seed_standard)
@@ -123,10 +125,11 @@ class TestHandler(unittest.IsolatedAsyncioTestCase):
         await handler.ex_s7(["4rbm+nosword"], get_mock_message_data())
 
         self.assertEqual(mock_send_message.call_count, 7)
+        permalink = "eJwz1DM00DOIt7RITrQwM2VwZLhrVMTF0czAwMDCAAUcIEKAgYGJg3GlykMQAyoRwuLAsmajv8G85QwMk/iB6jUB5s8MHw=="
         mock_send_message.assert_has_calls([
             call("Rolling seed..."),
             call("Settings: s7+4rbm+nosword"),
-            call("Permalink: PERMA_eJwz1DM00DOIt7RITrQwM2VwZLhrVMTF0czAwMDCAAUcIEKAgYGJg3GlykMQAyoRwuLAsmajv8G85QwMk/iB6jUB5s8MHw=="),
+            call(f"Permalink: PERMA_{permalink}"),
             call("Seed Hash: SEED HASH"),
             call('Please note that this seed uses the S7 Tournament build of the randomizer.'),
             call('Download: https://github.com/tanjo3/wwrando/releases/tag/s7-v1'),
@@ -136,12 +139,13 @@ class TestHandler(unittest.IsolatedAsyncioTestCase):
         self.assertEqual(mock_set_raceinfo.call_count, 2)
         mock_set_raceinfo.assert_has_calls([
             call("Settings: s7+4rbm+nosword", False, False),
-            call("PERMA_eJwz1DM00DOIt7RITrQwM2VwZLhrVMTF0czAwMDCAAUcIEKAgYGJg3GlykMQAyoRwuLAsmajv8G85QwMk/iB6jUB5s8MHw== | Seed Hash: SEED HASH", False, False),
+            call(f"PERMA_{permalink} | Seed Hash: SEED HASH", False, False),
         ])
 
         self.assertEqual(mock_generate_seed.call_count, 1)
         mock_generate_seed.assert_has_calls([
-            call("wwrando-s7", "eJwz1DM00DOIt7RITrQwM2VwZLhrVMTF0czAwMDCAAUcIEKAgYGJg3GlykMQAyoRwuLAsmajv8G85QwMk/iB6jUB5s8MHw==", "test_user", generate_spoiler_log=False, modifiers="4rbm,nosword", args_format=ArgFormat.VS7),
+            call("wwrando-s7", permalink, "test_user", generate_spoiler_log=False,
+                 modifiers="4rbm,nosword", args_format=ArgFormat.VS7),
         ])
 
     @patch("random.random", return_value=0.6123)
@@ -275,10 +279,11 @@ class TestHandler(unittest.IsolatedAsyncioTestCase):
         ], get_mock_message_data())
 
         self.assertEqual(mock_send_message.call_count, 7)
+        permalink = "eJwz1DM00DOIt7RITrQwM2VwZLhrVMTF0czAwMDCAAUcIEKAgYGJg3GlykMQAyoRwuLAsmajv8G85QwMk/iB6jUB5s8MHw=="
         mock_send_message.assert_has_calls([
             call("Rolling seed..."),
             call("Settings: s7+nosword"),
-            call("Permalink: PERMA_eJwz1DM00DOIt7RITrQwM2VwZLhrVMTF0czAwMDCAAUcIEKAgYGJg3GlykMQAyoRwuLAsmajv8G85QwMk/iB6jUB5s8MHw=="),
+            call(f"Permalink: PERMA_{permalink}"),
             call("Seed Hash: SEED HASH"),
             call('Please note that this seed uses the S7 Tournament build of the randomizer.'),
             call('Download: https://github.com/tanjo3/wwrando/releases/tag/s7-v1'),
@@ -288,12 +293,13 @@ class TestHandler(unittest.IsolatedAsyncioTestCase):
         self.assertEqual(mock_set_raceinfo.call_count, 2)
         mock_set_raceinfo.assert_has_calls([
             call("Settings: s7+nosword", False, False),
-            call("PERMA_eJwz1DM00DOIt7RITrQwM2VwZLhrVMTF0czAwMDCAAUcIEKAgYGJg3GlykMQAyoRwuLAsmajv8G85QwMk/iB6jUB5s8MHw== | Seed Hash: SEED HASH", False, False),
+            call(f"PERMA_{permalink} | Seed Hash: SEED HASH", False, False),
         ])
 
         self.assertEqual(mock_generate_seed.call_count, 1)
         mock_generate_seed.assert_has_calls([
-            call("wwrando-s7", "eJwz1DM00DOIt7RITrQwM2VwZLhrVMTF0czAwMDCAAUcIEKAgYGJg3GlykMQAyoRwuLAsmajv8G85QwMk/iB6jUB5s8MHw==", "test_user", generate_spoiler_log=False, modifiers="nosword", args_format=ArgFormat.VS7),
+            call("wwrando-s7", permalink, "test_user", generate_spoiler_log=False,
+                 modifiers="nosword", args_format=ArgFormat.VS7),
         ])
 
     @patch("random.random", return_value=0.6123)
