@@ -330,7 +330,9 @@ class RandoHandler(RaceHandler):
         await self.send_message("Rolling seed...")
 
         settings_permalink, modifiers = await self.choose_s7_permalink(
-            constants.S7_DEFAULT, constants.S7_PERMALINKS, args
+            constants.S7_DEFAULT,
+            constants.S7_PERMALINKS,
+            args
         )
 
         username = message.get("user", {}).get("name")
@@ -343,35 +345,10 @@ class RandoHandler(RaceHandler):
             args_format=ArgFormat.VS7,
         )
         await self.update_race_room_with_generated_seed(settings_permalink, generated_seed, SeedType.STANDARD)
-        await self.send_message("Please note that this seed uses the S7 Tournament build of the randomizer.")
-        await self.send_message(f"Download: {constants.S7_DOWNLOAD}")
-        await self.send_message(f"Tracker: {constants.S7_TRACKER}")
-
-    async def ex_rollmpseed(self, args, message):
-        if not await self.can_roll_standard_seed(message):
-            return
-
-        await self.send_message("Rolling seed...")
-
-        settings_permalink = await self.choose_permalink(
-            constants.MP_DEFAULT,
-            constants.MP_PERMALINKS,
-            args
-        )
-
-        username = message.get('user', {}).get('name')
-        generated_seed = await self._generate_seed(
-            constants.MP_PATH,
-            settings_permalink,
-            username,
-            generate_spoiler_log=False,
-            args_format=ArgFormat.V111,
-        )
-        await self.update_race_room_with_generated_seed(settings_permalink, generated_seed, SeedType.STANDARD)
-        await self.print_mixed_pools_build()
+        await self.print_s7_build()
 
     async def ex_miniblins(self, args, message):
-        await self.ex_rollmpseed(['miniblins'], message)
+        await self.ex_s7(['miniblins'], message)
 
     async def ex_randomsettings(self, args, message):
         if not await self.can_roll_standard_seed(message):
@@ -502,27 +479,28 @@ class RandoHandler(RaceHandler):
 
         self.loop.create_task(self.start_spoiler_log_race())
 
-    async def ex_startmpspoilerlograce(self, args, message):
+    async def ex_starts7spoilerlograce(self, args, message):
         if not await self.can_start_spoiler_log_race(message):
             return
 
-        settings_permalink = await self.choose_permalink(
-            constants.MP_SL_DEFAULT,
-            constants.MP_SL_PERMALINKS,
+        settings_permalink, modifiers = await self.choose_s7_permalink(
+            constants.S7_SL_DEFAULT,
+            constants.S7_SL_PERMALINKS,
             args
         )
         username = message.get('user', {}).get('name')
 
         await self.send_message("Rolling seed...")
         generated_seed = await self._generate_seed(
-            constants.MP_PATH,
+            constants.S7_PATH,
             settings_permalink,
             username,
             generate_spoiler_log=True,
-            args_format=ArgFormat.V111,
+            modifiers=modifiers,
+            args_format=ArgFormat.VS7,
         )
         await self.update_race_room_with_generated_seed(settings_permalink, generated_seed, SeedType.SPOILER_LOG)
-        await self.print_mixed_pools_build()
+        await self.print_s7_build()
 
         self.loop.create_task(self.start_spoiler_log_race())
 
@@ -722,11 +700,10 @@ class RandoHandler(RaceHandler):
     def seconds_remaining(self):
         return (self.state.get("race_start_time") - datetime.now()).total_seconds()
 
-    async def print_mixed_pools_build(self):
-        await self.send_message(
-            f"Please note that this seed has been rolled on the Mixed Pools version of the randomizer. "
-            f"You can download it here: {constants.MP_DOWNLOAD}"
-        )
+    async def print_s7_build(self):
+        await self.send_message("Please note that this seed uses the S7 Tournament build of the randomizer.")
+        await self.send_message(f"Download: {constants.S7_DOWNLOAD}")
+        await self.send_message(f"Tracker: {constants.S7_TRACKER}")
 
     async def print_example_permalink(self):
         example_permalink = self.state.get("example_permalink")

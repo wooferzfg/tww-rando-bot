@@ -47,11 +47,15 @@ MINIMUM_PLANNING_TIME = 20
 
 S7_PERMALINKS = OrderedDict([
     ("s7",   "eJwz1DM00DOIt7RITrQwM2VwZLhrVMTF0czAwMDCAAUcIEKAgYGJg3GlykMQAyoRwuLAsmajv8G85QwMk/iB6jUB5s8MHw=="),
+    ("miniblins",   "eJwz1DM00DOIt7RITrQwM2VwZPA1cGAgEvgwOLAIXfS3uMvOwDJJfwlDgxIAVbMJPQ=="),
+    ("mixed-pools", "eJwz1DM00DOIt7RITrQwM2VwZLi/IYGBSPDmgT/LkYv+BnPYGRgm8QMFFAG7egse"),
 ])
 S7_DEFAULT = ["s7"]
 
 S7_SL_PERMALINKS = OrderedDict([
     ("s7-sl", "eJwz1DM00DOIt7RITrQwM2VwZLhrVMTF0czAwMDCAAUcIEKAgYGJg3GlykMQAyoRwuLAsmajv8G85QwMk/iB6jkB5q8L/w=="),
+    ("miniblins-sl",   "eJwz1DM00DOIt7RITrQwM2VwZPA1cGAgEvgwOLAIXfS3uMvOwDJJfwlDAxMAVZMJHQ=="),
+    ("mixed-pools-sl", "eJwz1DM00DOIt7RITrQwM2VwZLi/IYGBSPDmgT/LkYv+BnPYGRgm8QMFGAG7Wgr+"),
 ])
 S7_SL_DEFAULT = ["s7-sl"]
 
@@ -71,20 +75,6 @@ RUNNER_AGREEMENTS = OrderedDict([
 S7_PATH = "wwrando-s7"
 S7_DOWNLOAD = "https://github.com/tanjo3/wwrando/releases/tag/s7-v1"
 S7_TRACKER = "https://wooferzfg.me/tww-rando-tracker/s7-tournament"
-
-MP_PERMALINKS = OrderedDict([
-    ("miniblins",   "MS4xMC4wXzVmMWJhZTYAQQBNMEBMAEAEEvETzn8AEEh+SAEAIw=="),
-    ("mixed-pools", "MS4xMC4wXzVmMWJhZTYAQQDfsGDs4E8ExPETjHsAAEg+AAAAIA=="),
-])
-MP_DEFAULT = ["mixed-pools"]
-
-MP_SL_PERMALINKS = OrderedDict([
-    ("mixed-pools-sl", "MS4xMC4wXzVmMWJhZTYAQQDfsGDs4E8ExPETjHsAAEg+AAAAAA=="),
-])
-MP_SL_DEFAULT = ["mixed-pools-sl"]
-
-MP_PATH = "wwrando-mixed-pools"
-MP_DOWNLOAD = "https://github.com/wooferzfg/wwrando/releases/tag/mixed-pools-build"
 
 RS_PATH = "wwrando-random-settings"
 RS_VERSION = "RS1.4.0-dev3"

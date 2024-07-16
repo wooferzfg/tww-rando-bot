@@ -1,4 +1,4 @@
 [flake8]
-exclude = wwrando, wwrando-s7, wwrando-random-settings, wwrando-mixed-pools
+exclude = wwrando, wwrando-s7, wwrando-random-settings
 max-line-length = 120
 extend-ignore = E203, W503

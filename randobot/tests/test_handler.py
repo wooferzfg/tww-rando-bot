@@ -100,8 +100,8 @@ class TestHandler(unittest.IsolatedAsyncioTestCase):
             call(f"Permalink: PERMA_{permalink}"),
             call("Seed Hash: SEED HASH"),
             call('Please note that this seed uses the S7 Tournament build of the randomizer.'),
-            call('Download: https://github.com/tanjo3/wwrando/releases/tag/s7-v1'),
-            call('Tracker: https://wooferzfg.me/tww-rando-tracker/s7-tournament'),
+            call("Download: https://github.com/tanjo3/wwrando/releases/tag/s7-v1"),
+            call("Tracker: https://wooferzfg.me/tww-rando-tracker/s7-tournament"),
         ])
 
         self.assertEqual(mock_set_raceinfo.call_count, 1)
@@ -132,8 +132,8 @@ class TestHandler(unittest.IsolatedAsyncioTestCase):
             call(f"Permalink: PERMA_{permalink}"),
             call("Seed Hash: SEED HASH"),
             call('Please note that this seed uses the S7 Tournament build of the randomizer.'),
-            call('Download: https://github.com/tanjo3/wwrando/releases/tag/s7-v1'),
-            call('Tracker: https://wooferzfg.me/tww-rando-tracker/s7-tournament'),
+            call("Download: https://github.com/tanjo3/wwrando/releases/tag/s7-v1"),
+            call("Tracker: https://wooferzfg.me/tww-rando-tracker/s7-tournament"),
         ])
 
         self.assertEqual(mock_set_raceinfo.call_count, 2)
@@ -286,8 +286,8 @@ class TestHandler(unittest.IsolatedAsyncioTestCase):
             call(f"Permalink: PERMA_{permalink}"),
             call("Seed Hash: SEED HASH"),
             call('Please note that this seed uses the S7 Tournament build of the randomizer.'),
-            call('Download: https://github.com/tanjo3/wwrando/releases/tag/s7-v1'),
-            call('Tracker: https://wooferzfg.me/tww-rando-tracker/s7-tournament'),
+            call("Download: https://github.com/tanjo3/wwrando/releases/tag/s7-v1"),
+            call("Tracker: https://wooferzfg.me/tww-rando-tracker/s7-tournament"),
         ])
 
         self.assertEqual(mock_set_raceinfo.call_count, 2)
@@ -378,75 +378,32 @@ class TestHandler(unittest.IsolatedAsyncioTestCase):
     @patch.object(MockGenerator, "generate_seed", side_effect=mock_generate_seed_standard)
     @patch.object(RandoHandler, "set_raceinfo", return_value=async_return(None))
     @patch.object(RandoHandler, "send_message", return_value=async_return(None))
-    async def test_rollmpseed(self, mock_send_message, mock_set_raceinfo, mock_generate_seed):
-        generator = MockGenerator()
-        state = {}
-        handler = create_rando_handler(generator, state)
-        await handler.ex_rollmpseed([], get_mock_message_data())
-
-        self.assertEqual(mock_send_message.call_count, 4)
-        mock_send_message.assert_has_calls([
-            call("Rolling seed..."),
-            call("Permalink: PERMA_MS4xMC4wXzVmMWJhZTYAQQDfsGDs4E8ExPETjHsAAEg+AAAAIA=="),
-            call("Seed Hash: SEED HASH"),
-            call(
-                "Please note that this seed has been rolled on the Mixed Pools "
-                "version of the randomizer. You can download it here: "
-                "https://github.com/wooferzfg/wwrando/releases/tag/mixed-pools-build"
-            ),
-        ])
-
-        self.assertEqual(mock_set_raceinfo.call_count, 1)
-        mock_set_raceinfo.assert_has_calls([
-            call("PERMA_MS4xMC4wXzVmMWJhZTYAQQDfsGDs4E8ExPETjHsAAEg+AAAAIA== | Seed Hash: SEED HASH", False, False),
-        ])
-
-        self.assertEqual(mock_generate_seed.call_count, 1)
-        mock_generate_seed.assert_has_calls([
-            call(
-                "wwrando-mixed-pools",
-                "MS4xMC4wXzVmMWJhZTYAQQDfsGDs4E8ExPETjHsAAEg+AAAAIA==",
-                "test_user",
-                generate_spoiler_log=False,
-                args_format=ArgFormat.V111,
-            ),
-        ])
-
-    @patch.object(MockGenerator, "generate_seed", side_effect=mock_generate_seed_standard)
-    @patch.object(RandoHandler, "set_raceinfo", return_value=async_return(None))
-    @patch.object(RandoHandler, "send_message", return_value=async_return(None))
     async def test_miniblins(self, mock_send_message, mock_set_raceinfo, mock_generate_seed):
         generator = MockGenerator()
         state = {}
         handler = create_rando_handler(generator, state)
         await handler.ex_miniblins([], get_mock_message_data())
 
-        self.assertEqual(mock_send_message.call_count, 4)
+        self.assertEqual(mock_send_message.call_count, 6)
+        permalink = "eJwz1DM00DOIt7RITrQwM2VwZPA1cGAgEvgwOLAIXfS3uMvOwDJJfwlDgxIAVbMJPQ=="
         mock_send_message.assert_has_calls([
             call("Rolling seed..."),
-            call("Permalink: PERMA_MS4xMC4wXzVmMWJhZTYAQQBNMEBMAEAEEvETzn8AEEh+SAEAIw=="),
+            call(f"Permalink: PERMA_{permalink}"),
             call("Seed Hash: SEED HASH"),
-            call(
-                "Please note that this seed has been rolled on the Mixed Pools "
-                "version of the randomizer. You can download it here: "
-                "https://github.com/wooferzfg/wwrando/releases/tag/mixed-pools-build"
-            ),
+            call('Please note that this seed uses the S7 Tournament build of the randomizer.'),
+            call("Download: https://github.com/tanjo3/wwrando/releases/tag/s7-v1"),
+            call("Tracker: https://wooferzfg.me/tww-rando-tracker/s7-tournament"),
         ])
 
         self.assertEqual(mock_set_raceinfo.call_count, 1)
         mock_set_raceinfo.assert_has_calls([
-            call("PERMA_MS4xMC4wXzVmMWJhZTYAQQBNMEBMAEAEEvETzn8AEEh+SAEAIw== | Seed Hash: SEED HASH", False, False),
+            call(f"PERMA_{permalink} | Seed Hash: SEED HASH", False, False),
         ])
 
         self.assertEqual(mock_generate_seed.call_count, 1)
         mock_generate_seed.assert_has_calls([
-            call(
-                "wwrando-mixed-pools",
-                "MS4xMC4wXzVmMWJhZTYAQQBNMEBMAEAEEvETzn8AEEh+SAEAIw==",
-                "test_user",
-                generate_spoiler_log=False,
-                args_format=ArgFormat.V111,
-            ),
+            call("wwrando-s7", permalink, "test_user", generate_spoiler_log=False,
+                 modifiers="", args_format=ArgFormat.VS7),
         ])
 
     @patch("asyncio.sleep", return_value=async_return(None))
@@ -540,23 +497,22 @@ class TestHandler(unittest.IsolatedAsyncioTestCase):
     @patch.object(MockGenerator, "generate_seed", side_effect=mock_generate_seed_spoiler_log)
     @patch.object(RandoHandler, "set_raceinfo", return_value=async_return(None))
     @patch.object(RandoHandler, "send_message", return_value=async_return(None))
-    async def test_startmpspoilerlograce(self, mock_send_message, mock_set_raceinfo, mock_generate_seed, mock_sleep):
+    async def test_starts7spoilerlograce(self, mock_send_message, mock_set_raceinfo, mock_generate_seed, mock_sleep):
         generator = MockGenerator()
         state = {}
         handler = create_rando_handler(generator, state)
-        await handler.ex_startmpspoilerlograce([], get_mock_message_data())
+        await handler.ex_starts7spoilerlograce([], get_mock_message_data())
 
         await wait_for_all_async_tasks()
 
-        self.assertEqual(mock_send_message.call_count, 13)
+        self.assertEqual(mock_send_message.call_count, 15)
+        permalink = "eJwz1DM00DOIt7RITrQwM2VwZLhrVMTF0czAwMDCAAUcIEKAgYGJg3GlykMQAyoRwuLAsmajv8G85QwMk/iB6jkB5q8L/w=="
         mock_send_message.assert_has_calls([
             call("Rolling seed..."),
             call("Seed rolled!"),
-            call(
-                "Please note that this seed has been rolled on the Mixed Pools "
-                "version of the randomizer. You can download it here: "
-                "https://github.com/wooferzfg/wwrando/releases/tag/mixed-pools-build"
-            ),
+            call('Please note that this seed uses the S7 Tournament build of the randomizer.'),
+            call("Download: https://github.com/tanjo3/wwrando/releases/tag/s7-v1"),
+            call("Tracker: https://wooferzfg.me/tww-rando-tracker/s7-tournament"),
             call("Preparation stage starts in 15 seconds..."),
             call("5..."),
             call("4..."),
@@ -565,7 +521,7 @@ class TestHandler(unittest.IsolatedAsyncioTestCase):
             call("1..."),
             call("You have 60 minutes to prepare your route!"),
             call("Spoiler Log: SPOILER_LOG_URL"),
-            call("Example Permalink: MS4xMC4wXzVmMWJhZTYAQQDfsGDs4E8ExPETjHsAAEg+AAAAAA=="),
+            call(f"Example Permalink: {permalink}"),
             call("Warning: The seed from this permalink does not match the actual permalink!")
         ])
 
@@ -573,18 +529,13 @@ class TestHandler(unittest.IsolatedAsyncioTestCase):
 
         self.assertEqual(mock_generate_seed.call_count, 1)
         mock_generate_seed.assert_has_calls([
-            call(
-                "wwrando-mixed-pools",
-                "MS4xMC4wXzVmMWJhZTYAQQDfsGDs4E8ExPETjHsAAEg+AAAAAA==",
-                "test_user",
-                generate_spoiler_log=True,
-                args_format=ArgFormat.V111,
-            ),
+            call("wwrando-s7", permalink, "test_user", generate_spoiler_log=True,
+                 modifiers="", args_format=ArgFormat.VS7),
         ])
 
         self.assertEqual(state["spoiler_log_seed_rolled"], True)
-        self.assertEqual(state["example_permalink"], "MS4xMC4wXzVmMWJhZTYAQQDfsGDs4E8ExPETjHsAAEg+AAAAAA==")
-        self.assertEqual(state["permalink"], "PERMA_MS4xMC4wXzVmMWJhZTYAQQDfsGDs4E8ExPETjHsAAEg+AAAAAA==")
+        self.assertEqual(state["example_permalink"], permalink)
+        self.assertEqual(state["permalink"], f"PERMA_{permalink}")
         self.assertEqual(state["spoiler_log_url"], "SPOILER_LOG_URL")
         self.assertEqual(state["seed_hash"], "SEED HASH")
         self.assertEqual(state["file_name"], "FILENAME")
