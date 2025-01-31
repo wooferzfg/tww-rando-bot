@@ -47,14 +47,16 @@ MINIMUM_PLANNING_TIME = 20
 
 S7_PERMALINKS = OrderedDict([
     ("s7",   "eJwz1DM00DOIt7RITrQwM2VwZLhrVMTF0czAwMDCAAUcIEKAgYGJg3GlykMQAyoRwuLAsmajv8G85QwMk/iB6jUB5s8MHw=="),
-    ("miniblins",   "eJwz1DM00DOIt7RITrQwM2VwZPA1cGAgEvgwOLAIXfS3uMvOwDJJfwlDgxIAVbMJPQ=="),
+    ("miniblins",   "eJwz1DM00DOIt7RITrQwM2VwZOg0SBBgZ2DjYMAKBBgYWOAcHwYHFqGN/hZz2RlYJukvYWhQAgBxyAly"),
+    ("miniblins-s2",   "eJwz1DM00DOIt7RITrQwM2VwZPA1cGAgEvgwOLAIXfS3uMvOwDJJfwlDgxIAVbMJPQ=="),
     ("mixed-pools", "eJwz1DM00DOIt7RITrQwM2VwZLi/IYGBSPDmgT/LkYv+BnPYGRgm8QMFFAG7egse"),
 ])
 S7_DEFAULT = ["s7"]
 
 S7_SL_PERMALINKS = OrderedDict([
     ("s7-sl", "eJwz1DM00DOIt7RITrQwM2VwZLhrVMTF0czAwMDCAAUcIEKAgYGJg3GlykMQAyoRwuLAsmajv8G85QwMk/iB6jkB5q8L/w=="),
-    ("miniblins-sl",   "eJwz1DM00DOIt7RITrQwM2VwZPA1cGAgEvgwOLAIXfS3uMvOwDJJfwlDAxMAVZMJHQ=="),
+    ("miniblins-sl",   "eJwz1DM00DOIt7RITrQwM2VwZOg0SBBgZ2DjYMAKBBgYWOAcHwYHFqGN/hZz2RlYJukvYWhgAgBxqAlS"),
+    ("miniblins-s2-sl",   "eJwz1DM00DOIt7RITrQwM2VwZPA1cGAgEvgwOLAIXfS3uMvOwDJJfwlDAxMAVZMJHQ=="),
     ("mixed-pools-sl", "eJwz1DM00DOIt7RITrQwM2VwZLi/IYGBSPDmgT/LkYv+BnPYGRgm8QMFGAG7Wgr+"),
 ])
 S7_SL_DEFAULT = ["s7-sl"]
