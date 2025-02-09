@@ -392,7 +392,7 @@ class TestHandler(unittest.IsolatedAsyncioTestCase):
             call("Seed Hash: SEED HASH"),
             call('Please note that this seed uses the S7 Tournament build of the randomizer.'),
             call("Download: https://github.com/tanjo3/wwrando/releases/tag/s7-v1"),
-            call("Tracker: https://wooferzfg.me/tww-rando-tracker/s7-tournament"),
+            call("Tracker: https://wooferzfg.me/tww-rando-tracker/miniblins"),
         ])
 
         self.assertEqual(mock_set_raceinfo.call_count, 1)

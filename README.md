@@ -29,5 +29,5 @@ export CLIENT_SECRET=... # the OAuth2 client secret for this bot on racetime.gg
 
 ### Running tests
 ```bash
-docker-compose run --rm tww_rando_bot python -m unittest discover -s randobot/tests -p 'test_*.py'
+docker compose run --rm tww_rando_bot python -m unittest discover -s randobot/tests -p 'test_*.py'
 ```

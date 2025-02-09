@@ -77,6 +77,7 @@ RUNNER_AGREEMENTS = OrderedDict([
 S7_PATH = "wwrando-s7"
 S7_DOWNLOAD = "https://github.com/tanjo3/wwrando/releases/tag/s7-v1"
 S7_TRACKER = "https://wooferzfg.me/tww-rando-tracker/s7-tournament"
+MINIBLINS_TRACKER = "https://wooferzfg.me/tww-rando-tracker/miniblins"
 
 RS_PATH = "wwrando-random-settings"
 RS_VERSION = "RS1.4.0-dev3"
