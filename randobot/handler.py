@@ -703,7 +703,8 @@ class RandoHandler(RaceHandler):
     async def print_s7_build(self, use_miniblins_tracker=False):
         await self.send_message("Please note that this seed uses the S7 Tournament build of the randomizer.")
         await self.send_message(f"Download: {constants.S7_DOWNLOAD}")
-        await self.send_message(f"Tracker: {constants.MINIBLINS_TRACKER if use_miniblins_tracker else constants.S7_TRACKER}")
+        tracker_url = constants.MINIBLINS_TRACKER if use_miniblins_tracker else constants.S7_TRACKER
+        await self.send_message(f"Tracker: {tracker_url}")
 
     async def print_example_permalink(self):
         example_permalink = self.state.get("example_permalink")
