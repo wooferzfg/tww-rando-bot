@@ -390,7 +390,7 @@ class TestHandler(unittest.IsolatedAsyncioTestCase):
             call("Rolling seed..."),
             call(f"Permalink: PERMA_{permalink}"),
             call("Seed Hash: SEED HASH"),
-            call('Please note that this seed uses the Miniblins 2025 build of the randomizer.'),
+            call("Please note that this seed uses the Miniblins 2025 build of the randomizer."),
             call("Download: https://github.com/tanjo3/wwrando/releases/tag/miniblins-2025"),
             call("Tracker: https://wooferzfg.me/tww-rando-tracker/miniblins"),
         ])
@@ -402,8 +402,7 @@ class TestHandler(unittest.IsolatedAsyncioTestCase):
 
         self.assertEqual(mock_generate_seed.call_count, 1)
         mock_generate_seed.assert_has_calls([
-            call("wwrando-s7", permalink, "test_user", generate_spoiler_log=False,
-                 modifiers="", args_format=ArgFormat.VS7),
+            call("wwrando-miniblins", permalink, "test_user", generate_spoiler_log=False, args_format=ArgFormat.V111)
         ])
 
     @patch("asyncio.sleep", return_value=async_return(None))
