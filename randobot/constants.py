@@ -46,17 +46,13 @@ DEFAULT_PLANNING_TIME = 60
 MINIMUM_PLANNING_TIME = 20
 
 S7_PERMALINKS = OrderedDict([
-    ("s7",   "eJwz1DM00DOIt7RITrQwM2VwZLhrVMTF0czAwMDCAAUcIEKAgYGJg3GlykMQAyoRwuLAsmajv8G85QwMk/iB6jUB5s8MHw=="),
-    ("miniblins",   "eJwz1DM00DOIt7RITrQwM2VwZOg0SBBgZ2DjYMAKBBgYWOAcHwYHFqGN/hZz2RlYJukvYWhQAgBxyAly"),
-    ("miniblins-s2",   "eJwz1DM00DOIt7RITrQwM2VwZPA1cGAgEvgwOLAIXfS3uMvOwDJJfwlDgxIAVbMJPQ=="),
+    ("s7",          "eJwz1DM00DOIt7RITrQwM2VwZLhrVMTF0czAwMDCAAUcIEKAgYGJg3GlykMQAyoRwuLAsmajv8G85QwMk/iB6jUB5s8MHw=="),
     ("mixed-pools", "eJwz1DM00DOIt7RITrQwM2VwZLi/IYGBSPDmgT/LkYv+BnPYGRgm8QMFFAG7egse"),
 ])
 S7_DEFAULT = ["s7"]
 
 S7_SL_PERMALINKS = OrderedDict([
-    ("s7-sl", "eJwz1DM00DOIt7RITrQwM2VwZLhrVMTF0czAwMDCAAUcIEKAgYGJg3GlykMQAyoRwuLAsmajv8G85QwMk/iB6jkB5q8L/w=="),
-    ("miniblins-sl",   "eJwz1DM00DOIt7RITrQwM2VwZOg0SBBgZ2DjYMAKBBgYWOAcHwYHFqGN/hZz2RlYJukvYWhgAgBxqAlS"),
-    ("miniblins-s2-sl",   "eJwz1DM00DOIt7RITrQwM2VwZPA1cGAgEvgwOLAIXfS3uMvOwDJJfwlDAxMAVZMJHQ=="),
+    ("s7-sl",          "eJwz1DM00DOIt7RITrQwM2VwZLhrVMTF0czAwMDCAAUcIEKAgYGJg3GlykMQAyoRwuLAsmajv8G85QwMk/iB6jkB5q8L/w=="),
     ("mixed-pools-sl", "eJwz1DM00DOIt7RITrQwM2VwZLi/IYGBSPDmgT/LkYv+BnPYGRgm8QMFGAG7Wgr+"),
 ])
 S7_SL_DEFAULT = ["s7-sl"]
@@ -74,9 +70,24 @@ RUNNER_AGREEMENTS = OrderedDict([
     ("plats",    "Lookout Platforms on Islet of Steel, Southern Fairy, and Seven-Star"),
 ])
 
+MINIBLINS_PERMALINKS = OrderedDict([
+    ("miniblins",      "eJwz1DM00DOIN0xNszAySmRwZOg0SBBgZ2DjYMAKBBgYWOAcHwYHFqGN/hZz2RlYJukvYWhQAgB6WwmT"),
+    ("miniblins-2024", "eJwz1DM00DOIN0xNszAySmRwZPA1cGAgEvgwOLAIXfS3uMvOwDJJfwlDgxIAXkYJXg=="),
+])
+MINIBLINS_DEFAULT = ["miniblins"]
+
+MINIBLINS_SL_PERMALINKS = OrderedDict([
+    ("miniblins-sl",      "eJwz1DM00DOIN0xNszAySmRwZOg0SBBgZ2DjYMAKBBgYWOAcHwYHFqGN/hZz2RlYJukvYWhgAgB6Owlz"),
+    ("miniblins-2024-sl", "eJwz1DM00DOIN0xNszAySmRwZPA1cGAgEvgwOLAIXfS3uMvOwDJJfwlDAxMAXiYJPg=="),
+])
+MINIBLINS_SL_DEFAULT = ["miniblins-sl"]
+
 S7_PATH = "wwrando-s7"
 S7_DOWNLOAD = "https://github.com/tanjo3/wwrando/releases/tag/s7-v1"
 S7_TRACKER = "https://wooferzfg.me/tww-rando-tracker/s7-tournament"
+
+MINIBLINS_PATH = "wwrando-miniblins"
+MINIBLINS_DOWNLOAD = "https://github.com/tanjo3/wwrando/releases/tag/miniblins-2025"
 MINIBLINS_TRACKER = "https://wooferzfg.me/tww-rando-tracker/miniblins"
 
 RS_PATH = "wwrando-random-settings"

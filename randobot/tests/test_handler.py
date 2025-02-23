@@ -385,13 +385,13 @@ class TestHandler(unittest.IsolatedAsyncioTestCase):
         await handler.ex_miniblins([], get_mock_message_data())
 
         self.assertEqual(mock_send_message.call_count, 6)
-        permalink = "eJwz1DM00DOIt7RITrQwM2VwZOg0SBBgZ2DjYMAKBBgYWOAcHwYHFqGN/hZz2RlYJukvYWhQAgBxyAly"
+        permalink = "eJwz1DM00DOIN0xNszAySmRwZOg0SBBgZ2DjYMAKBBgYWOAcHwYHFqGN/hZz2RlYJukvYWhQAgB6WwmT"
         mock_send_message.assert_has_calls([
             call("Rolling seed..."),
             call(f"Permalink: PERMA_{permalink}"),
             call("Seed Hash: SEED HASH"),
-            call('Please note that this seed uses the S7 Tournament build of the randomizer.'),
-            call("Download: https://github.com/tanjo3/wwrando/releases/tag/s7-v1"),
+            call('Please note that this seed uses the Miniblins 2025 build of the randomizer.'),
+            call("Download: https://github.com/tanjo3/wwrando/releases/tag/miniblins-2025"),
             call("Tracker: https://wooferzfg.me/tww-rando-tracker/miniblins"),
         ])
 
