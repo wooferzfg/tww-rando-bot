@@ -52,7 +52,7 @@ S7_PERMALINKS = OrderedDict([
 S7_DEFAULT = ["s7"]
 
 S7_SL_PERMALINKS = OrderedDict([
-    ("s7-sl",          "eJwz1DM00DOIt7RITrQwM2VwZLhrVMTF0czAwMDCAAUcIEKAgYGJg3GlykMQAyoRwuLAsmajv8G85QwMk/iB6jkB5q8L/w=="),
+    ("s7-sl",       "eJwz1DM00DOIt7RITrQwM2VwZLhrVMTF0czAwMDCAAUcIEKAgYGJg3GlykMQAyoRwuLAsmajv8G85QwMk/iB6jkB5q8L/w=="),
     ("mixed-pools-sl", "eJwz1DM00DOIt7RITrQwM2VwZLi/IYGBSPDmgT/LkYv+BnPYGRgm8QMFGAG7Wgr+"),
 ])
 S7_SL_DEFAULT = ["s7-sl"]
