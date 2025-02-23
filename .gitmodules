@@ -6,6 +6,9 @@
 	path = wwrando-s7
 	url = https://github.com/tanjo3/wwrando.git
 	branch = s7-tournament
+[submodule "wwrando-miniblins"]
+	path = wwrando-miniblins
+	url = https://github.com/tanjo3/wwrando.git
 [submodule "wwrando-random-settings"]
 	path = wwrando-random-settings
 	url = https://github.com/Aelire/wwrando.git
