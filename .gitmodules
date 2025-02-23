@@ -9,6 +9,7 @@
 [submodule "wwrando-miniblins"]
 	path = wwrando-miniblins
 	url = https://github.com/tanjo3/wwrando.git
+	branch = miniblins
 [submodule "wwrando-random-settings"]
 	path = wwrando-random-settings
 	url = https://github.com/Aelire/wwrando.git
