@@ -1,4 +1,4 @@
 [flake8]
-exclude = wwrando, wwrando-s7, wwrando-miniblins, wwrando-random-settings
+exclude = wwrando, wwrando-s8, wwrando-miniblins, wwrando-random-settings
 max-line-length = 120
 extend-ignore = E203, W503
