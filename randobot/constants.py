@@ -63,12 +63,6 @@ MINIBLINS_PERMALINKS = OrderedDict([
 ])
 MINIBLINS_DEFAULT = ["miniblins"]
 
-MINIBLINS_SL_PERMALINKS = OrderedDict([
-    ("miniblins-sl",      "eJwz1DM00DOIN0xNszAySmRwZOg0SBBgZ2DjYMAKBBgYWOAcHwYHFqGN/hZz2RlYJukvYWhgAgB6Owlz"),
-    ("miniblins-2024-sl", "eJwz1DM00DOIN0xNszAySmRwZPA1cGAgEvgwOLAIXfS3uMvOwDJJfwlDAxMAXiYJPg=="),
-])
-MINIBLINS_SL_DEFAULT = ["miniblins-sl"]
-
 S8_PATH = "wwrando-s8"
 S8_DOWNLOAD = "https://github.com/tanjo3/wwrando/releases/tag/s8-v1"
 S8_TRACKER = "https://www.wooferzfg.me/tww-rando-tracker/s8-tournament"
