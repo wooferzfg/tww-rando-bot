@@ -45,30 +45,17 @@ SPOILER_LOG_DEFAULT = ["preset-a", "preset-b", "preset-c", "preset-d", "preset-e
 DEFAULT_PLANNING_TIME = 60
 MINIMUM_PLANNING_TIME = 20
 
-S7_PERMALINKS = OrderedDict([
-    ("s7",          "eJwz1DM00DOIt7RITrQwM2VwZLhrVMTF0czAwMDCAAUcIEKAgYGJg3GlykMQAyoRwuLAsmajv8G85QwMk/iB6jUB5s8MHw=="),
-    ("mixed-pools", "eJwz1DM00DOIt7RITrQwM2VwZLi/IYGBSPDmgT/LkYv+BnPYGRgm8QMFFAG7egse"),
+S8_PERMALINKS = OrderedDict([
+    ("s8",          "eJwLtlAIyS8tykvMTc0rUSgzZHBkuPu5iKPBmEHAwZEBCBqAqJ9RAMSUYLJzrjf4KL/hf7YJAxjc8WjgcHlyWt3GVp5BwOMfE1CNA4MIgytjhQYXAGYwFsk="),  # noqa: E501
+    ("mixed-pools", "eJwLtlAIyS8tykvMTc0rUSgzZHBkuL8hgYFIsObgfI4O5SPqBhbSDAweb0BCDlApDgDi7A15"),
 ])
-S7_DEFAULT = ["s7"]
+S8_DEFAULT = ["s8"]
 
-S7_SL_PERMALINKS = OrderedDict([
-    ("s7-sl",       "eJwz1DM00DOIt7RITrQwM2VwZLhrVMTF0czAwMDCAAUcIEKAgYGJg3GlykMQAyoRwuLAsmajv8G85QwMk/iB6jkB5q8L/w=="),
-    ("mixed-pools-sl", "eJwz1DM00DOIt7RITrQwM2VwZLi/IYGBSPDmgT/LkYv+BnPYGRgm8QMFGAG7Wgr+"),
+S8_SL_PERMALINKS = OrderedDict([
+    ("s8-sl",          "eJwLtlAIyS8tykvMTc0rUSgzZHBkuPu5iKPBmEHAwZEBCBqAqJ9RAMSUYLJzrjf4KL/hf7YJAxjc8WjgcHlyWt3GVp5BwOMfE1CNA4MIgytjhQYTAGYoFsE="),  # noqa: E501
+    ("mixed-pools-sl", "eJwLtlAIyS8tykvMTc0rUSgzZHBkuL8hgYFIsObgfI4O5SPqBhbSDAweb0BCDjA5AOLkDXE="),
 ])
-S7_SL_DEFAULT = ["s7-sl"]
-
-RUNNER_AGREEMENTS = OrderedDict([
-    ("4rbm",     "4-Required Bosses Mode"),
-    ("nosword",  "No Starting Sword"),
-    ("der",      "Randomized Dungeon Entrances"),
-    ("ber",      "Randomized Boss Entrances"),
-    ("keys",     "Key-Lunacy"),
-    ("tingle",   "Tingle Chests replacing Dungeon Secrets"),
-    ("expen",    "Expensive Purchases"),
-    ("subs",     "Submarines"),
-    ("minis",    "Minigames"),
-    ("plats",    "Lookout Platforms on Islet of Steel, Southern Fairy, and Seven-Star"),
-])
+S8_SL_DEFAULT = ["s8-sl"]
 
 MINIBLINS_PERMALINKS = OrderedDict([
     ("miniblins",      "eJwz1DM00DOIN0xNszAySmRwZOg0SBBgZ2DjYMAKBBgYWOAcHwYHFqGN/hZz2RlYJukvYWhQAgB6WwmT"),
@@ -76,9 +63,9 @@ MINIBLINS_PERMALINKS = OrderedDict([
 ])
 MINIBLINS_DEFAULT = ["miniblins"]
 
-S7_PATH = "wwrando-s7"
-S7_DOWNLOAD = "https://github.com/tanjo3/wwrando/releases/tag/s7-v1"
-S7_TRACKER = "https://wooferzfg.me/tww-rando-tracker/s7-tournament"
+S8_PATH = "wwrando-s8"
+S8_DOWNLOAD = "https://github.com/tanjo3/wwrando/releases/tag/s8-v1"
+S8_TRACKER = "https://www.wooferzfg.me/tww-rando-tracker/s8-tournament"
 
 MINIBLINS_PATH = "wwrando-miniblins"
 MINIBLINS_DOWNLOAD = "https://github.com/tanjo3/wwrando/releases/tag/miniblins-2025"

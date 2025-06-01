@@ -12,7 +12,6 @@ from github import Auth, Github, InputFileContent
 class ArgFormat(enum.Enum):
     V110 = "-noui -seed={seed_name} -permalink={permalink}"
     V111 = "--noui --dry --seed={seed_name} --permalink={permalink}"
-    VS7 = "--noui --dry --seed={seed_name} --permalink={permalink} --modifiers={modifiers}"
     RS14 = "--randobot --noui --dry --seed={seed_name} --permalink={permalink}"
 
 
