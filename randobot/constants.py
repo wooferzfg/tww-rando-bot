@@ -76,12 +76,6 @@ MINIBLINS_PERMALINKS = OrderedDict([
 ])
 MINIBLINS_DEFAULT = ["miniblins"]
 
-MINIBLINS_SL_PERMALINKS = OrderedDict([
-    ("miniblins-sl",      "eJwz1DM00DOIN0xNszAySmRwZOg0SBBgZ2DjYMAKBBgYWOAcHwYHFqGN/hZz2RlYJukvYWhgAgB6Owlz"),
-    ("miniblins-2024-sl", "eJwz1DM00DOIN0xNszAySmRwZPA1cGAgEvgwOLAIXfS3uMvOwDJJfwlDAxMAXiYJPg=="),
-])
-MINIBLINS_SL_DEFAULT = ["miniblins-sl"]
-
 S7_PATH = "wwrando-s7"
 S7_DOWNLOAD = "https://github.com/tanjo3/wwrando/releases/tag/s7-v1"
 S7_TRACKER = "https://wooferzfg.me/tww-rando-tracker/s7-tournament"
