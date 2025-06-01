@@ -46,14 +46,14 @@ DEFAULT_PLANNING_TIME = 60
 MINIMUM_PLANNING_TIME = 20
 
 S8_PERMALINKS = OrderedDict([
-    ("s8",          "eJwLtlAIyS8tykvMTc0rUSgzZHBkuPu5iKPBmEHAwZEBCBqAqJ9RAMSUYLJzrjf4KL/hf7YJAxjc8WjgcHlyWt3GVp5BwOMfE1CNA4MIgytjhQYXAGYwFsk="),  # noqa: E501
-    ("mixed-pools", "eJwLtlAIyS8tykvMTc0rUSgzZHBkuL8hgYFIsObgfI4O5SPqBhbSDAweb0BCDlApDgDi7A15"),
+    ("s8",          "eJwLtlAIyS8tykvMTc0rUSgzjDdJMTc3szRlcGS4+7mIo8GYQcDBkQEIGoCon1EAxJRgsnOuN/gov+F/tgkDGNzxaOBweXJa3cZWnkHA4x8TUI0DgwiDK2OFBhcAM80Y0g=="),  # noqa: E501
+    ("mixed-pools", "eJwLtlAIyS8tykvMTc0rUSgzjDdJMTc3szRl8M2sSE0JyM/PKfYqzUs1dGK4vyGBgUjw5uB8jo7kA+o2tvIMAh7/mIBCDlApDgAIyxX/"),  # noqa: E501
 ])
 S8_DEFAULT = ["s8"]
 
 S8_SL_PERMALINKS = OrderedDict([
-    ("s8-sl",          "eJwLtlAIyS8tykvMTc0rUSgzZHBkuPu5iKPBmEHAwZEBCBqAqJ9RAMSUYLJzrjf4KL/hf7YJAxjc8WjgcHlyWt3GVp5BwOMfE1CNA4MIgytjhQYTAGYoFsE="),  # noqa: E501
-    ("mixed-pools-sl", "eJwLtlAIyS8tykvMTc0rUSgzZHBkuL8hgYFIsObgfI4O5SPqBhbSDAweb0BCDjA5AOLkDXE="),
+    ("s8-sl",          "eJwLtlAIyS8tykvMTc0rUSgzjDdJMTc3szRlcGS4+7mIo8GYQcDBkQEIGoCon1EAxJRgsnOuN/gov+F/tgkDGNzxaOBweXJa3cZWnkHA4x8TUI0DgwiDK2OFBhMAM8UYyg=="),  # noqa: E501
+    ("mixed-pools-sl", "eJwLtlAIyS8tykvMTc0rUSgzjDdJMTc3szRl8M2sSE0JyM/PKfYqzUs1dGK4vyGBgUjw5uB8jo7kA+o2tvIMAh7/mIBCDjA5AAjDFfc="),  # noqa: E501
 ])
 S8_SL_DEFAULT = ["s8-sl"]
 
