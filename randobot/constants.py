@@ -64,7 +64,7 @@ MINIBLINS_PERMALINKS = OrderedDict([
 MINIBLINS_DEFAULT = ["miniblins"]
 
 S8_PATH = "wwrando-s8"
-S8_DOWNLOAD = "https://github.com/tanjo3/wwrando/releases/tag/s8-v1"
+S8_DOWNLOAD = "https://github.com/tanjo3/wwrando/releases/tag/s8-v2"
 S8_TRACKER = "https://www.wooferzfg.me/tww-rando-tracker/s8-tournament"
 
 MINIBLINS_PATH = "wwrando-miniblins"
