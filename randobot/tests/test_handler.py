@@ -82,7 +82,7 @@ class TestHandler(unittest.IsolatedAsyncioTestCase):
             call(f"Permalink: PERMA_{permalink}"),
             call("Seed Hash: SEED HASH"),
             call("Please note that this seed uses the S8 Tournament build of the randomizer."),
-            call("Download: https://github.com/tanjo3/wwrando/releases/tag/s8-v1"),
+            call("Download: https://github.com/tanjo3/wwrando/releases/tag/s8-v2"),
             call("Tracker: https://www.wooferzfg.me/tww-rando-tracker/s8-tournament"),
         ])
 
@@ -391,7 +391,7 @@ class TestHandler(unittest.IsolatedAsyncioTestCase):
             call("Rolling seed..."),
             call("Seed rolled!"),
             call('Please note that this seed uses the S8 Tournament build of the randomizer.'),
-            call("Download: https://github.com/tanjo3/wwrando/releases/tag/s8-v1"),
+            call("Download: https://github.com/tanjo3/wwrando/releases/tag/s8-v2"),
             call("Tracker: https://www.wooferzfg.me/tww-rando-tracker/s8-tournament"),
             call("Preparation stage starts in 15 seconds..."),
             call("5..."),
