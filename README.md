@@ -13,8 +13,8 @@ generating [TWW Randomizer](https://github.com/LagoLunatic/wwrando) seeds in rac
 
 ### Installation
 
-1. Clone the repo
-2. Build the Docker image with `docker compose build`
+1. Clone the repo: `git clone --recursive https://github.com/wooferzfg/tww-rando-bot.git`
+2. Build the Docker image: `docker compose build`
 
 ### Usage
 
