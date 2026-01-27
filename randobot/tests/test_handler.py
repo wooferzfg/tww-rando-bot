@@ -2,7 +2,7 @@ import asyncio
 import unittest
 from unittest.mock import call, patch
 
-from randobot.generator import ArgFormat
+from randobot.generator import ArgFormat, RandomizerPath
 from randobot.handler import RandoHandler
 
 
@@ -97,7 +97,13 @@ class TestHandler(unittest.IsolatedAsyncioTestCase):
 
         self.assertEqual(mock_generate_seed.call_count, 1)
         mock_generate_seed.assert_has_calls([
-            call("wwrando-s8", permalink, "test_user", generate_spoiler_log=False, args_format=ArgFormat.V111),
+            call(
+                randomizer_path=RandomizerPath.WWRANDO_S8,
+                permalink=permalink,
+                username="test_user",
+                generate_spoiler_log=False,
+                args_format=ArgFormat.V111,
+            ),
         ])
 
     @patch("random.random", return_value=0.6123)
@@ -126,7 +132,13 @@ class TestHandler(unittest.IsolatedAsyncioTestCase):
 
         self.assertEqual(mock_generate_seed.call_count, 1)
         mock_generate_seed.assert_has_calls([
-            call("wwrando", "MS4xMC4wAEEAFQMiAJPowAMMsACCcQ8AAMkHAQAA", "test_user", False),
+            call(
+                randomizer_path=RandomizerPath.WWRANDO,
+                permalink="MS4xMC4wAEEAFQMiAJPowAMMsACCcQ8AAMkHAQAA",
+                username="test_user",
+                generate_spoiler_log=False,
+                args_format=ArgFormat.V110,
+            ),
         ])
 
     @patch("random.random", return_value=0.6123)
@@ -166,7 +178,13 @@ class TestHandler(unittest.IsolatedAsyncioTestCase):
 
         self.assertEqual(mock_generate_seed.call_count, 1)
         mock_generate_seed.assert_has_calls([
-            call("wwrando", "MS4xMC4wAEEABQsiAAUAvgMcsAACAAAAAAGAIAAA", "test_user", False),
+            call(
+                randomizer_path=RandomizerPath.WWRANDO,
+                permalink="MS4xMC4wAEEABQsiAAUAvgMcsAACAAAAAAGAIAAA",
+                username="test_user",
+                generate_spoiler_log=False,
+                args_format=ArgFormat.V110
+            ),
         ])
 
     @patch("random.random", return_value=0.2789)
@@ -206,7 +224,13 @@ class TestHandler(unittest.IsolatedAsyncioTestCase):
 
         self.assertEqual(mock_generate_seed.call_count, 1)
         mock_generate_seed.assert_has_calls([
-            call("wwrando", "MS4xMC4wAEEA//9/gtsMwQMcUAECAAAAAAkAAAAA", "test_user", False),
+            call(
+                randomizer_path=RandomizerPath.WWRANDO,
+                permalink="MS4xMC4wAEEA//9/gtsMwQMcUAECAAAAAAkAAAAA",
+                username="test_user",
+                generate_spoiler_log=False,
+                args_format=ArgFormat.V110
+            ),
         ])
 
     @patch("random.random", return_value=0.6123)
@@ -287,7 +311,13 @@ class TestHandler(unittest.IsolatedAsyncioTestCase):
 
         self.assertEqual(mock_generate_seed.call_count, 1)
         mock_generate_seed.assert_has_calls([
-            call("wwrando-miniblins", permalink, "test_user", generate_spoiler_log=False, args_format=ArgFormat.V111)
+            call(
+                randomizer_path=RandomizerPath.WWRANDO_MINIBLINS,
+                permalink=permalink,
+                username="test_user",
+                generate_spoiler_log=False,
+                args_format=ArgFormat.V111,
+            )
         ])
 
     @patch("asyncio.sleep", return_value=async_return(None))
@@ -334,7 +364,13 @@ class TestHandler(unittest.IsolatedAsyncioTestCase):
 
         self.assertEqual(mock_generate_seed.call_count, 1)
         mock_generate_seed.assert_has_calls([
-            call("wwrando", "MS4xMC4wAEEAFwcmAgEAoAMUsAACAAAAAAGAAAAA", "test_user", True),
+            call(
+                randomizer_path=RandomizerPath.WWRANDO,
+                permalink="MS4xMC4wAEEAFwcmAgEAoAMUsAACAAAAAAGAAAAA",
+                username="test_user",
+                generate_spoiler_log=True,
+                args_format=ArgFormat.V110,
+            ),
         ])
 
         self.assertEqual(state["spoiler_log_seed_rolled"], True)
@@ -413,7 +449,13 @@ class TestHandler(unittest.IsolatedAsyncioTestCase):
 
         self.assertEqual(mock_generate_seed.call_count, 1)
         mock_generate_seed.assert_has_calls([
-            call("wwrando-s8", permalink, "test_user", generate_spoiler_log=True, args_format=ArgFormat.V111),
+            call(
+                randomizer_path=RandomizerPath.WWRANDO_S8,
+                permalink=permalink,
+                username="test_user",
+                generate_spoiler_log=True,
+                args_format=ArgFormat.V111,
+            ),
         ])
 
         self.assertEqual(state["spoiler_log_seed_rolled"], True)
@@ -457,9 +499,9 @@ class TestHandler(unittest.IsolatedAsyncioTestCase):
         self.assertEqual(mock_generate_seed.call_count, 1)
         mock_generate_seed.assert_has_calls([
             call(
-                "wwrando-random-settings",
-                "UlMxLjQuMC1kZXYzAEEAgQU=",
-                "test_user",
+                randomizer_path=RandomizerPath.WWRANDO_RANDOM_SETTINGS,
+                permalink="UlMxLjQuMC1kZXYzAEEAgQU=",
+                username="test_user",
                 generate_spoiler_log=True,
                 args_format=ArgFormat.RS14,
             ),
