@@ -22,6 +22,7 @@ setup(
         'PyGithub==2.4.0',
         'shortuuid==1.0.13',
         'isodate>=0.6.1,<0.7',
+        'fastapi[standard]==0.128.0'
     ],
     packages=find_packages(),
     entry_points={

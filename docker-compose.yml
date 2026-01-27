@@ -15,6 +15,24 @@ services:
       - .:/tww-rando-bot
       - egg_info:/tww-rando-bot/tww_rando_bot.egg-info
 
+  generator_api:
+    image: tww_rando_bot
+    build:
+      context: .
+    command: fastapi run randobot/generator_api.py --workers 1 --host 0.0.0.0 --port 8000
+    ports:
+      - "8000:8000"
+    restart: always
+    environment:
+      GITHUB_TOKEN: ${GITHUB_TOKEN}
+    ulimits:
+      core:
+        hard: 0
+        soft: 0
+    volumes:
+      - .:/tww-rando-bot
+      - egg_info:/tww-rando-bot/tww_rando_bot.egg-info
+
 volumes:
   egg_info:
     name: egg_info
