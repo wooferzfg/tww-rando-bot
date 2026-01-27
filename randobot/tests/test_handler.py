@@ -11,7 +11,7 @@ class MockGenerator():
         raise Exception("Method not properly mocked")
 
 
-def mock_generate_seed_standard(randomizer_path, permalink, username, generate_spoiler_log, args_format=ArgFormat.V110):
+def mock_generate_seed_standard(randomizer_path, permalink, username, generate_spoiler_log, args_format):
     return {
         "file_name": "FILENAME",
         "permalink": f"PERMA_{permalink}",
@@ -25,7 +25,7 @@ def mock_generate_seed_spoiler_log(
     permalink,
     username,
     generate_spoiler_log,
-    args_format=ArgFormat.V110,
+    args_format,
 ):
     if not generate_spoiler_log:
         raise Exception("Did not generate spoiler log")
