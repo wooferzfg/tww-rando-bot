@@ -4,6 +4,7 @@ import random
 import re
 import string
 from datetime import datetime
+from typing import Final
 
 import shortuuid
 from github import Auth, Github, InputFileContent
@@ -22,6 +23,14 @@ class ArgFormat(enum.Enum):
     RS14 = "--randobot --noui --dry --seed={seed_name} --permalink={permalink}"
 
 
+ARG_FORMAT_FOR_RANDOMIZER_PATH: Final[dict[RandomizerPath, ArgFormat]] = {
+    RandomizerPath.WWRANDO: ArgFormat.V110,
+    RandomizerPath.WWRANDO_S8: ArgFormat.V111,
+    RandomizerPath.WWRANDO_MINIBLINS: ArgFormat.V111,
+    RandomizerPath.WWRANDO_RANDOM_SETTINGS: ArgFormat.RS14,
+}
+
+
 class Generator:
     def __init__(self, github_token: str):
         self.github_token = github_token
@@ -32,13 +41,13 @@ class Generator:
         permalink: str,
         username: str,
         generate_spoiler_log: bool,
-        args_format: ArgFormat,
     ) -> dict[str, str | None]:
         trimmed_name = re.sub(r"\W+", "", username)[:12]
         random_suffix = shortuuid.ShortUUID().random(length=10)
         seed_name = f"{trimmed_name}{random_suffix}"
         file_name = "".join(random.choice(string.digits) for _ in range(6))
         randomizer_path_str = randomizer_path.value
+        args_format = ARG_FORMAT_FOR_RANDOMIZER_PATH[randomizer_path]
 
         os.system(
             f"/venv/{randomizer_path_str}/bin/python {randomizer_path_str}/wwrando.py "

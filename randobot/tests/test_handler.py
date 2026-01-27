@@ -11,7 +11,7 @@ class MockGenerator():
         raise Exception("Method not properly mocked")
 
 
-def mock_generate_seed_standard(randomizer_path, permalink, username, generate_spoiler_log, args_format):
+def mock_generate_seed_standard(randomizer_path, permalink, username, generate_spoiler_log):
     return {
         "file_name": "FILENAME",
         "permalink": f"PERMA_{permalink}",
@@ -25,7 +25,6 @@ def mock_generate_seed_spoiler_log(
     permalink,
     username,
     generate_spoiler_log,
-    args_format,
 ):
     if not generate_spoiler_log:
         raise Exception("Did not generate spoiler log")
@@ -102,7 +101,6 @@ class TestHandler(unittest.IsolatedAsyncioTestCase):
                 permalink=permalink,
                 username="test_user",
                 generate_spoiler_log=False,
-                args_format=ArgFormat.V111,
             ),
         ])
 
@@ -137,7 +135,6 @@ class TestHandler(unittest.IsolatedAsyncioTestCase):
                 permalink="MS4xMC4wAEEAFQMiAJPowAMMsACCcQ8AAMkHAQAA",
                 username="test_user",
                 generate_spoiler_log=False,
-                args_format=ArgFormat.V110,
             ),
         ])
 
@@ -183,7 +180,6 @@ class TestHandler(unittest.IsolatedAsyncioTestCase):
                 permalink="MS4xMC4wAEEABQsiAAUAvgMcsAACAAAAAAGAIAAA",
                 username="test_user",
                 generate_spoiler_log=False,
-                args_format=ArgFormat.V110
             ),
         ])
 
@@ -229,7 +225,6 @@ class TestHandler(unittest.IsolatedAsyncioTestCase):
                 permalink="MS4xMC4wAEEA//9/gtsMwQMcUAECAAAAAAkAAAAA",
                 username="test_user",
                 generate_spoiler_log=False,
-                args_format=ArgFormat.V110
             ),
         ])
 
@@ -316,7 +311,6 @@ class TestHandler(unittest.IsolatedAsyncioTestCase):
                 permalink=permalink,
                 username="test_user",
                 generate_spoiler_log=False,
-                args_format=ArgFormat.V111,
             )
         ])
 
@@ -369,7 +363,6 @@ class TestHandler(unittest.IsolatedAsyncioTestCase):
                 permalink="MS4xMC4wAEEAFwcmAgEAoAMUsAACAAAAAAGAAAAA",
                 username="test_user",
                 generate_spoiler_log=True,
-                args_format=ArgFormat.V110,
             ),
         ])
 
@@ -454,7 +447,6 @@ class TestHandler(unittest.IsolatedAsyncioTestCase):
                 permalink=permalink,
                 username="test_user",
                 generate_spoiler_log=True,
-                args_format=ArgFormat.V111,
             ),
         ])
 
@@ -503,7 +495,6 @@ class TestHandler(unittest.IsolatedAsyncioTestCase):
                 permalink="UlMxLjQuMC1kZXYzAEEAgQU=",
                 username="test_user",
                 generate_spoiler_log=True,
-                args_format=ArgFormat.RS14,
             ),
         ])
 

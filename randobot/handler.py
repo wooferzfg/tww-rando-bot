@@ -316,7 +316,6 @@ class RandoHandler(RaceHandler):
             permalink=settings_permalink,
             username=username,
             generate_spoiler_log=False,
-            args_format=ArgFormat.V110
         )
         await self.update_race_room_with_generated_seed(settings_permalink, generated_seed, SeedType.STANDARD)
 
@@ -338,7 +337,6 @@ class RandoHandler(RaceHandler):
             permalink=settings_permalink,
             username=username,
             generate_spoiler_log=False,
-            args_format=ArgFormat.V111,
         )
         await self.update_race_room_with_generated_seed(settings_permalink, generated_seed, SeedType.STANDARD)
         await self.print_s8_build()
@@ -361,7 +359,6 @@ class RandoHandler(RaceHandler):
             permalink=settings_permalink,
             username=username,
             generate_spoiler_log=False,
-            args_format=ArgFormat.V111,
         )
         await self.update_race_room_with_generated_seed(settings_permalink, generated_seed, SeedType.STANDARD)
         await self.print_miniblins_build()
@@ -384,7 +381,6 @@ class RandoHandler(RaceHandler):
             permalink=settings_permalink,
             username=username,
             generate_spoiler_log=True,
-            args_format=ArgFormat.RS14,
         )
 
         await self.update_race_room_with_generated_seed(settings_permalink, generated_seed, SeedType.RANDOM_SETTINGS)
@@ -495,7 +491,6 @@ class RandoHandler(RaceHandler):
             permalink=settings_permalink,
             username=username,
             generate_spoiler_log=True,
-            args_format=ArgFormat.V110,
         )
         await self.update_race_room_with_generated_seed(settings_permalink, generated_seed, SeedType.SPOILER_LOG)
 
@@ -518,7 +513,6 @@ class RandoHandler(RaceHandler):
             permalink=settings_permalink,
             username=username,
             generate_spoiler_log=True,
-            args_format=ArgFormat.V111,
         )
         await self.update_race_room_with_generated_seed(settings_permalink, generated_seed, SeedType.SPOILER_LOG)
         await self.print_s8_build()
@@ -771,7 +765,6 @@ class RandoHandler(RaceHandler):
         permalink: str,
         username: str,
         generate_spoiler_log: bool,
-        args_format: ArgFormat,
     ):
         try:
             return self.generator.generate_seed(
@@ -779,7 +772,6 @@ class RandoHandler(RaceHandler):
                 permalink=permalink,
                 username=username,
                 generate_spoiler_log=generate_spoiler_log,
-                args_format=args_format,
             )
         except Exception:
             await self.send_message("Failed to generate seed!")
