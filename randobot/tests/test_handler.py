@@ -20,7 +20,13 @@ def mock_generate_seed_standard(randomizer_path, permalink, username, generate_s
     }
 
 
-def mock_generate_seed_spoiler_log(randomizer_path, permalink, username, generate_spoiler_log, args_format=ArgFormat.V110):
+def mock_generate_seed_spoiler_log(
+    randomizer_path,
+    permalink,
+    username,
+    generate_spoiler_log,
+    args_format=ArgFormat.V110,
+):
     if not generate_spoiler_log:
         raise Exception("Did not generate spoiler log")
 
