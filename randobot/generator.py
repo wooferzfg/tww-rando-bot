@@ -25,7 +25,6 @@ class Generator:
         permalink: str,
         username: str,
         generate_spoiler_log: bool,
-        modifiers: str = "",
         args_format: ArgFormat = ArgFormat.V110,
     ) -> dict[str, str | None]:
         trimmed_name = re.sub(r"\W+", "", username)[:12]
@@ -35,7 +34,7 @@ class Generator:
 
         os.system(
             f"/venv/{randomizer_path}/bin/python {randomizer_path}/wwrando.py "
-            + args_format.value.format(seed_name=seed_name, permalink=permalink, modifiers=modifiers)
+            + args_format.value.format(seed_name=seed_name, permalink=permalink)
         )
 
         permalink_file_name = f"permalink_{seed_name}.txt"
