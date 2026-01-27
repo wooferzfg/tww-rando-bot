@@ -2,7 +2,7 @@ import asyncio
 import unittest
 from unittest.mock import call, patch
 
-from randobot.generator import ArgFormat, RandomizerPath
+from randobot.generator import RandomizerPath
 from randobot.handler import RandoHandler
 
 

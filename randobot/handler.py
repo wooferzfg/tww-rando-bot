@@ -7,7 +7,7 @@ from racetime_bot import RaceHandler, can_monitor, monitor_cmd
 
 import randobot.constants as constants
 from randobot.constants import SeedType
-from randobot.generator import ArgFormat, RandomizerPath
+from randobot.generator import RandomizerPath
 
 
 class RandoHandler(RaceHandler):
