@@ -9,6 +9,13 @@ import shortuuid
 from github import Auth, Github, InputFileContent
 
 
+class RandomizerPath(enum.Enum):
+    WWRANDO = "wwrando"
+    WWRANDO_S8 = "wwrando-s8"
+    WWRANDO_MINIBLINS = "wwrando-miniblins"
+    WWRANDO_RANDOM_SETTINGS = "wwrando-random-settings"
+
+
 class ArgFormat(enum.Enum):
     V110 = "-noui -seed={seed_name} -permalink={permalink}"
     V111 = "--noui --dry --seed={seed_name} --permalink={permalink}"
@@ -21,19 +28,20 @@ class Generator:
 
     def generate_seed(
         self,
-        randomizer_path: str,
+        randomizer_path: RandomizerPath,
         permalink: str,
         username: str,
         generate_spoiler_log: bool,
-        args_format: ArgFormat = ArgFormat.V110,
+        args_format: ArgFormat,
     ) -> dict[str, str | None]:
         trimmed_name = re.sub(r"\W+", "", username)[:12]
         random_suffix = shortuuid.ShortUUID().random(length=10)
         seed_name = f"{trimmed_name}{random_suffix}"
         file_name = "".join(random.choice(string.digits) for _ in range(6))
+        randomizer_path_str = randomizer_path.value
 
         os.system(
-            f"/venv/{randomizer_path}/bin/python {randomizer_path}/wwrando.py "
+            f"/venv/{randomizer_path_str}/bin/python {randomizer_path_str}/wwrando.py "
             + args_format.value.format(seed_name=seed_name, permalink=permalink)
         )
 

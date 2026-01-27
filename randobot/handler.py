@@ -7,7 +7,7 @@ from racetime_bot import RaceHandler, can_monitor, monitor_cmd
 
 import randobot.constants as constants
 from randobot.constants import SeedType
-from randobot.generator import ArgFormat
+from randobot.generator import ArgFormat, RandomizerPath
 
 
 class RandoHandler(RaceHandler):
@@ -311,7 +311,13 @@ class RandoHandler(RaceHandler):
         )
 
         username = message.get('user', {}).get('name')
-        generated_seed = await self._generate_seed(constants.STANDARD_PATH, settings_permalink, username, False)
+        generated_seed = await self._generate_seed(
+            randomizer_path=RandomizerPath.WWRANDO,
+            permalink=settings_permalink,
+            username=username,
+            generate_spoiler_log=False,
+            args_format=ArgFormat.V110
+        )
         await self.update_race_room_with_generated_seed(settings_permalink, generated_seed, SeedType.STANDARD)
 
     async def ex_s8(self, args, message):
@@ -328,9 +334,9 @@ class RandoHandler(RaceHandler):
 
         username = message.get("user", {}).get("name")
         generated_seed = await self._generate_seed(
-            constants.S8_PATH,
-            settings_permalink,
-            username,
+            randomizer_path=RandomizerPath.WWRANDO_S8,
+            permalink=settings_permalink,
+            username=username,
             generate_spoiler_log=False,
             args_format=ArgFormat.V111,
         )
@@ -351,9 +357,9 @@ class RandoHandler(RaceHandler):
 
         username = message.get("user", {}).get("name")
         generated_seed = await self._generate_seed(
-            constants.MINIBLINS_PATH,
-            settings_permalink,
-            username,
+            randomizer_path=RandomizerPath.WWRANDO_MINIBLINS,
+            permalink=settings_permalink,
+            username=username,
             generate_spoiler_log=False,
             args_format=ArgFormat.V111,
         )
@@ -374,9 +380,9 @@ class RandoHandler(RaceHandler):
 
         username = message.get('user', {}).get('name')
         generated_seed = await self._generate_seed(
-            constants.RS_PATH,
-            settings_permalink,
-            username,
+            randomizer_path=RandomizerPath.WWRANDO_RANDOM_SETTINGS,
+            permalink=settings_permalink,
+            username=username,
             generate_spoiler_log=True,
             args_format=ArgFormat.RS14,
         )
@@ -484,7 +490,13 @@ class RandoHandler(RaceHandler):
         username = message.get('user', {}).get('name')
 
         await self.send_message("Rolling seed...")
-        generated_seed = await self._generate_seed(constants.STANDARD_PATH, settings_permalink, username, True)
+        generated_seed = await self._generate_seed(
+            randomizer_path=RandomizerPath.WWRANDO,
+            permalink=settings_permalink,
+            username=username,
+            generate_spoiler_log=True,
+            args_format=ArgFormat.V110,
+        )
         await self.update_race_room_with_generated_seed(settings_permalink, generated_seed, SeedType.SPOILER_LOG)
 
         self.loop.create_task(self.start_spoiler_log_race())
@@ -502,9 +514,9 @@ class RandoHandler(RaceHandler):
 
         await self.send_message("Rolling seed...")
         generated_seed = await self._generate_seed(
-            constants.S8_PATH,
-            settings_permalink,
-            username,
+            randomizer_path=RandomizerPath.WWRANDO_S8,
+            permalink=settings_permalink,
+            username=username,
             generate_spoiler_log=True,
             args_format=ArgFormat.V111,
         )
@@ -753,9 +765,22 @@ class RandoHandler(RaceHandler):
                 return True
         return False
 
-    async def _generate_seed(self, *args, **kwargs):
+    async def _generate_seed(
+        self,
+        randomizer_path: RandomizerPath,
+        permalink: str,
+        username: str,
+        generate_spoiler_log: bool,
+        args_format: ArgFormat,
+    ):
         try:
-            return self.generator.generate_seed(*args, **kwargs)
+            return self.generator.generate_seed(
+                randomizer_path=randomizer_path,
+                permalink=permalink,
+                username=username,
+                generate_spoiler_log=generate_spoiler_log,
+                args_format=args_format,
+            )
         except Exception:
             await self.send_message("Failed to generate seed!")
             raise Exception("Failed to generate seed")

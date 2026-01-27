@@ -19,7 +19,6 @@ STANDARD_PERMALINKS = OrderedDict([
 ])
 
 STANDARD_DEFAULT = ["s6"]
-STANDARD_PATH = "wwrando"
 
 SPOILER_LOG_PERMALINKS = OrderedDict([
     ("preset-a",  "MS4xMC4wAEEANwMmAgEAoAMUsAACAAAAAAGAAAAA"),
@@ -63,15 +62,12 @@ MINIBLINS_PERMALINKS = OrderedDict([
 ])
 MINIBLINS_DEFAULT = ["miniblins"]
 
-S8_PATH = "wwrando-s8"
 S8_DOWNLOAD = "https://github.com/tanjo3/wwrando/releases/tag/s8-v2"
 S8_TRACKER = "https://www.wooferzfg.me/tww-rando-tracker/s8-tournament"
 
-MINIBLINS_PATH = "wwrando-miniblins"
 MINIBLINS_DOWNLOAD = "https://github.com/tanjo3/wwrando/releases/tag/miniblins-2025"
 MINIBLINS_TRACKER = "https://wooferzfg.me/tww-rando-tracker/miniblins"
 
-RS_PATH = "wwrando-random-settings"
 RS_VERSION = "RS1.4.0-dev3"
 RS_DOWNLOAD = "https://github.com/Aelire/wwrando/releases/tag/RS1.4.0-dev3"
 RS_TRACKER = "https://jaysc.github.io/tww-rando-tracker-rs/"
