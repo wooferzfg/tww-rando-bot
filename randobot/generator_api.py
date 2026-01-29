@@ -14,7 +14,7 @@ def read_root():
 def generate_seed(
     randomizer_path: RandomizerPath,
     permalink: str,
-    username: str,
+    prefix: str,
     generate_spoiler_log: bool,
 ):
     github_token = os.getenv("GITHUB_TOKEN")
@@ -25,7 +25,7 @@ def generate_seed(
     result = generator.generate_seed(
         randomizer_path=randomizer_path,
         permalink=permalink,
-        username=username,
+        prefix=prefix,
         generate_spoiler_log=generate_spoiler_log,
     )
     return result
