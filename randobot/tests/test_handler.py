@@ -7,11 +7,11 @@ from randobot.handler import RandoHandler
 
 
 class MockGenerator():
-    def generate_seed(self, randomizer_path, permalink, username, generate_spoiler_log):
+    def generate_seed(self, randomizer_path, permalink, prefix, generate_spoiler_log):
         raise Exception("Method not properly mocked")
 
 
-def mock_generate_seed_standard(randomizer_path, permalink, username, generate_spoiler_log):
+def mock_generate_seed_standard(randomizer_path, permalink, prefix, generate_spoiler_log):
     return {
         "file_name": "FILENAME",
         "permalink": f"PERMA_{permalink}",
@@ -23,7 +23,7 @@ def mock_generate_seed_standard(randomizer_path, permalink, username, generate_s
 def mock_generate_seed_spoiler_log(
     randomizer_path,
     permalink,
-    username,
+    prefix,
     generate_spoiler_log,
 ):
     if not generate_spoiler_log:
@@ -99,7 +99,7 @@ class TestHandler(unittest.IsolatedAsyncioTestCase):
             call(
                 randomizer_path=RandomizerPath.WWRANDO_S8,
                 permalink=permalink,
-                username="test_user",
+                prefix="test_user",
                 generate_spoiler_log=False,
             ),
         ])
@@ -133,7 +133,7 @@ class TestHandler(unittest.IsolatedAsyncioTestCase):
             call(
                 randomizer_path=RandomizerPath.WWRANDO,
                 permalink="MS4xMC4wAEEAFQMiAJPowAMMsACCcQ8AAMkHAQAA",
-                username="test_user",
+                prefix="test_user",
                 generate_spoiler_log=False,
             ),
         ])
@@ -178,7 +178,7 @@ class TestHandler(unittest.IsolatedAsyncioTestCase):
             call(
                 randomizer_path=RandomizerPath.WWRANDO,
                 permalink="MS4xMC4wAEEABQsiAAUAvgMcsAACAAAAAAGAIAAA",
-                username="test_user",
+                prefix="test_user",
                 generate_spoiler_log=False,
             ),
         ])
@@ -223,7 +223,7 @@ class TestHandler(unittest.IsolatedAsyncioTestCase):
             call(
                 randomizer_path=RandomizerPath.WWRANDO,
                 permalink="MS4xMC4wAEEA//9/gtsMwQMcUAECAAAAAAkAAAAA",
-                username="test_user",
+                prefix="test_user",
                 generate_spoiler_log=False,
             ),
         ])
@@ -309,7 +309,7 @@ class TestHandler(unittest.IsolatedAsyncioTestCase):
             call(
                 randomizer_path=RandomizerPath.WWRANDO_MINIBLINS,
                 permalink=permalink,
-                username="test_user",
+                prefix="test_user",
                 generate_spoiler_log=False,
             )
         ])
@@ -361,7 +361,7 @@ class TestHandler(unittest.IsolatedAsyncioTestCase):
             call(
                 randomizer_path=RandomizerPath.WWRANDO,
                 permalink="MS4xMC4wAEEAFwcmAgEAoAMUsAACAAAAAAGAAAAA",
-                username="test_user",
+                prefix="test_user",
                 generate_spoiler_log=True,
             ),
         ])
@@ -445,7 +445,7 @@ class TestHandler(unittest.IsolatedAsyncioTestCase):
             call(
                 randomizer_path=RandomizerPath.WWRANDO_S8,
                 permalink=permalink,
-                username="test_user",
+                prefix="test_user",
                 generate_spoiler_log=True,
             ),
         ])
@@ -493,7 +493,7 @@ class TestHandler(unittest.IsolatedAsyncioTestCase):
             call(
                 randomizer_path=RandomizerPath.WWRANDO_RANDOM_SETTINGS,
                 permalink="UlMxLjQuMC1kZXYzAEEAgQU=",
-                username="test_user",
+                prefix="test_user",
                 generate_spoiler_log=True,
             ),
         ])

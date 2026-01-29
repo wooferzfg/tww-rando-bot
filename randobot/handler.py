@@ -314,7 +314,7 @@ class RandoHandler(RaceHandler):
         generated_seed = await self._generate_seed(
             randomizer_path=RandomizerPath.WWRANDO,
             permalink=settings_permalink,
-            username=username,
+            prefix=username,
             generate_spoiler_log=False,
         )
         await self.update_race_room_with_generated_seed(settings_permalink, generated_seed, SeedType.STANDARD)
@@ -335,7 +335,7 @@ class RandoHandler(RaceHandler):
         generated_seed = await self._generate_seed(
             randomizer_path=RandomizerPath.WWRANDO_S8,
             permalink=settings_permalink,
-            username=username,
+            prefix=username,
             generate_spoiler_log=False,
         )
         await self.update_race_room_with_generated_seed(settings_permalink, generated_seed, SeedType.STANDARD)
@@ -357,7 +357,7 @@ class RandoHandler(RaceHandler):
         generated_seed = await self._generate_seed(
             randomizer_path=RandomizerPath.WWRANDO_MINIBLINS,
             permalink=settings_permalink,
-            username=username,
+            prefix=username,
             generate_spoiler_log=False,
         )
         await self.update_race_room_with_generated_seed(settings_permalink, generated_seed, SeedType.STANDARD)
@@ -379,7 +379,7 @@ class RandoHandler(RaceHandler):
         generated_seed = await self._generate_seed(
             randomizer_path=RandomizerPath.WWRANDO_RANDOM_SETTINGS,
             permalink=settings_permalink,
-            username=username,
+            prefix=username,
             generate_spoiler_log=True,
         )
 
@@ -489,7 +489,7 @@ class RandoHandler(RaceHandler):
         generated_seed = await self._generate_seed(
             randomizer_path=RandomizerPath.WWRANDO,
             permalink=settings_permalink,
-            username=username,
+            prefix=username,
             generate_spoiler_log=True,
         )
         await self.update_race_room_with_generated_seed(settings_permalink, generated_seed, SeedType.SPOILER_LOG)
@@ -511,7 +511,7 @@ class RandoHandler(RaceHandler):
         generated_seed = await self._generate_seed(
             randomizer_path=RandomizerPath.WWRANDO_S8,
             permalink=settings_permalink,
-            username=username,
+            prefix=username,
             generate_spoiler_log=True,
         )
         await self.update_race_room_with_generated_seed(settings_permalink, generated_seed, SeedType.SPOILER_LOG)
@@ -763,14 +763,14 @@ class RandoHandler(RaceHandler):
         self,
         randomizer_path: RandomizerPath,
         permalink: str,
-        username: str,
+        prefix: str,
         generate_spoiler_log: bool,
     ):
         try:
             return self.generator.generate_seed(
                 randomizer_path=randomizer_path,
                 permalink=permalink,
-                username=username,
+                prefix=prefix,
                 generate_spoiler_log=generate_spoiler_log,
             )
         except Exception:

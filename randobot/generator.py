@@ -39,12 +39,12 @@ class Generator:
         self,
         randomizer_path: RandomizerPath,
         permalink: str,
-        username: str,
+        prefix: str,
         generate_spoiler_log: bool,
     ) -> dict[str, str | None]:
-        trimmed_name = re.sub(r"\W+", "", username)[:12]
+        trimmed_prefix = re.sub(r"\W+", "", prefix)[:12]
         random_suffix = shortuuid.ShortUUID().random(length=10)
-        seed_name = f"{trimmed_name}{random_suffix}"
+        seed_name = f"{trimmed_prefix}{random_suffix}"
         file_name = "".join(random.choice(string.digits) for _ in range(6))
         randomizer_path_str = randomizer_path.value
         args_format = ARG_FORMAT_FOR_RANDOMIZER_PATH[randomizer_path]
