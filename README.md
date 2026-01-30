@@ -25,9 +25,17 @@ export CATEGORY_SLUG=... # the slug of the racetime.gg category the bot should o
 export CLIENT_ID=... # the OAuth2 client ID for this bot on racetime.gg
 export CLIENT_SECRET=... # the OAuth2 client secret for this bot on racetime.gg
 ```
-2. Run `docker compose up` to start the bot.
+2. Run `docker compose up tww_rando_bot` to start the bot.
 
 ### Running tests
 ```bash
 docker compose run --rm tww_rando_bot python -m unittest discover -s randobot/tests -p 'test_*.py'
 ```
+
+### Running generator API
+First, start the API server:
+```bash
+docker compose up generator_api
+```
+
+Then you can view the API docs at http://localhost:8000/docs.
