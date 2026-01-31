@@ -226,6 +226,15 @@ class RandoHandler(RaceHandler):
         msg += ", ".join(constants.SPOILER_LOG_PERMALINKS.keys())
         await self.send_message(msg)
 
+    async def ex_devpresets(self, args, message):
+        msg = "Available dev presets: "
+        msg += ", ".join(constants.DEV_PERMALINKS.keys())
+        await self.send_message(msg)
+
+        msg = "Available dev spoiler log presets: "
+        msg += ", ".join(constants.DEV_SL_PERMALINKS.keys())
+        await self.send_message(msg)
+
     @monitor_cmd
     async def ex_lock(self, args, message):
         self.state["locked"] = True
@@ -341,6 +350,28 @@ class RandoHandler(RaceHandler):
         await self.update_race_room_with_generated_seed(settings_permalink, generated_seed, SeedType.STANDARD)
         await self.print_s8_build()
 
+    async def ex_rolldevseed(self, args, message):
+        if not await self.can_roll_standard_seed(message):
+            return
+
+        await self.send_message("Rolling seed...")
+
+        settings_permalink = await self.choose_permalink(
+            constants.DEV_DEFAULT,
+            constants.DEV_PERMALINKS,
+            args
+        )
+
+        username = message.get("user", {}).get("name")
+        generated_seed = await self._generate_seed(
+            randomizer_path=RandomizerPath.WWRANDO_DEV,
+            permalink=settings_permalink,
+            prefix=username,
+            generate_spoiler_log=False,
+        )
+        await self.update_race_room_with_generated_seed(settings_permalink, generated_seed, SeedType.STANDARD)
+        await self.print_dev_build()
+
     async def ex_miniblins(self, args, message):
         if not await self.can_roll_standard_seed(message):
             return
@@ -348,14 +379,14 @@ class RandoHandler(RaceHandler):
         await self.send_message("Rolling seed...")
 
         settings_permalink = await self.choose_permalink(
-            constants.MINIBLINS_DEFAULT,
-            constants.MINIBLINS_PERMALINKS,
+            constants.DEV_DEFAULT,
+            constants.DEV_PERMALINKS,
             args
         )
 
         username = message.get("user", {}).get("name")
         generated_seed = await self._generate_seed(
-            randomizer_path=RandomizerPath.WWRANDO_MINIBLINS,
+            randomizer_path=RandomizerPath.WWRANDO_DEV,
             permalink=settings_permalink,
             prefix=username,
             generate_spoiler_log=False,
@@ -519,6 +550,29 @@ class RandoHandler(RaceHandler):
 
         self.loop.create_task(self.start_spoiler_log_race())
 
+    async def ex_startdevspoilerlograce(self, args, message):
+        if not await self.can_start_spoiler_log_race(message):
+            return
+
+        settings_permalink = await self.choose_permalink(
+            constants.DEV_SL_DEFAULT,
+            constants.DEV_SL_PERMALINKS,
+            args
+        )
+        username = message.get('user', {}).get('name')
+
+        await self.send_message("Rolling seed...")
+        generated_seed = await self._generate_seed(
+            randomizer_path=RandomizerPath.WWRANDO_DEV,
+            permalink=settings_permalink,
+            prefix=username,
+            generate_spoiler_log=True,
+        )
+        await self.update_race_room_with_generated_seed(settings_permalink, generated_seed, SeedType.SPOILER_LOG)
+        await self.print_dev_build()
+
+        self.loop.create_task(self.start_spoiler_log_race())
+
     async def start_spoiler_log_race(self):
         self.state["spoiler_log_seed_rolled"] = True
 
@@ -630,9 +684,14 @@ class RandoHandler(RaceHandler):
         await self.send_message(f"Download: {constants.S8_DOWNLOAD}")
         await self.send_message(f"Tracker: {constants.S8_TRACKER}")
 
+    async def print_dev_build(self):
+        await self.send_message("Please note that this seed uses the dev build of the randomizer.")
+        await self.send_message(f"Download: {constants.DEV_DOWNLOAD}")
+        await self.send_message(f"Tracker: {constants.DEV_TRACKER}")
+
     async def print_miniblins_build(self):
-        await self.send_message("Please note that this seed uses the Miniblins 2025 build of the randomizer.")
-        await self.send_message(f"Download: {constants.MINIBLINS_DOWNLOAD}")
+        await self.send_message("Please note that this seed uses the dev build of the randomizer.")
+        await self.send_message(f"Download: {constants.DEV_DOWNLOAD}")
         await self.send_message(f"Tracker: {constants.MINIBLINS_TRACKER}")
 
     async def print_example_permalink(self):
