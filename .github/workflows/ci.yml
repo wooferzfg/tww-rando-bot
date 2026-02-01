@@ -54,10 +54,12 @@ jobs:
               cd tww-rando-bot
               docker compose down --remove-orphans || true
               docker system prune -af || true
+              git pull
+              git submodule update --init --recursive
               cd ..
-              rm -rf tww-rando-bot || true
+            else
+              git clone --recursive https://github.com/wooferzfg/tww-rando-bot.git
             fi
-            git clone --recursive https://github.com/wooferzfg/tww-rando-bot.git
             echo "${{ secrets.WWRANDO_SEED_KEY }}" > tww-rando-bot/wwrando/keys/seed_key.py
             echo "${{ secrets.WWRANDO_TANJO3_MINIBLINS_SEED_KEY }}" > tww-rando-bot/wwrando-s8/keys/seed_key.py
             echo "${{ secrets.WWRANDO_TANJO3_MINIBLINS_SEED_KEY }}" > tww-rando-bot/wwrando-dev-tanjo3/keys/seed_key.py
