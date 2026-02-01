@@ -3,7 +3,7 @@ version: '3.7'
 services:
   tww_rando_bot:
     image: tww_rando_bot
-    user: "${UID}:${GID}"
+    user: "${MY_UID}:${MY_GID}"
     build:
       context: .
     command: randobot ${GITHUB_TOKEN} ${CATEGORY_SLUG-twwr} ${CLIENT_ID} ${CLIENT_SECRET} --verbose
@@ -18,6 +18,7 @@ services:
 
   generator_api:
     image: tww_rando_bot
+    user: "${MY_UID}:${MY_GID}"
     command: fastapi run randobot/generator_api.py --workers 1 --host 0.0.0.0 --port 8000
     ports:
       - "8000:8000"

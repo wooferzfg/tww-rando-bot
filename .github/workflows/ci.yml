@@ -69,4 +69,4 @@ jobs:
             export CLIENT_ID=${{ secrets.RACETIME_CLIENT_ID }}
             export CLIENT_SECRET=${{ secrets.RACETIME_CLIENT_SECRET }}
             docker compose build --no-cache --pull
-            UID=$UID GID=$(id -g) docker compose up -d --remove-orphans
+            MY_UID=$(id -u) MY_GID=$(id -g) docker compose up -d --remove-orphans
