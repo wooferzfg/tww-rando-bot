@@ -55,6 +55,7 @@ jobs:
               docker compose down --remove-orphans || true
               docker system prune -af || true
               cd ..
+              sudo chown -R $USER:$USER tww-rando-bot
               rm -rf tww-rando-bot || true
             fi
             git clone --recursive https://github.com/wooferzfg/tww-rando-bot.git
