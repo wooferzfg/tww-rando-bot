@@ -289,7 +289,7 @@ class TestHandler(unittest.IsolatedAsyncioTestCase):
         await handler.ex_rolldevseed([], get_mock_message_data())
 
         self.assertEqual(mock_send_message.call_count, 6)
-        permalink = "eJxLSS2LL0nMy8o31jPUMzTQM41PSTM3M061YHBkOLshQYKdQY6DiQELUJBhYGhRgPE0zzA0cCgnPRBuEmBg4FBxcPBgZAiAyjE2MAAA/CkQNw=="  # noqa: E501
+        permalink = "eJxLSS2LL0nMy8o31jPUMzTQM423NLIwtUwzYHBkOLshQYKdQY6DiQELUJBhYGhRgPE0zzA0cCgnPRBuEmBg4FBxYGBSZGRg4IIqZRAAAOILDts="  # noqa: E501
         mock_send_message.assert_has_calls([
             call("Rolling seed..."),
             call(f"Permalink: PERMA_{permalink}"),
@@ -324,7 +324,7 @@ class TestHandler(unittest.IsolatedAsyncioTestCase):
         await handler.ex_miniblins([], get_mock_message_data())
 
         self.assertEqual(mock_send_message.call_count, 6)
-        permalink = "eJxLSS2LL0nMy8o31jPUMzTQM41PSTM3M061YHBkOLshQYKdQY6DiQELUJBhYGhRgPE0zzA0cCgnPRBuEmBg4FBxcPBgZAiAyjE2MAAA/CkQNw=="  # noqa: E501
+        permalink = "eJxLSS2LL0nMy8o31jPUMzTQM423NLIwtUwzYHBkOLshQYKdQY6DiQELUJBhYGhRgPE0zzA0cCgnPRBuEmBg4FBxYGBSZGRg4IIqZRAAAOILDts="  # noqa: E501
         mock_send_message.assert_has_calls([
             call("Rolling seed..."),
             call(f"Permalink: PERMA_{permalink}"),
@@ -505,7 +505,7 @@ class TestHandler(unittest.IsolatedAsyncioTestCase):
         await wait_for_all_async_tasks()
 
         self.assertEqual(mock_send_message.call_count, 15)
-        permalink = "eJxLSS2LL0nMy8o31jPUMzTQM41PSTM3M061YHBkOLshQYKdQY6DiQELUJBhYGhRgPE0zzA0cCgnPRBuEmBg4FBxcPBgZAiAyjEyMAAA+ykPtw=="  # noqa: E501
+        permalink = "eJxLSS2LL0nMy8o31jPUMzTQM423NLIwtUwzYHBkOLshQYKdQY6DiQELUJBhYGhRgPE0zzA0cCgnPRBuEmBg4FBxYGBSZGRg4IIqZWAAAOH7Dss="  # noqa: E501
         mock_send_message.assert_has_calls([
             call("Rolling seed..."),
             call("Seed rolled!"),
