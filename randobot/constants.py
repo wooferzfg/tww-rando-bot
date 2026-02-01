@@ -56,16 +56,27 @@ S8_SL_PERMALINKS = OrderedDict([
 ])
 S8_SL_DEFAULT = ["s8-sl"]
 
-MINIBLINS_PERMALINKS = OrderedDict([
-    ("miniblins",      "eJwz1DM00DOIN0xNszAySmRwZOg0SBBgZ2DjYMAKBBgYWOAcHwYHFqGN/hZz2RlYJukvYWhQAgB6WwmT"),
-    ("miniblins-2024", "eJwz1DM00DOIN0xNszAySmRwZPA1cGAgEvgwOLAIXfS3uMvOwDJJfwlDgxIAXkYJXg=="),
+DEV_PERMALINKS = OrderedDict([
+    ("miniblins", "eJxLSS2LL0nMy8o31jPUMzTQM41PSTM3M061YHBkOLshQYKdQY6DiQELUJBhYGhRgPE0zzA0cCgnPRBuEmBg4FBxcPBgZAiAyjE2MAAA/CkQNw=="),  # noqa: E501
+    ("miniblins-s3", "eJxLSS2LL0nMy8o31jPUMzTQM41PSTM3M061YHBk6DRIEGBnYONgwAoEGBhY4BzNHoYGDpWkB8JNQGEOFQcHD0aGAJhkAwMAkkwORQ=="),  # noqa: E501
+    ("miniblins-s2", "eJxLSS2LL0nMy8o31jPUMzTQM41PSTM3M061YHBk8DVwYCASaPYwNHCoKD0QbgpgYOBQcXDwYGQIgEk2MAAAaYYNsA=="),
+    ("miniblins-s1", "eJxLSS2LL0nMy8o31jPUMzTQM41PSTM3M061YHBkiDRwYAADKIXE4HFkYBAQ4GCE8TV7GBo4TJQfCDcFMDBwqDg4eDAyBMAkGxgAoZkOww=="),  # noqa: E501
 ])
-MINIBLINS_DEFAULT = ["miniblins"]
+DEV_DEFAULT = ["miniblins"]
+
+DEV_SL_PERMALINKS = OrderedDict([
+    ("miniblins", "eJxLSS2LL0nMy8o31jPUMzTQM41PSTM3M061YHBkOLshQYKdQY6DiQELUJBhYGhRgPE0zzA0cCgnPRBuEmBg4FBxcPBgZAiAyjEyMAAA+ykPtw=="),  # noqa: E501
+    ("miniblins-s3", "eJxLSS2LL0nMy8o31jPUMzTQM41PSTM3M061YHBk6DRIEGBnYONgwAoEGBhY4BzNHoYGDpWkB8JNQGEOFQcHD0aGAIRaAJFMDcU="),  # noqa: E501
+    ("miniblins-s2", "eJxLSS2LL0nMy8o31jPUMzTQM41PSTM3M061YHBk8DVwYCASaPYwNHCoKD0QbgpgYOBQcXDwYGQIQEgDAGiGDTA="),
+    ("miniblins-s1", "eJxLSS2LL0nMy8o31jPUMzTQM41PSTM3M061YHBkiDRwYAADKIXE4HFkYBAQ4GCE8TV7GBo4TJQfCDcFMDBwqDg4eDAyBDDAAQCgmQ5D"),  # noqa: E501
+])
+DEV_SL_DEFAULT = ["miniblins"]
 
 S8_DOWNLOAD = "https://github.com/tanjo3/wwrando/releases/tag/s8-v2"
 S8_TRACKER = "https://www.wooferzfg.me/tww-rando-tracker/s8-tournament"
 
-MINIBLINS_DOWNLOAD = "https://github.com/tanjo3/wwrando/releases/tag/miniblins-2025"
+DEV_DOWNLOAD = "https://github.com/tanjo3/wwrando/releases/tag/dev_tanjo3.1.10.5"
+DEV_TRACKER = "https://wooferzfg.me/tww-rando-tracker/wwrando-dev-tanjo3"
 MINIBLINS_TRACKER = "https://wooferzfg.me/tww-rando-tracker/miniblins"
 
 RS_VERSION = "RS1.4.0-dev3"

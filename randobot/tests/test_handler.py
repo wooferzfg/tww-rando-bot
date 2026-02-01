@@ -282,6 +282,41 @@ class TestHandler(unittest.IsolatedAsyncioTestCase):
     @patch.object(MockGenerator, "generate_seed", side_effect=mock_generate_seed_standard)
     @patch.object(RandoHandler, "set_raceinfo", return_value=async_return(None))
     @patch.object(RandoHandler, "send_message", return_value=async_return(None))
+    async def test_rolldevseed(self, mock_send_message, mock_set_raceinfo, mock_generate_seed):
+        generator = MockGenerator()
+        state = {}
+        handler = create_rando_handler(generator, state)
+        await handler.ex_rolldevseed([], get_mock_message_data())
+
+        self.assertEqual(mock_send_message.call_count, 6)
+        permalink = "eJxLSS2LL0nMy8o31jPUMzTQM41PSTM3M061YHBkOLshQYKdQY6DiQELUJBhYGhRgPE0zzA0cCgnPRBuEmBg4FBxcPBgZAiAyjE2MAAA/CkQNw=="  # noqa: E501
+        mock_send_message.assert_has_calls([
+            call("Rolling seed..."),
+            call(f"Permalink: PERMA_{permalink}"),
+            call("Seed Hash: SEED HASH"),
+            call("Please note that this seed uses the dev build of the randomizer."),
+            call("Download: https://github.com/tanjo3/wwrando/releases/tag/dev_tanjo3.1.10.5"),
+            call("Tracker: https://wooferzfg.me/tww-rando-tracker/wwrando-dev-tanjo3"),
+        ])
+
+        self.assertEqual(mock_set_raceinfo.call_count, 1)
+        mock_set_raceinfo.assert_has_calls([
+            call(f"PERMA_{permalink} | Seed Hash: SEED HASH", False, False),
+        ])
+
+        self.assertEqual(mock_generate_seed.call_count, 1)
+        mock_generate_seed.assert_has_calls([
+            call(
+                randomizer_path=RandomizerPath.WWRANDO_DEV,
+                permalink=permalink,
+                prefix="test_user",
+                generate_spoiler_log=False,
+            )
+        ])
+
+    @patch.object(MockGenerator, "generate_seed", side_effect=mock_generate_seed_standard)
+    @patch.object(RandoHandler, "set_raceinfo", return_value=async_return(None))
+    @patch.object(RandoHandler, "send_message", return_value=async_return(None))
     async def test_miniblins(self, mock_send_message, mock_set_raceinfo, mock_generate_seed):
         generator = MockGenerator()
         state = {}
@@ -289,13 +324,13 @@ class TestHandler(unittest.IsolatedAsyncioTestCase):
         await handler.ex_miniblins([], get_mock_message_data())
 
         self.assertEqual(mock_send_message.call_count, 6)
-        permalink = "eJwz1DM00DOIN0xNszAySmRwZOg0SBBgZ2DjYMAKBBgYWOAcHwYHFqGN/hZz2RlYJukvYWhQAgB6WwmT"
+        permalink = "eJxLSS2LL0nMy8o31jPUMzTQM41PSTM3M061YHBkOLshQYKdQY6DiQELUJBhYGhRgPE0zzA0cCgnPRBuEmBg4FBxcPBgZAiAyjE2MAAA/CkQNw=="  # noqa: E501
         mock_send_message.assert_has_calls([
             call("Rolling seed..."),
             call(f"Permalink: PERMA_{permalink}"),
             call("Seed Hash: SEED HASH"),
-            call("Please note that this seed uses the Miniblins 2025 build of the randomizer."),
-            call("Download: https://github.com/tanjo3/wwrando/releases/tag/miniblins-2025"),
+            call("Please note that this seed uses the dev build of the randomizer."),
+            call("Download: https://github.com/tanjo3/wwrando/releases/tag/dev_tanjo3.1.10.5"),
             call("Tracker: https://wooferzfg.me/tww-rando-tracker/miniblins"),
         ])
 
@@ -307,7 +342,7 @@ class TestHandler(unittest.IsolatedAsyncioTestCase):
         self.assertEqual(mock_generate_seed.call_count, 1)
         mock_generate_seed.assert_has_calls([
             call(
-                randomizer_path=RandomizerPath.WWRANDO_MINIBLINS,
+                randomizer_path=RandomizerPath.WWRANDO_DEV,
                 permalink=permalink,
                 prefix="test_user",
                 generate_spoiler_log=False,
@@ -444,6 +479,57 @@ class TestHandler(unittest.IsolatedAsyncioTestCase):
         mock_generate_seed.assert_has_calls([
             call(
                 randomizer_path=RandomizerPath.WWRANDO_S8,
+                permalink=permalink,
+                prefix="test_user",
+                generate_spoiler_log=True,
+            ),
+        ])
+
+        self.assertEqual(state["spoiler_log_seed_rolled"], True)
+        self.assertEqual(state["example_permalink"], permalink)
+        self.assertEqual(state["permalink"], f"PERMA_{permalink}")
+        self.assertEqual(state["spoiler_log_url"], "SPOILER_LOG_URL")
+        self.assertEqual(state["seed_hash"], "SEED HASH")
+        self.assertEqual(state["file_name"], "FILENAME")
+
+    @patch("asyncio.sleep", return_value=async_return(None))
+    @patch.object(MockGenerator, "generate_seed", side_effect=mock_generate_seed_spoiler_log)
+    @patch.object(RandoHandler, "set_raceinfo", return_value=async_return(None))
+    @patch.object(RandoHandler, "send_message", return_value=async_return(None))
+    async def test_startdevspoilerlograce(self, mock_send_message, mock_set_raceinfo, mock_generate_seed, mock_sleep):
+        generator = MockGenerator()
+        state = {}
+        handler = create_rando_handler(generator, state)
+        await handler.ex_startdevspoilerlograce([], get_mock_message_data())
+
+        await wait_for_all_async_tasks()
+
+        self.assertEqual(mock_send_message.call_count, 15)
+        permalink = "eJxLSS2LL0nMy8o31jPUMzTQM41PSTM3M061YHBkOLshQYKdQY6DiQELUJBhYGhRgPE0zzA0cCgnPRBuEmBg4FBxcPBgZAiAyjEyMAAA+ykPtw=="  # noqa: E501
+        mock_send_message.assert_has_calls([
+            call("Rolling seed..."),
+            call("Seed rolled!"),
+            call('Please note that this seed uses the dev build of the randomizer.'),
+            call("Download: https://github.com/tanjo3/wwrando/releases/tag/dev_tanjo3.1.10.5"),
+            call("Tracker: https://wooferzfg.me/tww-rando-tracker/wwrando-dev-tanjo3"),
+            call("Preparation stage starts in 15 seconds..."),
+            call("5..."),
+            call("4..."),
+            call("3..."),
+            call("2..."),
+            call("1..."),
+            call("You have 60 minutes to prepare your route!"),
+            call("Spoiler Log: SPOILER_LOG_URL"),
+            call(f"Example Permalink: {permalink}"),
+            call("Warning: The seed from this permalink does not match the actual permalink!")
+        ])
+
+        mock_set_raceinfo.assert_not_called()
+
+        self.assertEqual(mock_generate_seed.call_count, 1)
+        mock_generate_seed.assert_has_calls([
+            call(
+                randomizer_path=RandomizerPath.WWRANDO_DEV,
                 permalink=permalink,
                 prefix="test_user",
                 generate_spoiler_log=True,
