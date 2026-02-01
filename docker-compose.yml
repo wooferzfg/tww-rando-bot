@@ -3,6 +3,7 @@ version: '3.7'
 services:
   tww_rando_bot:
     image: tww_rando_bot
+    user: "${UID}:${GID}"
     build:
       context: .
     command: randobot ${GITHUB_TOKEN} ${CATEGORY_SLUG-twwr} ${CLIENT_ID} ${CLIENT_SECRET} --verbose
