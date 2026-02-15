@@ -505,7 +505,7 @@ class TestHandler(unittest.IsolatedAsyncioTestCase):
         await wait_for_all_async_tasks()
 
         self.assertEqual(mock_send_message.call_count, 15)
-        permalink = "eJxLSS2LL0nMy8o31jPUMzTQM423NLIwtUwzYHBkOLshQYKdQY6DiQELUJBhYGhRgPE0zzA0cCgnPRBuEmBg4FBxYGBSZGRg4IIqZWAAAOH7Dss="  # noqa: E501
+        permalink = "eJxLSS2LL0nMy8o31jPUMzTQM423NLIwtUwzYHBkOLshQYKdgY2DiQEOGOEsBRkGhhYFBgUIT/MMQwOHctID4SYBBgYOFQcGJkWgUi6oUgYGAOCbDtQ="  # noqa: E501
         mock_send_message.assert_has_calls([
             call("Rolling seed..."),
             call("Seed rolled!"),
