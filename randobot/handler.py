@@ -328,28 +328,6 @@ class RandoHandler(RaceHandler):
         )
         await self.update_race_room_with_generated_seed(settings_permalink, generated_seed, SeedType.STANDARD)
 
-    async def ex_s8(self, args, message):
-        if not await self.can_roll_standard_seed(message):
-            return
-
-        await self.send_message("Rolling seed...")
-
-        settings_permalink = await self.choose_permalink(
-            constants.S8_DEFAULT,
-            constants.S8_PERMALINKS,
-            args
-        )
-
-        username = message.get("user", {}).get("name")
-        generated_seed = await self._generate_seed(
-            randomizer_path=RandomizerPath.WWRANDO_S8,
-            permalink=settings_permalink,
-            prefix=username,
-            generate_spoiler_log=False,
-        )
-        await self.update_race_room_with_generated_seed(settings_permalink, generated_seed, SeedType.STANDARD)
-        await self.print_s8_build()
-
     async def ex_rolldevseed(self, args, message):
         if not await self.can_roll_standard_seed(message):
             return
@@ -527,29 +505,6 @@ class RandoHandler(RaceHandler):
 
         self.loop.create_task(self.start_spoiler_log_race())
 
-    async def ex_starts8spoilerlograce(self, args, message):
-        if not await self.can_start_spoiler_log_race(message):
-            return
-
-        settings_permalink = await self.choose_permalink(
-            constants.S8_SL_DEFAULT,
-            constants.S8_SL_PERMALINKS,
-            args
-        )
-        username = message.get('user', {}).get('name')
-
-        await self.send_message("Rolling seed...")
-        generated_seed = await self._generate_seed(
-            randomizer_path=RandomizerPath.WWRANDO_S8,
-            permalink=settings_permalink,
-            prefix=username,
-            generate_spoiler_log=True,
-        )
-        await self.update_race_room_with_generated_seed(settings_permalink, generated_seed, SeedType.SPOILER_LOG)
-        await self.print_s8_build()
-
-        self.loop.create_task(self.start_spoiler_log_race())
-
     async def ex_startdevspoilerlograce(self, args, message):
         if not await self.can_start_spoiler_log_race(message):
             return
@@ -678,11 +633,6 @@ class RandoHandler(RaceHandler):
 
     def seconds_remaining(self):
         return (self.state.get("race_start_time") - datetime.now()).total_seconds()
-
-    async def print_s8_build(self):
-        await self.send_message("Please note that this seed uses the S8 Tournament build of the randomizer.")
-        await self.send_message(f"Download: {constants.S8_DOWNLOAD}")
-        await self.send_message(f"Tracker: {constants.S8_TRACKER}")
 
     async def print_dev_build(self):
         await self.send_message("Please note that this seed uses the dev build of the randomizer.")
