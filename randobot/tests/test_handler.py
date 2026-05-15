@@ -260,7 +260,7 @@ class TestHandler(unittest.IsolatedAsyncioTestCase):
             call(f"Permalink: PERMA_{permalink}"),
             call("Seed Hash: SEED HASH"),
             call("Please note that this seed uses the dev build of the randomizer."),
-            call("Download: https://github.com/tanjo3/wwrando/releases/tag/dev_tanjo3.1.10.5"),
+            call("Download: https://github.com/tanjo3/wwrando/releases/tag/dev_tanjo3.1.10.7.1"),
             call("Tracker: https://wooferzfg.me/tww-rando-tracker/wwrando-dev-tanjo3"),
         ])
 
@@ -295,7 +295,7 @@ class TestHandler(unittest.IsolatedAsyncioTestCase):
             call(f"Permalink: PERMA_{permalink}"),
             call("Seed Hash: SEED HASH"),
             call("Please note that this seed uses the dev build of the randomizer."),
-            call("Download: https://github.com/tanjo3/wwrando/releases/tag/dev_tanjo3.1.10.5"),
+            call("Download: https://github.com/tanjo3/wwrando/releases/tag/dev_tanjo3.1.10.7.1"),
             call("Tracker: https://wooferzfg.me/tww-rando-tracker/miniblins"),
         ])
 
@@ -424,7 +424,7 @@ class TestHandler(unittest.IsolatedAsyncioTestCase):
             call("Rolling seed..."),
             call("Seed rolled!"),
             call('Please note that this seed uses the dev build of the randomizer.'),
-            call("Download: https://github.com/tanjo3/wwrando/releases/tag/dev_tanjo3.1.10.5"),
+            call("Download: https://github.com/tanjo3/wwrando/releases/tag/dev_tanjo3.1.10.7.1"),
             call("Tracker: https://wooferzfg.me/tww-rando-tracker/wwrando-dev-tanjo3"),
             call("Preparation stage starts in 15 seconds..."),
             call("5..."),

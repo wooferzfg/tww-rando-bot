@@ -60,7 +60,7 @@ DEV_SL_PERMALINKS = OrderedDict([
 ])
 DEV_SL_DEFAULT = ["miniblins"]
 
-DEV_DOWNLOAD = "https://github.com/tanjo3/wwrando/releases/tag/dev_tanjo3.1.10.5"
+DEV_DOWNLOAD = "https://github.com/tanjo3/wwrando/releases/tag/dev_tanjo3.1.10.7.1"
 DEV_TRACKER = "https://wooferzfg.me/tww-rando-tracker/wwrando-dev-tanjo3"
 MINIBLINS_TRACKER = "https://wooferzfg.me/tww-rando-tracker/miniblins"
 
