@@ -44,38 +44,23 @@ SPOILER_LOG_DEFAULT = ["preset-a", "preset-b", "preset-c", "preset-d", "preset-e
 DEFAULT_PLANNING_TIME = 60
 MINIMUM_PLANNING_TIME = 20
 
-S8_PERMALINKS = OrderedDict([
-    ("s8",          "eJwLtlAIyS8tykvMTc0rUSgzYnBkuPu5iKPBmEHAwZEBCBqAqJ9RAMSUYLJzrjf4KL/hf7YJAxjc8WjgcHlyWt3GVp5BwOMfE1CNA4MIgytjhQYXAGZ7Fso="),  # noqa: E501
-    ("mixed-pools", "eJwLtlAIyS8tykvMTc0rUSgzYnBkuL8hgYFI8ObgfI6O5CPqBhbSDAweb0BCDlApDgDv9w36"),  # noqa: E501
-])
-S8_DEFAULT = ["s8"]
-
-S8_SL_PERMALINKS = OrderedDict([
-    ("s8-sl",          "eJwLtlAIyS8tykvMTc0rUSgzYnBkuPu5iKPBmEHAwZEBCBqAqJ9RAMSUYLJzrjf4KL/hf7YJAxjc8WjgcHlyWt3GVp5BwOMfE1CNA4MIgytjhQYTAGZzFsI="),  # noqa: E501
-    ("mixed-pools-sl", "eJwLtlAIyS8tykvMTc0rUSgzYnBkuL8hgYFI8ObgfI6O5CPqBhbSDAweb0BCDjA5AO/vDfI="),  # noqa: E501
-])
-S8_SL_DEFAULT = ["s8-sl"]
-
 DEV_PERMALINKS = OrderedDict([
-    ("miniblins", "eJxLSS2LL0nMy8o31jPUMzTQM423NLIwtUwzYHBkOLshQYKdgY2DiQEOGOEsBRkGhhYFBgUIT/MMQwOHctID4SYBBgYOFQcGJkWgUi6oUiYBAOCvDuY="),  # noqa: E501
-    ("miniblins-s3", "eJxLSS2LL0nMy8o31jPUMzTQM423NLIwtUwzYHBk6DRIEGBnYONgwAoEGBhY4BzNHoYGDpWkB8JNQGEOFQcGJkVGBgYuuFoAdeAMyg=="),  # noqa: E501
-    ("miniblins-s2", "eJxLSS2LL0nMy8o31jPUMzTQM423NLIwtUwzYHBk8DVwYCASaPYwNHCoKD0QbgpgYOBQcWBgUmRkYOCCSQsAAEyFDDU="),
-    ("miniblins-s1", "eJxLSS2LL0nMy8o31jPUMzTQM423NLIwtUwzYHBkiDRwYAADKIXE4HFkYBAQ4GCE8TV7GBo4TJQfCDcFMDBwqDgwMCkC5bhg0gIAhasNSA=="),  # noqa: E501
+    ("miniblins", "eJxLSS2LL0nMy8o31jPUMzTQM483MUuzSDUwZHBkOLshgYGhwZCFQcJBgAETMGIKCUSAKQcBDgYOCIvLGEwrHOqQ+NGiwMLAwMTIxKIgIMTAsACqR4mBAwBzNhAm"),  # noqa: E501
+    ("miniblins-s3", "eJxLSS2LL0nMy8o31jPUMzTQM483MUuzSDUwZHBk6DRIYGBgMGRhkHBgIBI4IJFgFpcymFZg6pT40aLAwsDAxMjEoiAgxMCwAK6IAwDEjw2Y"),  # noqa: E501
+    ("miniblins-s2", "eJxLSS2LL0nMy8o31jPUMzTQM483MUuzSDUwZHBk8DVwYKAQOHApg2kFpk6OXy0KIgwMTIxMLAoCQgwMC6BKmBg4AFBSDDM="),  # noqa: E501
+    ("miniblins-s1", "eJxLSS2LL0nMy8o31jPUMzTQM483MUuzSDUwZHBkiDRwYEAABQYUwMSABgIEGFjA4goMDXC1DlzKCWDNTGc5frUoiADlGZlYFASEGBgWwHVyAACxOA4p"),  # noqa: E501
 ])
 DEV_DEFAULT = ["miniblins"]
 
 DEV_SL_PERMALINKS = OrderedDict([
-    ("miniblins", "eJxLSS2LL0nMy8o31jPUMzTQM423NLIwtUwzYHBkOLshQYKdgY2DiQEOGOEsBRkGhhYFBgUIT/MMQwOHctID4SYBBgYOFQcGJkWgUi6oUiYGAOCfDtY="),  # noqa: E501
-    ("miniblins-s3", "eJxLSS2LL0nMy8o31jPUMzTQM423NLIwtUwzYHBk6DRIEGBnYONgwAoEGBhY4BzNHoYGDpWkB8JNQGEOFQcGJkVGBgYuuDwAddAMug=="),  # noqa: E501
-    ("miniblins-s2", "eJxLSS2LL0nMy8o31jPUMzTQM423NLIwtUwzYHBk8DVwYCASaPYwNHCoKD0QbgpgYOBQcWBgUmRkYOCCywMATHUMJQ=="),
-    ("miniblins-s1", "eJxLSS2LL0nMy8o31jPUMzTQM423NLIwtUwzYHBkiDRwYAADKIXE4HFkYBAQ4GCE8TV7GBo4TJQfCDcFMDBwqDgwMCkC5bhg0gwAhZsNOA=="),  # noqa: E501
+    ("miniblins", "eJxLSS2LL0nMy8o31jPUMzTQM483MUuzSDUwZHBkOLshgYGhwZCFQcJBgAETMGIKCUSAKQcBDgYOCIvLGEwrHOqQ+NGiwMLAwMTIxKIgIMTAsACqR4mBAQBzLhAe"),  # noqa: E501
+    ("miniblins-s3", "eJxLSS2LL0nMy8o31jPUMzTQM483MUuzSDUwZHBk6DRIYGBgMGRhkHBgIBI4IJFgFpcymFZg6pT40aLAwsDAxMjEoiAgxMCwAKELAMSHDZA="),  # noqa: E501
+    ("miniblins-s2", "eJxLSS2LL0nMy8o31jPUMzTQM483MUuzSDUwZHBk8DVwYKAQOHApg2kFpk6OXy0KIgwMTIxMLAoCQgwMC6BKmBgYAFBKDCs="),  # noqa: E501
+    ("miniblins-s1", "eJxLSS2LL0nMy8o31jPUMzTQM483MUuzSDUwZHBkiDRwYEAABQYUwMSABgIEGFjA4goMDXC1DlzKCWDNTGc5frUoiADlGZlYFASEGBgWILQCALEwDiE="),  # noqa: E501
 ])
 DEV_SL_DEFAULT = ["miniblins"]
 
-S8_DOWNLOAD = "https://github.com/tanjo3/wwrando/releases/tag/s8-v2"
-S8_TRACKER = "https://www.wooferzfg.me/tww-rando-tracker/s8-tournament"
-
-DEV_DOWNLOAD = "https://github.com/tanjo3/wwrando/releases/tag/dev_tanjo3.1.10.5"
+DEV_DOWNLOAD = "https://github.com/tanjo3/wwrando/releases/tag/dev_tanjo3.1.10.7.1"
 DEV_TRACKER = "https://wooferzfg.me/tww-rando-tracker/wwrando-dev-tanjo3"
 MINIBLINS_TRACKER = "https://wooferzfg.me/tww-rando-tracker/miniblins"
 
@@ -92,4 +77,4 @@ BANNABLE_PRESETS = SPOILER_LOG_DEFAULT
 MINIMUM_BREAK_DURATION = 5
 MINIMUM_BREAK_INTERVAL = 60
 
-PERMALINK_PREFIXES = ["MS4", "eJw", "eJx", "UlM"]
+PERMALINK_PREFIXES = ["MS4", "eJx", "UlM"]

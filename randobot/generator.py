@@ -12,7 +12,6 @@ from github import Auth, Github, InputFileContent
 
 class RandomizerPath(enum.Enum):
     WWRANDO = "wwrando"
-    WWRANDO_S8 = "wwrando-s8"
     WWRANDO_DEV = "wwrando-dev-tanjo3"
     WWRANDO_RANDOM_SETTINGS = "wwrando-random-settings"
 
@@ -25,7 +24,6 @@ class ArgFormat(enum.Enum):
 
 ARG_FORMAT_FOR_RANDOMIZER_PATH: Final[dict[RandomizerPath, ArgFormat]] = {
     RandomizerPath.WWRANDO: ArgFormat.V110,
-    RandomizerPath.WWRANDO_S8: ArgFormat.V111,
     RandomizerPath.WWRANDO_DEV: ArgFormat.V111,
     RandomizerPath.WWRANDO_RANDOM_SETTINGS: ArgFormat.RS14,
 }
