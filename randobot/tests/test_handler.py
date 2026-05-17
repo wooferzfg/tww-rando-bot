@@ -254,13 +254,13 @@ class TestHandler(unittest.IsolatedAsyncioTestCase):
         await handler.ex_rolldevseed([], get_mock_message_data())
 
         self.assertEqual(mock_send_message.call_count, 6)
-        permalink = "eJxLSS2LL0nMy8o31jPUMzTQM9czjE8zN0k2NDVlcGQ4uyGBgaHBkIVBwkGAARMwYgoJRIApBwEOBg4Ii8sYTCsc6pD40aLAwsDAxMjEoiAgxMCwAKpHiYEDAKpFEIY="  # noqa: E501
+        permalink = "eJxLSS2LL0nMy8o31jPUMzTQM9czijdLNkxMMTFlcGQ4uyGBgaHBkIVBwkGAARMwYgoJRIApBwEOBg4Ii8sYTCsc6pD40aLAwsDAxMjEoiAgxMCwAKpHiYEDALw+ELA="  # noqa: E501
         mock_send_message.assert_has_calls([
             call("Rolling seed..."),
             call(f"Permalink: PERMA_{permalink}"),
             call("Seed Hash: SEED HASH"),
             call("Please note that this seed uses the dev build of the randomizer."),
-            call("Download: https://github.com/tanjo3/wwrando/releases/tag/dev_tanjo3.1.10.7.1"),
+            call("Download: https://github.com/tanjo3/wwrando/releases/tag/dev_tanjo3.1.10.7.2"),
             call("Tracker: https://wooferzfg.me/tww-rando-tracker/wwrando-dev-tanjo3"),
         ])
 
@@ -289,13 +289,13 @@ class TestHandler(unittest.IsolatedAsyncioTestCase):
         await handler.ex_miniblins([], get_mock_message_data())
 
         self.assertEqual(mock_send_message.call_count, 6)
-        permalink = "eJxLSS2LL0nMy8o31jPUMzTQM9czjE8zN0k2NDVlcGQ4uyGBgaHBkIVBwkGAARMwYgoJRIApBwEOBg4Ii8sYTCsc6pD40aLAwsDAxMjEoiAgxMCwAKpHiYEDAKpFEIY="  # noqa: E501
+        permalink = "eJxLSS2LL0nMy8o31jPUMzTQM9czijdLNkxMMTFlcGQ4uyGBgaHBkIVBwkGAARMwYgoJRIApBwEOBg4Ii8sYTCsc6pD40aLAwsDAxMjEoiAgxMCwAKpHiYEDALw+ELA="  # noqa: E501
         mock_send_message.assert_has_calls([
             call("Rolling seed..."),
             call(f"Permalink: PERMA_{permalink}"),
             call("Seed Hash: SEED HASH"),
             call("Please note that this seed uses the dev build of the randomizer."),
-            call("Download: https://github.com/tanjo3/wwrando/releases/tag/dev_tanjo3.1.10.7.1"),
+            call("Download: https://github.com/tanjo3/wwrando/releases/tag/dev_tanjo3.1.10.7.2"),
             call("Tracker: https://wooferzfg.me/tww-rando-tracker/miniblins"),
         ])
 
@@ -419,12 +419,12 @@ class TestHandler(unittest.IsolatedAsyncioTestCase):
         await wait_for_all_async_tasks()
 
         self.assertEqual(mock_send_message.call_count, 15)
-        permalink = "eJxLSS2LL0nMy8o31jPUMzTQM9czjE8zN0k2NDVlcGQ4uyGBgaHBkIVBwkGAARMwYgoJRIApBwEOBg4Ii8sYTCsc6pD40aLAwsDAxMjEoiAgxMCwAKpHiYEBAKo9EH4="  # noqa: E501
+        permalink = "eJxLSS2LL0nMy8o31jPUMzTQM9czijdLNkxMMTFlcGQ4uyGBgaHBkIVBwkGAARMwYgoJRIApBwEOBg4Ii8sYTCsc6pD40aLAwsDAxMjEoiAgxMCwAKpHiYEBALw2EKg="  # noqa: E501
         mock_send_message.assert_has_calls([
             call("Rolling seed..."),
             call("Seed rolled!"),
             call('Please note that this seed uses the dev build of the randomizer.'),
-            call("Download: https://github.com/tanjo3/wwrando/releases/tag/dev_tanjo3.1.10.7.1"),
+            call("Download: https://github.com/tanjo3/wwrando/releases/tag/dev_tanjo3.1.10.7.2"),
             call("Tracker: https://wooferzfg.me/tww-rando-tracker/wwrando-dev-tanjo3"),
             call("Preparation stage starts in 15 seconds..."),
             call("5..."),
