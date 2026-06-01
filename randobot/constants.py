@@ -45,22 +45,22 @@ DEFAULT_PLANNING_TIME = 60
 MINIMUM_PLANNING_TIME = 20
 
 DEV_PERMALINKS = OrderedDict([
-    ("miniblins", "eJxLSS2LL0nMy8o31jPUMzTQM9czijdLNkxMMTFlcGQ4uyGBgaHBkIVBwkGAARMwYgoJRIApBwEOBg4Ii8sYTCsc6pD40aLAwsDAxMjEoiAgxMCwAKpHiYEDALw+ELA="),  # noqa: E501
-    ("miniblins-s3", "eJxLSS2LL0nMy8o31jPUMzTQM9czijdLNkxMMTFlcGToNEhgYGAwZGGQcGAgEjggkWAWlzKYVmDqlPjRosDCwMDEyMSiICDEwLAArogDAA2mDiI="),  # noqa: E501
-    ("miniblins-s2", "eJxLSS2LL0nMy8o31jPUMzTQM9czijdLNkxMMTFlcGTwNXBgoBA4cCmDaQWmTo5fLQoiDAxMjEwsCgJCDAwLoEqYGDgAmVoMvQ=="),  # noqa: E501
-    ("miniblins-s1", "eJxLSS2LL0nMy8o31jPUMzTQM9czijdLNkxMMTFlcGSINHBgQAAFBhTAxIAGAgQYWMDiCgwNcLUOXMoJYM1MZzl+tSiIAOUZmVgUBIQYGBbAdXIAAPpADrM="),  # noqa: E501
+    ("miniblins", "eJxLSS2LL0nMy8o31jPUMzTQM9czjk8xNkgxMk9mcGQ4uyGBgaHBkIVBwkGAARMwYgoJRIApBwEOBg4Ii8sYTCsc6pD40aLAwsDAxMjEoiAgxMCwAKpHiYEDALwOELA="),  # noqa: E501
+    ("miniblins-s3", "eJxLSS2LL0nMy8o31jPUMzTQM9czjk8xNkgxMk9mcGToNEhgYGAwZGGQcGAgEjggkWAWlzKYVmDqlPjRosDCwMDEyMSiICDEwLAArogDAA12DiI="),  # noqa: E501
+    ("miniblins-s2", "eJxLSS2LL0nMy8o31jPUMzTQM9czjk8xNkgxMk9mcGTwNXBgoBA4cCmDaQWmTo5fLQoiDAxMjEwsCgJCDAwLoEqYGDgAmSoMvQ=="),  # noqa: E501
+    ("miniblins-s1", "eJxLSS2LL0nMy8o31jPUMzTQM9czjk8xNkgxMk9mcGSINHBgQAAFBhTAxIAGAgQYWMDiCgwNcLUOXMoJYM1MZzl+tSiIAOUZmVgUBIQYGBbAdXIAAPoQDrM="),  # noqa: E501
 ])
 DEV_DEFAULT = ["miniblins"]
 
 DEV_SL_PERMALINKS = OrderedDict([
-    ("miniblins", "eJxLSS2LL0nMy8o31jPUMzTQM9czijdLNkxMMTFlcGQ4uyGBgaHBkIVBwkGAARMwYgoJRIApBwEOBg4Ii8sYTCsc6pD40aLAwsDAxMjEoiAgxMCwAKpHiYEBALw2EKg="),  # noqa: E501
-    ("miniblins-s3", "eJxLSS2LL0nMy8o31jPUMzTQM9czijdLNkxMMTFlcGToNEhgYGAwZGGQcGAgEjggkWAWlzKYVmDqlPjRosDCwMDEyMSiICDEwLAAoQsADZ4OGg=="),  # noqa: E501
-    ("miniblins-s2", "eJxLSS2LL0nMy8o31jPUMzTQM9czijdLNkxMMTFlcGTwNXBgoBA4cCmDaQWmTo5fLQoiDAxMjEwsCgJCDAwLoEqYGBgAmVIMtQ=="),  # noqa: E501
-    ("miniblins-s1", "eJxLSS2LL0nMy8o31jPUMzTQM9czijdLNkxMMTFlcGSINHBgQAAFBhTAxIAGAgQYWMDiCgwNcLUOXMoJYM1MZzl+tSiIAOUZmVgUBIQYGBYgtAIA+jgOqw=="),  # noqa: E501
+    ("miniblins", "eJxLSS2LL0nMy8o31jPUMzTQM9czjk8xNkgxMk9mcGQ4uyGBgaHBkIVBwkGAARMwYgoJRIApBwEOBg4Ii8sYTCsc6pD40aLAwsDAxMjEoiAgxMCwAKpHiYEBALwGEKg="),  # noqa: E501
+    ("miniblins-s3", "eJxLSS2LL0nMy8o31jPUMzTQM9czjk8xNkgxMk9mcGToNEhgYGAwZGGQcGAgEjggkWAWlzKYVmDqlPjRosDCwMDEyMSiICDEwLAAoQsADW4OGg=="),  # noqa: E501
+    ("miniblins-s2", "eJxLSS2LL0nMy8o31jPUMzTQM9czjk8xNkgxMk9mcGTwNXBgoBA4cCmDaQWmTo5fLQoiDAxMjEwsCgJCDAwLoEqYGBgAmSIMtQ=="),  # noqa: E501
+    ("miniblins-s1", "eJxLSS2LL0nMy8o31jPUMzTQM9czjk8xNkgxMk9mcGSINHBgQAAFBhTAxIAGAgQYWMDiCgwNcLUOXMoJYM1MZzl+tSiIAOUZmVgUBIQYGBYgtAIA+ggOqw=="),  # noqa: E501
 ])
 DEV_SL_DEFAULT = ["miniblins"]
 
-DEV_DOWNLOAD = "https://github.com/tanjo3/wwrando/releases/tag/dev_tanjo3.1.10.7.2"
+DEV_DOWNLOAD = "https://github.com/tanjo3/wwrando/releases/tag/dev_tanjo3.1.10.7.3"
 DEV_TRACKER = "https://wooferzfg.me/tww-rando-tracker/wwrando-dev-tanjo3"
 MINIBLINS_TRACKER = "https://wooferzfg.me/tww-rando-tracker/miniblins"
 
