@@ -45,20 +45,23 @@ DEFAULT_PLANNING_TIME = 60
 MINIMUM_PLANNING_TIME = 20
 
 DEV_PERMALINKS = OrderedDict([
+    ("s9", "eJxLSS2LL0nMy8o31jPUMzTQM9czjk8xNkgxMk9mcGS4//1Tc+mHA/HnJOY/kNiv9INfkeHfX/4/wgYMDA5PT/3n/K/J/ceehUGg4Ub9f3v/nE32d0rsjf//L663/v+fg5UBBBy8liYysDEJKDRdnfGzJYFHgIGJkYkFIsUgzODAWMCgxMMBAMVjLfw="),  # noqa: E501
     ("miniblins", "eJxLSS2LL0nMy8o31jPUMzTQM9czjk8xNkgxMk9mcGQ4uyGBgaHBkIVBwkGAARMwYgoJRIApBwEOBg4Ii8sYTCsc6pD40aLAwsDAxMjEoiAgxMCwAKpHiYEDALwOELA="),  # noqa: E501
     ("miniblins-s3", "eJxLSS2LL0nMy8o31jPUMzTQM9czjk8xNkgxMk9mcGToNEhgYGAwZGGQcGAgEjggkWAWlzKYVmDqlPjRosDCwMDEyMSiICDEwLAArogDAA12DiI="),  # noqa: E501
     ("miniblins-s2", "eJxLSS2LL0nMy8o31jPUMzTQM9czjk8xNkgxMk9mcGTwNXBgoBA4cCmDaQWmTo5fLQoiDAxMjEwsCgJCDAwLoEqYGDgAmSoMvQ=="),  # noqa: E501
     ("miniblins-s1", "eJxLSS2LL0nMy8o31jPUMzTQM9czjk8xNkgxMk9mcGSINHBgQAAFBhTAxIAGAgQYWMDiCgwNcLUOXMoJYM1MZzl+tSiIAOUZmVgUBIQYGBbAdXIAAPoQDrM="),  # noqa: E501
 ])
-DEV_DEFAULT = ["miniblins"]
+DEV_DEFAULT = ["s9"]
+MINIBLINS_DEFAULT = ["miniblins"]
 
 DEV_SL_PERMALINKS = OrderedDict([
+    ("s9", "eJxLSS2LL0nMy8o31jPUMzTQM9czjk8xNkgxMk9mcGS4//1Tc+mHA/HnJOY/kNiv9INfkeHfX/4/wgYMDA5PT/3n/K/J/ceehUGg4Ub9f3v/nE32d0rsjf//L663/v+fg5UBBBy8liYysDEJKDRdnfGzJYFHgIGJkYkFIsUgzODAWMCgxMMAAMVbLfQ="),  # noqa: E501
     ("miniblins", "eJxLSS2LL0nMy8o31jPUMzTQM9czjk8xNkgxMk9mcGQ4uyGBgaHBkIVBwkGAARMwYgoJRIApBwEOBg4Ii8sYTCsc6pD40aLAwsDAxMjEoiAgxMCwAKpHiYEBALwGEKg="),  # noqa: E501
     ("miniblins-s3", "eJxLSS2LL0nMy8o31jPUMzTQM9czjk8xNkgxMk9mcGToNEhgYGAwZGGQcGAgEjggkWAWlzKYVmDqlPjRosDCwMDEyMSiICDEwLAAoQsADW4OGg=="),  # noqa: E501
     ("miniblins-s2", "eJxLSS2LL0nMy8o31jPUMzTQM9czjk8xNkgxMk9mcGTwNXBgoBA4cCmDaQWmTo5fLQoiDAxMjEwsCgJCDAwLoEqYGBgAmSIMtQ=="),  # noqa: E501
     ("miniblins-s1", "eJxLSS2LL0nMy8o31jPUMzTQM9czjk8xNkgxMk9mcGSINHBgQAAFBhTAxIAGAgQYWMDiCgwNcLUOXMoJYM1MZzl+tSiIAOUZmVgUBIQYGBYgtAIA+ggOqw=="),  # noqa: E501
 ])
-DEV_SL_DEFAULT = ["miniblins"]
+DEV_SL_DEFAULT = ["s9"]
 
 DEV_DOWNLOAD = "https://github.com/tanjo3/wwrando/releases/tag/dev_tanjo3.1.10.7.3"
 DEV_TRACKER = "https://wooferzfg.me/tww-rando-tracker/wwrando-dev-tanjo3"
