@@ -254,13 +254,13 @@ class TestHandler(unittest.IsolatedAsyncioTestCase):
         await handler.ex_rolldevseed([], get_mock_message_data())
 
         self.assertEqual(mock_send_message.call_count, 6)
-        permalink = "eJxLSS2LL0nMy8o31jPUMzTQM9czijdLNkxMMTFlcGQ4uyGBgaHBkIVBwkGAARMwYgoJRIApBwEOBg4Ii8sYTCsc6pD40aLAwsDAxMjEoiAgxMCwAKpHiYEDALw+ELA="  # noqa: E501
+        permalink = "eJxLSS2LL0nMy8o31jPUMzTQM9czjk8xNkgxMk9mcGS4//1Tc+mHA/HnJOY/kNiv9INfkeHfX/4/wgYMDA5PT/3n/K/J/ceehUGg4Ub9f3v/nE32d0rsjf//L663/v+fg5UBBBy8liYysDEJKDRdnfGzJYFHgIGJkYkFIsUgzODAWMCgxMMBAMVjLfw="  # noqa: E501
         mock_send_message.assert_has_calls([
             call("Rolling seed..."),
             call(f"Permalink: PERMA_{permalink}"),
             call("Seed Hash: SEED HASH"),
             call("Please note that this seed uses the dev build of the randomizer."),
-            call("Download: https://github.com/tanjo3/wwrando/releases/tag/dev_tanjo3.1.10.7.2"),
+            call("Download: https://github.com/tanjo3/wwrando/releases/tag/dev_tanjo3.1.10.7.3"),
             call("Tracker: https://wooferzfg.me/tww-rando-tracker/wwrando-dev-tanjo3"),
         ])
 
@@ -289,14 +289,49 @@ class TestHandler(unittest.IsolatedAsyncioTestCase):
         await handler.ex_miniblins([], get_mock_message_data())
 
         self.assertEqual(mock_send_message.call_count, 6)
-        permalink = "eJxLSS2LL0nMy8o31jPUMzTQM9czijdLNkxMMTFlcGQ4uyGBgaHBkIVBwkGAARMwYgoJRIApBwEOBg4Ii8sYTCsc6pD40aLAwsDAxMjEoiAgxMCwAKpHiYEDALw+ELA="  # noqa: E501
+        permalink = "eJxLSS2LL0nMy8o31jPUMzTQM9czjk8xNkgxMk9mcGQ4uyGBgaHBkIVBwkGAARMwYgoJRIApBwEOBg4Ii8sYTCsc6pD40aLAwsDAxMjEoiAgxMCwAKpHiYEDALwOELA="  # noqa: E501
         mock_send_message.assert_has_calls([
             call("Rolling seed..."),
             call(f"Permalink: PERMA_{permalink}"),
             call("Seed Hash: SEED HASH"),
             call("Please note that this seed uses the dev build of the randomizer."),
-            call("Download: https://github.com/tanjo3/wwrando/releases/tag/dev_tanjo3.1.10.7.2"),
+            call("Download: https://github.com/tanjo3/wwrando/releases/tag/dev_tanjo3.1.10.7.3"),
             call("Tracker: https://wooferzfg.me/tww-rando-tracker/miniblins"),
+        ])
+
+        self.assertEqual(mock_set_raceinfo.call_count, 1)
+        mock_set_raceinfo.assert_has_calls([
+            call(f"PERMA_{permalink} | Seed Hash: SEED HASH", False, False),
+        ])
+
+        self.assertEqual(mock_generate_seed.call_count, 1)
+        mock_generate_seed.assert_has_calls([
+            call(
+                randomizer_path=RandomizerPath.WWRANDO_DEV,
+                permalink=permalink,
+                prefix="test_user",
+                generate_spoiler_log=False,
+            )
+        ])
+
+    @patch.object(MockGenerator, "generate_seed", side_effect=mock_generate_seed_standard)
+    @patch.object(RandoHandler, "set_raceinfo", return_value=async_return(None))
+    @patch.object(RandoHandler, "send_message", return_value=async_return(None))
+    async def test_s9(self, mock_send_message, mock_set_raceinfo, mock_generate_seed):
+        generator = MockGenerator()
+        state = {}
+        handler = create_rando_handler(generator, state)
+        await handler.ex_s9([], get_mock_message_data())
+
+        self.assertEqual(mock_send_message.call_count, 6)
+        permalink = "eJxLSS2LL0nMy8o31jPUMzTQM9czjk8xNkgxMk9mcGS4//1Tc+mHA/HnJOY/kNiv9INfkeHfX/4/wgYMDA5PT/3n/K/J/ceehUGg4Ub9f3v/nE32d0rsjf//L663/v+fg5UBBBy8liYysDEJKDRdnfGzJYFHgIGJkYkFIsUgzODAWMCgxMMBAMVjLfw="  # noqa: E501
+        mock_send_message.assert_has_calls([
+            call("Rolling seed..."),
+            call(f"Permalink: PERMA_{permalink}"),
+            call("Seed Hash: SEED HASH"),
+            call("Please note that this seed uses the dev build of the randomizer."),
+            call("Download: https://github.com/tanjo3/wwrando/releases/tag/dev_tanjo3.1.10.7.3"),
+            call("Tracker: https://wooferzfg.me/tww-rando-tracker/wwrando-dev-tanjo3"),
         ])
 
         self.assertEqual(mock_set_raceinfo.call_count, 1)
@@ -419,12 +454,12 @@ class TestHandler(unittest.IsolatedAsyncioTestCase):
         await wait_for_all_async_tasks()
 
         self.assertEqual(mock_send_message.call_count, 15)
-        permalink = "eJxLSS2LL0nMy8o31jPUMzTQM9czijdLNkxMMTFlcGQ4uyGBgaHBkIVBwkGAARMwYgoJRIApBwEOBg4Ii8sYTCsc6pD40aLAwsDAxMjEoiAgxMCwAKpHiYEBALw2EKg="  # noqa: E501
+        permalink = "eJxLSS2LL0nMy8o31jPUMzTQM9czjk8xNkgxMk9mcGS4//1Tc+mHA/HnJOY/kNiv9INfkeHfX/4/wgYMDA5PT/3n/K/J/ceehUGg4Ub9f3v/nE32d0rsjf//L663/v+fg5UBBBy8liYysDEJKDRdnfGzJYFHgIGJkYkFIsUgzODAWMCgxMMAAMVbLfQ="  # noqa: E501
         mock_send_message.assert_has_calls([
             call("Rolling seed..."),
             call("Seed rolled!"),
             call('Please note that this seed uses the dev build of the randomizer.'),
-            call("Download: https://github.com/tanjo3/wwrando/releases/tag/dev_tanjo3.1.10.7.2"),
+            call("Download: https://github.com/tanjo3/wwrando/releases/tag/dev_tanjo3.1.10.7.3"),
             call("Tracker: https://wooferzfg.me/tww-rando-tracker/wwrando-dev-tanjo3"),
             call("Preparation stage starts in 15 seconds..."),
             call("5..."),

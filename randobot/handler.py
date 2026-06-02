@@ -357,7 +357,7 @@ class RandoHandler(RaceHandler):
         await self.send_message("Rolling seed...")
 
         settings_permalink = await self.choose_permalink(
-            constants.DEV_DEFAULT,
+            constants.MINIBLINS_DEFAULT,
             constants.DEV_PERMALINKS,
             args
         )
@@ -371,6 +371,9 @@ class RandoHandler(RaceHandler):
         )
         await self.update_race_room_with_generated_seed(settings_permalink, generated_seed, SeedType.STANDARD)
         await self.print_miniblins_build()
+
+    async def ex_s9(self, args, message):
+        await self.ex_rolldevseed(args, message)
 
     async def ex_randomsettings(self, args, message):
         if not await self.can_roll_standard_seed(message):
