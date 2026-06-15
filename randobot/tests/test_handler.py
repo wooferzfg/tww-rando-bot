@@ -460,7 +460,7 @@ class TestHandler(unittest.IsolatedAsyncioTestCase):
             call("Seed rolled!"),
             call('Please note that this seed uses the dev build of the randomizer.'),
             call("Download: https://github.com/tanjo3/wwrando/releases/tag/dev_tanjo3.1.10.7.3"),
-            call("Tracker: https://wooferzfg.me/tww-rando-tracker/wwrando-dev-tanjo3"),
+            call("Tracker: https://wooferzfg.me/tww-rando-tracker/s9-tournament"),
             call("Preparation stage starts in 15 seconds..."),
             call("5..."),
             call("4..."),
