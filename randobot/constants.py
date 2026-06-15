@@ -64,7 +64,7 @@ DEV_SL_PERMALINKS = OrderedDict([
 DEV_SL_DEFAULT = ["s9"]
 
 DEV_DOWNLOAD = "https://github.com/tanjo3/wwrando/releases/tag/dev_tanjo3.1.10.7.3"
-DEV_TRACKER = "https://wooferzfg.me/tww-rando-tracker/wwrando-dev-tanjo3"
+DEV_TRACKER = "https://wooferzfg.me/tww-rando-tracker/s9-tournament"
 MINIBLINS_TRACKER = "https://wooferzfg.me/tww-rando-tracker/miniblins"
 
 RS_VERSION = "RS1.4.0-dev3"
