@@ -289,7 +289,7 @@ class TestHandler(unittest.IsolatedAsyncioTestCase):
         await handler.ex_rolldevseed(["miniblins-s3"], get_mock_message_data())
 
         self.assertEqual(mock_send_message.call_count, 6)
-        permalink = "eJxLSS2LL0nMy8o31jPUMzTQM9czjk8xNkgxMk9mcGToNEhgYGAwZGGQcGAgEjggkWAWlzKYVmDqlPjRosDCwMDEyMSiICDEwLAAoQsADW4OGg=="  # noqa: E501
+        permalink = "eJxLSS2LL0nMy8o31jPUMzTQM9czjk8xNkgxMk9mcGToNEhgYGAwZGGQcGAgEjggkWAWlzKYVmDqlPjRosDCwMDEyMSiICDEwLAArogDAA12DiI="  # noqa: E501
         mock_send_message.assert_has_calls([
             call("Rolling seed..."),
             call(f"Permalink: PERMA_{permalink}"),
