@@ -349,6 +349,10 @@ class RandoHandler(RaceHandler):
         )
         await self.update_race_room_with_generated_seed(settings_permalink, generated_seed, SeedType.STANDARD)
         await self.print_dev_build()
+        if settings_permalink == constants.DEV_PERMALINKS["s9"]:
+            await self.print_s9_tournament_tracker()
+        else:
+            await self.print_dev_tracker()
 
     async def ex_miniblins(self, args, message):
         if not await self.can_roll_standard_seed(message):
@@ -370,7 +374,8 @@ class RandoHandler(RaceHandler):
             generate_spoiler_log=False,
         )
         await self.update_race_room_with_generated_seed(settings_permalink, generated_seed, SeedType.STANDARD)
-        await self.print_miniblins_build()
+        await self.print_dev_build()
+        await self.print_dev_tracker()
 
     async def ex_s9(self, args, message):
         await self.ex_rolldevseed(args, message)
@@ -528,6 +533,7 @@ class RandoHandler(RaceHandler):
         )
         await self.update_race_room_with_generated_seed(settings_permalink, generated_seed, SeedType.SPOILER_LOG)
         await self.print_dev_build()
+        await self.print_dev_tracker()
 
         self.loop.create_task(self.start_spoiler_log_race())
 
@@ -640,12 +646,12 @@ class RandoHandler(RaceHandler):
     async def print_dev_build(self):
         await self.send_message("Please note that this seed uses the dev build of the randomizer.")
         await self.send_message(f"Download: {constants.DEV_DOWNLOAD}")
+
+    async def print_dev_tracker(self):
         await self.send_message(f"Tracker: {constants.DEV_TRACKER}")
 
-    async def print_miniblins_build(self):
-        await self.send_message("Please note that this seed uses the dev build of the randomizer.")
-        await self.send_message(f"Download: {constants.DEV_DOWNLOAD}")
-        await self.send_message(f"Tracker: {constants.MINIBLINS_TRACKER}")
+    async def print_s9_tournament_tracker(self):
+        await self.send_message(f"Tracker: {constants.S9_TOURNAMENT_TRACKER}")
 
     async def print_example_permalink(self):
         example_permalink = self.state.get("example_permalink")

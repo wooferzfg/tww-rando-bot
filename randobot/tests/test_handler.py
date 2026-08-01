@@ -296,7 +296,7 @@ class TestHandler(unittest.IsolatedAsyncioTestCase):
             call("Seed Hash: SEED HASH"),
             call("Please note that this seed uses the dev build of the randomizer."),
             call("Download: https://github.com/tanjo3/wwrando/releases/tag/dev_tanjo3.1.10.7.3"),
-            call("Tracker: https://wooferzfg.me/tww-rando-tracker/miniblins"),
+            call("Tracker: https://wooferzfg.me/tww-rando-tracker/wwrando-dev-tanjo3"),
         ])
 
         self.assertEqual(mock_set_raceinfo.call_count, 1)
@@ -331,7 +331,7 @@ class TestHandler(unittest.IsolatedAsyncioTestCase):
             call("Seed Hash: SEED HASH"),
             call("Please note that this seed uses the dev build of the randomizer."),
             call("Download: https://github.com/tanjo3/wwrando/releases/tag/dev_tanjo3.1.10.7.3"),
-            call("Tracker: https://wooferzfg.me/tww-rando-tracker/wwrando-dev-tanjo3"),
+            call("Tracker: https://wooferzfg.me/tww-rando-tracker/s9-tournament"),
         ])
 
         self.assertEqual(mock_set_raceinfo.call_count, 1)
